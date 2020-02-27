@@ -1,0 +1,95 @@
+#vtta-party {
+  font-family: "Roboto", sans-serif;
+}
+
+#vtta-party i.inactive {
+    color: gray;
+}
+
+#vtta-party-button {
+  display: block;
+  flex: 0 0 32px;
+  height: 32px;
+}
+
+#vtta-party table {
+  border-collapse: collapse;
+  width: 500px;
+  font-family: "Signika", "Palatino Linotype", serif;
+  font-size: 10pt;
+}
+
+#vtta-party table th {
+  font-size: 10pt;
+  vertical-align: top;
+}
+
+#vtta-party table th {
+  width: 16%;
+}
+
+#vtta-party table td {
+  text-align: center;
+}
+
+#vtta-party table tr:nth-child(2n) {
+  background-color: #eee;
+}
+
+#vtta-party th {
+  border-bottom: 2px solid black;
+}
+
+#vtta-party th.thin {
+  border-bottom: 1px solid black;
+}
+
+#vtta-party th.subcolumn {
+  font-size: 8pt;
+  font-weight: regular;
+  background-color: #eee;
+}
+
+div.vtta-party-tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: rgba(77, 77, 77, 0.493);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  font-size: 1.2rem;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+div.vtta-party-tooltip div.section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+div.vtta-party-tooltip div.value {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+div.vtta-party-tooltip div.value i {
+  color: rgb(226, 226, 131);
+}
+
+div.vtta-party-tooltip div.value * {
+  padding: 5px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+div.vtta-party-tooltip.visible {
+  visibility: visible;
+}

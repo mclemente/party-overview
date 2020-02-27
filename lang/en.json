@@ -1,0 +1,8 @@
+{
+    "vtta-party.EnablePlayerAccess.Name": "Grant Players access to the overview?",
+    "vtta-party.EnablePlayerAccess.Hint": "Allows or disallows players to access the Party window to see the stats every player on the current scene, too",
+    "vtta-party.EnableTooltip.Name": "Enable tooltips?",
+    "vtta-party.EnableTooltip.Hint": "Enables or disables tooltips when hovering over tokens",
+    "vtta-party.EnablePlayerAccessTooltip.Name": "Enable tooltips for players?",
+    "vtta-party.EnablePlayerAccessTooltip.Hint": "Enables or disables tooltips for players, but only for tokens they own."
+}
