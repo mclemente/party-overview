@@ -2,7 +2,7 @@
   "name": "vtta-party",
   "title": "Virtual Tabletop Assets - Party overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
-  "version": "v1.0.5",
+  "version": "2.0.0",
   "author": "Sebastian Will (vttassets@gmail.com)",
   "minimumCoreVersion": "0.4.4",
   "languages": [
@@ -28,6 +28,5 @@
   "packs": [],
   "url": "https://www.vttassets.com/asset/vtta-party",
   "manifest": "https://www.vttassets.com/manifest/vtta-party/latest?5d6e51d59834bf61c4ace7ef",
-  "download": "https://www.vttassets.com/get/vtta-party/latest?5d6e51d59834bf61c4ace7ef",
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyhmMCNX14i/KqBsMjyEsalgpNbMtYGfdNd38KaYvfVCfGDoylQipQnREwtM7RIbOIaKg4zDNelUxf4viGC9sTYPxvAGScpdtNpRXXoFPua0bdUYEA5Ld6mMMGa8+PUfw4/PVwuzg28NzzkwKMGsaWMAThSLL4/M/+RF/0/7p5jxG/2ovLk3ptAi89uqu+HoSDwAY989LdCZIf1gX4J1nkmTlnLl3XfP192T9WSYd26oR3nSn/yA5j+lDaLNYOnRiU9ysnyej8SZwThcBPIhJ/+CYkTBT+GsUBsDmqDdPiJk1+Z3X+zEJnmdgLZyV+6u0OzIER484TTUBHWqNcR3oWwIDAQAB"
+  "download": "https://www.vttassets.com/get/vtta-party/latest?5d6e51d59834bf61c4ace7ef"
 }

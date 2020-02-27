@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.0.0]
+
+Feature parity release for the relaunch of VTTAssets
+
+
 ## [1.0.5]
 
 ### Fixed
