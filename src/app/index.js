@@ -16,21 +16,14 @@ class App extends Application {
     this.activeTab = "general";
 
     this.tooltip = new Tooltip();
+
+    // initialize
+    this.update();
     Hooks.on("hoverToken", this.onHoverToken.bind(this));
   }
 
-  static get defaultOptions() {
-    return {
-      width: 500,
-      height: 300,
-      resizable: true,
-      title: "VTTA Party",
-      template: "/modules/vtta-party/templates/main.hbs",
-      classes: ["vtta", "party"]
-    };
-  }
-
-  getData() {
+  update() {
+    console.log("getDAta(+)");
     let actors = game.actors.entities
       .filter(a => a.isPC)
       .map(playerActor => playerActor.getActiveTokens(true))
@@ -72,7 +65,6 @@ class App extends Application {
       };
     });
 
-    console.log("########### GET DATA");
     this.state = {
       activeTab: this.activeTab,
       mode: this.displayMode,
@@ -80,8 +72,21 @@ class App extends Application {
       actors: actors,
       languages: languages
     };
-    console.log(this.state);
+  }
 
+  static get defaultOptions() {
+    return {
+      width: 500,
+      height: 300,
+      resizable: true,
+      title: "VTTA Party",
+      template: "/modules/vtta-party/templates/main.hbs",
+      classes: ["vtta", "party"]
+    };
+  }
+
+  getData() {
+    this.update();
     return this.state;
   }
 
@@ -127,13 +132,11 @@ class App extends Application {
   }
 
   activateListeners(html) {
-    console.log("Activating listeners");
     let nav = $('.tabs[data-group="party"]');
     nav.find(".tab[data-tab='" + this.activeTab + "']").addClass("active");
     new Tabs(nav, {
       initial: this.activeTab ? this.activeTab : "General",
       callback: tab => {
-        console.log(tab.attr("data-tab"));
         this.activeTab = tab.attr("data-tab");
       }
     });
@@ -158,32 +161,31 @@ class App extends Application {
   }
 
   onHoverToken(token, hovered) {
-    console.log("HOVERED: " + hovered);
-
-    if (!token || !token.actor) return;
-
-    if (hovered) {
-      this.tooltip.show();
-    } else {
-      this.tooltip.hide();
-    }
-
-    // Tooltips enabled/ disabled?
     if (!game.settings.get("vtta-party", "EnableTooltip")) return;
     if (
-      !game.settings.get("vtta-party", "EnablePlayerAccessTooltip") &&
-      !game.user.isGM
+      !game.user.isGM &&
+      !game.settings.get("vtta-party", "EnablePlayerAccessTooltip")
     )
       return;
+    if (!token || !token.actor) return;
+
+    if (!hovered) {
+      this.tooltip.hide();
+      canvas.tokens.removeChild(this.tooltip.container);
+      return;
+    } else {
+      canvas.tokens.addChild(this.tooltip.container);
+    }
+    let canvasToken = canvas.tokens.ownedTokens.find(
+      ownedToken => ownedToken.id === token.id
+    );
+
+    if (!canvasToken) return;
 
     let data;
     let seenBy;
-    console.log(token.actor.isPC);
     if (token.actor.isPC) {
       data = this.state.actors.find(actor => actor.id === token.actor.id);
-      if (data) {
-        console.log(data);
-      }
     } else {
       // could be a mob
       data = this.getActorDetails(token.actor);
@@ -196,29 +198,28 @@ class App extends Application {
       }
     }
 
-    let template = `
-      <div class="section">
-        <div class="value"><i class="fas fa-shield-alt"></i> ${data.ac}</div>
-        ${
-          token.data.hidden && seenBy
-            ? `<div class="value"><i class="fas fa-eye-slash"></i> ${data.passives.stealth}</div><div class="value">Can be seen by: ${seenBy}</div>`
-            : ""
-        }
-      </div>
-      <div class="section">
-        <div class="value"><i class="far fa-eye"></i><span>${
-          data.passives.perception
-        }</span></div>
-        <div class="value"><i class="fas fa-search"></i><span>${
-          data.passives.investigation
-        }</span></div>
-        <div class="value"><i class="fas fa-brain"></i><span>${
-          data.passives.insight
-        }</span></div>
-      </div>
-    `;
-    console.log(data);
-    this.tooltip.setContent(template);
+    let lines = [
+      { label: "Armor Class", value: data.ac },
+      { label: "Speed", value: data.speed },
+      { label: "Passive Perception", value: data.passives.perception },
+      { label: "Passive Investigation", value: data.passives.investigation },
+      { label: "Passive Insight", value: data.passives.insight }
+    ];
+
+    if (token.data.hidden) {
+      if (seenBy) {
+        lines.unshift({ label: "Noticable by", value: seenBy });
+      } else {
+        lines.unshift({ label: "Noticable by", value: "Undetectable" });
+      }
+    }
+    this.tooltip.render(
+      {
+        x: canvasToken.center.x,
+        y: canvasToken.center.y - Math.floor(canvasToken.w / 2)
+      },
+      lines
+    );
   }
 }
 

@@ -45,52 +45,59 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("ready", () => {
-  console.log(`${config.name} | Ready`);
-
   // main window
   party = new App();
-  party.render(true);
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
-  if (game.user.isGM || game.settings.get("vtta-party", "EnablePlayerAccess")) {
-    let button = $(
-      '<button id="vtta-party-button"><i class="fas fa-info-circle"></i></button>'
-    );
-    button.on("click", e => {
-      console.log("clicked");
-      party.render(true);
-    });
+  if (!game.user.isGM && !game.settings.get("vtta-party", "EnablePlayerAccess"))
+    return;
 
-    $(html)
-      .find("header.directory-header")
-      .prepend(button);
-  }
+  let button = $(
+    '<button id="vtta-party-button"><i class="fas fa-info-circle"></i></button>'
+  );
+  button.on("click", e => {
+    party.render(true);
+  });
+
+  $(html)
+    .find("header.directory-header")
+    .prepend(button);
 });
 
 Hooks.on("deleteActor", (actor, ...rest) => {
-  if (actor.isPC) party.render(false);
+  if (actor.isPC) {
+    party.update();
+    party.render(false);
+  }
 });
 
 Hooks.on("updateActor", (actor, ...rest) => {
-  if (actor.isPC) party.render(false);
+  if (actor.isPC) {
+    party.update();
+    party.render(false);
+  }
 });
 
 Hooks.on("createToken", (scene, sceneId, token, ...rest) => {
   let actor = game.actors.entities.find(actor => actor.id === token.actorId);
-  if (actor && actor.isPC) party.render(false);
+  if (actor && actor.isPC) {
+    party.update();
+    party.render(false);
+  }
 });
 
 Hooks.on("deleteToken", (...rest) => {
+  party.update();
   party.render(false);
 });
 
-Hooks.on("updatedScene", (scene, changes, ...rest) => {
-  console.log("Chaning scene? " + changes.active);
+Hooks.on("updateScene", (scene, changes, ...rest) => {
   if (changes.active) {
     // what a hack! the hook is fired when the scene switch is not yet activated, so we need
     // to wait a tiny bit. The combat tracker is rendered last, so the scene should be available
     Hooks.once("renderCombatTracker", (...rest) => {
+      party.update();
       party.render(false);
     });
   }
