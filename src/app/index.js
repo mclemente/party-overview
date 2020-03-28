@@ -75,14 +75,14 @@ class App extends Application {
   }
 
   static get defaultOptions() {
-    return {
+    return mergeObject(super.defaultOptions, {
       width: 500,
       height: 300,
       resizable: true,
       title: "VTTA Party",
       template: "/modules/vtta-party/templates/main.hbs",
       classes: ["vtta", "party"]
-    };
+    });
   }
 
   getData() {
@@ -197,6 +197,8 @@ class App extends Application {
           .join(", ");
       }
     }
+
+    if (!data) return;
 
     let lines = [
       { label: "Armor Class", value: data.ac },
