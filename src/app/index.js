@@ -201,6 +201,7 @@ class App extends Application {
     if (!data) return;
 
     let lines = [
+      { label: "Health", value: `${data.hp.value} / ${data.hp.max}` },
       { label: "Armor Class", value: data.ac },
       { label: "Speed", value: data.speed },
       { label: "Passive Perception", value: data.passives.perception },
