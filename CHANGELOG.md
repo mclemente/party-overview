@@ -1,3 +1,15 @@
+# Changelog
+
+## [2.1.3] Foundry 0.5.3 compatability release
+
+### Added
+
+- Health added to Tooltip
+
+### Changed
+
+- Set compatibleCoreVersion to 0.5.3
+
 ## [2.1.2] Minor fixes
 
 This is a compatibility release for Foundry 0.5.2
