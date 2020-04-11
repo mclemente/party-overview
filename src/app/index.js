@@ -3,7 +3,7 @@ import Tooltip from "../tooltip/index.js";
 const DISPLAY_MODE = {
   SHOW_ALL: "SHOW_ALL",
   SHOW_HIDDEN: "SHOW_HIDDEN",
-  SHOW_VISIBLE: "SHOW_VISIBLE"
+  SHOW_VISIBLE: "SHOW_VISIBLE",
 };
 
 class App extends Application {
@@ -15,38 +15,44 @@ class App extends Application {
     this.displayMode = DISPLAY_MODE.SHOW_VISIBLE;
     this.activeTab = "general";
 
-    this.tooltip = new Tooltip();
-
     // initialize
     this.update();
     Hooks.on("hoverToken", this.onHoverToken.bind(this));
   }
 
+  setTooltip(tooltip) {
+    this.tooltip = tooltip;
+  }
+
   update() {
     console.log("getDAta(+)");
     let actors = game.actors.entities
-      .filter(a => a.isPC)
-      .map(playerActor => playerActor.getActiveTokens(true))
+      .filter((a) => a.isPC)
+      .map((playerActor) => playerActor.getActiveTokens(true))
       .flat(1)
-      .map(token => token.actor);
+      .map((token) => token.actor);
 
     // remove duplicates if an actors has multiple tokens on scene
     actors = actors.reduce(
       (actors, actor) =>
-        actors.map(a => a.id).includes(actor.id) ? actors : [...actors, actor],
+        actors.map((a) => a.id).includes(actor.id)
+          ? actors
+          : [...actors, actor],
       []
     );
 
     switch (this.displayMode) {
       case DISPLAY_MODE.SHOW_HIDDEN:
-        actors = actors.filter(actor => this.hiddenActors.includes(actor.id));
+        actors = actors.filter((actor) => this.hiddenActors.includes(actor.id));
         break;
       case DISPLAY_MODE.SHOW_VISIBLE:
-        actors = actors.filter(actor => !this.hiddenActors.includes(actor.id));
+        actors = actors.filter(
+          (actor) => !this.hiddenActors.includes(actor.id)
+        );
         break;
     }
 
-    actors = actors.map(actor => {
+    actors = actors.map((actor) => {
       const data = actor.data.data;
       return this.getActorDetails(actor);
     });
@@ -58,10 +64,12 @@ class App extends Application {
         []
       )
       .sort();
-    actors = actors.map(actor => {
+    actors = actors.map((actor) => {
       return {
         ...actor,
-        languages: languages.map(language => actor.languages.includes(language))
+        languages: languages.map((language) =>
+          actor.languages.includes(language)
+        ),
       };
     });
 
@@ -70,7 +78,7 @@ class App extends Application {
       mode: this.displayMode,
       name: "Sebastian",
       actors: actors,
-      languages: languages
+      languages: languages,
     };
   }
 
@@ -81,7 +89,7 @@ class App extends Application {
       resizable: true,
       title: "VTTA Party",
       template: "/modules/vtta-party/templates/main.hbs",
-      classes: ["vtta", "party"]
+      classes: ["vtta", "party"],
     });
   }
 
@@ -99,17 +107,11 @@ class App extends Application {
       shortName: actor.name.split(/\s/).shift(),
       shortestName:
         actor.name.split(/\s/).shift().length > 10
-          ? actor.name
-              .split(/\s/)
-              .shift()
-              .substr(0, 10) + "…"
-          : actor.name
-              .split(/\s/)
-              .shift()
-              .substr(0, 10),
+          ? actor.name.split(/\s/).shift().substr(0, 10) + "…"
+          : actor.name.split(/\s/).shift().substr(0, 10),
       hp: {
         value: data.attributes.hp.value,
-        max: data.attributes.hp.max
+        max: data.attributes.hp.max,
       },
       ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
       spellDC: data.attributes.spelldc,
@@ -120,14 +122,14 @@ class App extends Application {
         perception: data.skills.prc.passive,
         investigation: data.skills.inv.passive,
         insight: data.skills.ins.passive,
-        stealth: data.skills.ste.passive
+        stealth: data.skills.ste.passive,
       },
 
       // details
       languages: data.traits.languages.value.map(
-        code => CONFIG.DND5E.languages[code]
+        (code) => CONFIG.DND5E.languages[code]
       ),
-      alignment: data.details.alignment
+      alignment: data.details.alignment,
     };
   }
 
@@ -136,20 +138,20 @@ class App extends Application {
     nav.find(".tab[data-tab='" + this.activeTab + "']").addClass("active");
     new Tabs(nav, {
       initial: this.activeTab ? this.activeTab : "General",
-      callback: tab => {
+      callback: (tab) => {
         this.activeTab = tab.attr("data-tab");
-      }
+      },
     });
 
-    $(".btn-toggle-visibility").on("click", event => {
+    $(".btn-toggle-visibility").on("click", (event) => {
       const actorId = event.currentTarget.dataset.actor;
       this.hiddenActors = this.hiddenActors.includes(actorId)
-        ? this.hiddenActors.filter(id => id !== actorId)
+        ? this.hiddenActors.filter((id) => id !== actorId)
         : [...this.hiddenActors, actorId];
       this.render(false);
     });
 
-    $(".btn-filter").on("click", event => {
+    $(".btn-filter").on("click", (event) => {
       this.displayMode =
         this.displayMode === DISPLAY_MODE.SHOW_ALL
           ? DISPLAY_MODE.SHOW_VISIBLE
@@ -161,6 +163,10 @@ class App extends Application {
   }
 
   onHoverToken(token, hovered) {
+    if (!this.tooltip) {
+      console.log("Tooltip not initialized");
+      return;
+    }
     if (!game.settings.get("vtta-party", "EnableTooltip")) return;
     if (
       !game.user.isGM &&
@@ -171,13 +177,13 @@ class App extends Application {
 
     if (!hovered) {
       this.tooltip.hide();
-      canvas.tokens.removeChild(this.tooltip.container);
+      //canvas.tokens.removeChild(this.tooltip.container);
       return;
-    } else {
-      canvas.tokens.addChild(this.tooltip.container);
     }
+
+    // else collect the actor data, update the tooltip, relocate and show it
     let canvasToken = canvas.tokens.ownedTokens.find(
-      ownedToken => ownedToken.id === token.id
+      (ownedToken) => ownedToken.id === token.id
     );
 
     if (!canvasToken) return;
@@ -185,15 +191,15 @@ class App extends Application {
     let data;
     let seenBy;
     if (token.actor.isPC) {
-      data = this.state.actors.find(actor => actor.id === token.actor.id);
+      data = this.state.actors.find((actor) => actor.id === token.actor.id);
     } else {
       // could be a mob
       data = this.getActorDetails(token.actor);
       seenBy = "No-one";
       if (token.data.hidden) {
         seenBy = this.state.actors
-          .filter(actor => actor.passives.perception >= data.passives.stealth)
-          .map(actor => actor.name)
+          .filter((actor) => actor.passives.perception >= data.passives.stealth)
+          .map((actor) => actor.name)
           .join(", ");
       }
     }
@@ -206,7 +212,7 @@ class App extends Application {
       { label: "Speed", value: data.speed },
       { label: "Passive Perception", value: data.passives.perception },
       { label: "Passive Investigation", value: data.passives.investigation },
-      { label: "Passive Insight", value: data.passives.insight }
+      { label: "Passive Insight", value: data.passives.insight },
     ];
 
     if (token.data.hidden) {
@@ -216,10 +222,11 @@ class App extends Application {
         lines.unshift({ label: "Noticable by", value: "Undetectable" });
       }
     }
-    this.tooltip.render(
+
+    this.tooltip.updateTooltip(
       {
         x: canvasToken.center.x,
-        y: canvasToken.center.y - Math.floor(canvasToken.w / 2)
+        y: canvasToken.center.y - Math.floor(canvasToken.w / 2),
       },
       lines
     );

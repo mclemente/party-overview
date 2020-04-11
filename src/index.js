@@ -1,11 +1,18 @@
 import config from "./config.js";
 import App from "./app/index.js";
+import Tooltip from "./tooltip/index.js";
 
-Handlebars.registerHelper("ifEquals", function(arg1, arg2, options) {
+Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 == arg2 ? options.fn(this) : options.inverse(this);
 });
 
 let party;
+let tooltip;
+
+Hooks.once("canvasInit", (canvas) => {
+  tooltip = new Tooltip();
+  canvas.stage.addChild(tooltip);
+});
 
 Hooks.once("init", () => {
   /**
@@ -16,28 +23,28 @@ Hooks.once("init", () => {
       name: "EnablePlayerAccess",
       scope: "world",
       default: true,
-      type: Boolean
+      type: Boolean,
     },
     {
       name: "EnableTooltip",
       scope: "world",
       default: true,
-      type: Boolean
+      type: Boolean,
     },
     {
       name: "EnablePlayerAccessTooltip",
       scope: "world",
       default: false,
-      type: Boolean
-    }
-  ].forEach(setting => {
+      type: Boolean,
+    },
+  ].forEach((setting) => {
     let options = {
       name: game.i18n.localize(`vtta-party.${setting.name}.Name`),
       hint: game.i18n.localize(`vtta-party.${setting.name}.Hint`),
       scope: setting.scope,
       config: true,
       default: setting.default,
-      type: setting.type
+      type: setting.type,
     };
     if (setting.choices) options.choices = setting.choices;
     game.settings.register("vtta-party", setting.name, options);
@@ -47,6 +54,7 @@ Hooks.once("init", () => {
 Hooks.on("ready", () => {
   // main window
   party = new App();
+  party.setTooltip(tooltip);
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
@@ -56,13 +64,11 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
   let button = $(
     '<button id="vtta-party-button"><i class="fas fa-info-circle"></i></button>'
   );
-  button.on("click", e => {
+  button.on("click", (e) => {
     party.render(true);
   });
 
-  $(html)
-    .find("header.directory-header")
-    .prepend(button);
+  $(html).find("header.directory-header").prepend(button);
 });
 
 Hooks.on("deleteActor", (actor, ...rest) => {
@@ -80,7 +86,7 @@ Hooks.on("updateActor", (actor, ...rest) => {
 });
 
 Hooks.on("createToken", (scene, sceneId, token, ...rest) => {
-  let actor = game.actors.entities.find(actor => actor.id === token.actorId);
+  let actor = game.actors.entities.find((actor) => actor.id === token.actorId);
   if (actor && actor.isPC) {
     party.update();
     party.render(false);

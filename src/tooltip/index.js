@@ -1,6 +1,6 @@
-class Tooltip {
+class Tooltip extends CanvasLayer {
   constructor() {
-    this.canvas = canvas.tokens;
+    super();
     this.container = new PIXI.Container();
     this.maxWidth = 300;
     this.padding = 6;
@@ -8,9 +8,14 @@ class Tooltip {
     this.linesMargin = 4;
     this.width = 0;
     this.height = 0;
+    this.addChild(this.container);
   }
 
-  render(center, lines) {
+  async draw() {
+    super.draw();
+  }
+
+  updateTooltip(position, lines) {
     this.container.removeChildren();
     let height = 0;
     let width = 0;
@@ -26,7 +31,7 @@ class Tooltip {
         fontWeight: "normal", //l.bold ? "bold" : "normal",
         fill: "#000000", //l.color,
         wordWrap: false,
-        wordWrapWidth: this.maxWidth
+        wordWrapWidth: this.maxWidth,
       });
       label.x = this.padding;
       label.y = this.padding + height;
@@ -38,7 +43,7 @@ class Tooltip {
         fontWeight: "bold", //l.bold ? "bold" : "normal",
         fill: "#000000", //l.color,
         wordWrap: false,
-        wordWrapWidth: this.maxWidth
+        wordWrapWidth: this.maxWidth,
       });
       value.x = label.x + label.width;
       value.y = label.y;
@@ -66,8 +71,8 @@ class Tooltip {
       height + this.padding * 2,
       6
     );
-    this.width = width + this.padding * 2;
-    this.height = height + this.padding * 2;
+    width = width + this.padding * 2;
+    height = height + this.padding * 2;
 
     rect.endFill();
     this.container.addChild(rect);
@@ -82,13 +87,13 @@ class Tooltip {
     triangle.beginFill(0xffffff, 0.8);
 
     triangle.moveTo(
-      Math.round(this.width / 2) - Math.floor(triangleWidth / 2),
-      this.height - 1
+      Math.round(width / 2) - Math.floor(triangleWidth / 2),
+      height - 1
     );
-    triangle.lineTo(Math.round(this.width / 2), this.height + triangleHeight);
+    triangle.lineTo(Math.round(width / 2), height + triangleHeight);
     triangle.lineTo(
-      Math.round(this.width / 2) + Math.floor(triangleWidth / 2),
-      this.height - 1
+      Math.round(width / 2) + Math.floor(triangleWidth / 2),
+      height - 1
     );
     triangle.endFill();
 
@@ -98,29 +103,14 @@ class Tooltip {
       this.container.addChild(texts[i]);
     }
 
-    this.update(center);
-    this.show();
-  }
+    let x = position.x,
+      y = position.y;
 
-  update(center) {
-    let x = center.x,
-      y = center.y;
+    x -= Math.floor(width / 2);
+    y -= height + this.margin - 5;
 
-    x -= Math.floor(this.width / 2);
-    y -= this.height + this.margin - 5;
-
-    // x += this.margin;
-    // if (x + this.width > this.canvas.width - this.margin) {
-    //   x -= this.width + this.margin * 2;
-    // }
-    // if (y + this.height > this.canvas.height - this.margin) {
-    //   y -= this.height + this.margin;
-    // }
     this.container.x = x;
     this.container.y = y;
-  }
-
-  show() {
     this.container.visible = true;
   }
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.1.4] Foundry 0.5.4 compatibilty release
+
+### Fixed
+
+- No more flickering when using the tooltip together with night mode
+
 ## [2.1.3] Foundry 0.5.3 compatability release
 
 ### Added
