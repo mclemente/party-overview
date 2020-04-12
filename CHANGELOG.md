@@ -1,5 +1,12 @@
 # Changelog
 
+
+## [2.1.5] Internal changes
+
+### Changed
+
+- Switched to TabsV2
+
 ## [2.1.4] Foundry 0.5.4 compatibilty release
 
 ### Fixed

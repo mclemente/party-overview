@@ -25,7 +25,6 @@ class App extends Application {
   }
 
   update() {
-    console.log("getDAta(+)");
     let actors = game.actors.entities
       .filter((a) => a.isPC)
       .map((playerActor) => playerActor.getActiveTokens(true))
@@ -90,6 +89,13 @@ class App extends Application {
       title: "VTTA Party",
       template: "/modules/vtta-party/templates/main.hbs",
       classes: ["vtta", "party"],
+      tabs: [
+        {
+          navSelector: ".tabs",
+          contentSelector: ".content",
+          initial: "general",
+        },
+      ],
     });
   }
 
@@ -134,14 +140,14 @@ class App extends Application {
   }
 
   activateListeners(html) {
-    let nav = $('.tabs[data-group="party"]');
-    nav.find(".tab[data-tab='" + this.activeTab + "']").addClass("active");
-    new Tabs(nav, {
-      initial: this.activeTab ? this.activeTab : "General",
-      callback: (tab) => {
-        this.activeTab = tab.attr("data-tab");
-      },
-    });
+    // let nav = $('.tabs[data-group="party"]');
+    // nav.find(".tab[data-tab='" + this.activeTab + "']").addClass("active");
+    // new Tabs(nav, {
+    //   initial: this.activeTab ? this.activeTab : "General",
+    //   callback: (tab) => {
+    //     this.activeTab = tab.attr("data-tab");
+    //   },
+    // });
 
     $(".btn-toggle-visibility").on("click", (event) => {
       const actorId = event.currentTarget.dataset.actor;
@@ -160,6 +166,8 @@ class App extends Application {
           : DISPLAY_MODE.SHOW_ALL;
       this.render(false);
     });
+
+    super.activateListeners(html);
   }
 
   onHoverToken(token, hovered) {
