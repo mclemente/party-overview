@@ -1,6 +1,10 @@
 class Tooltip extends CanvasLayer {
   constructor() {
     super();
+    this.init();
+  }
+
+  init() {
     this.container = new PIXI.Container();
     this.maxWidth = 300;
     this.padding = 6;
@@ -109,8 +113,7 @@ class Tooltip extends CanvasLayer {
     x -= Math.floor(width / 2);
     y -= height + this.margin - 5;
 
-    this.container.x = x;
-    this.container.y = y;
+    this.container.setTransform(x, y);
     this.container.visible = true;
   }
 

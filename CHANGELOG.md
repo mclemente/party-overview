@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.6] Hotfix
+
+- Recreating the tooltip on scene switch/ update to make it reliably available 
 
 ## [2.1.5] Internal changes
 

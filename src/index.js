@@ -14,6 +14,14 @@ Hooks.once("canvasInit", (canvas) => {
   canvas.stage.addChild(tooltip);
 });
 
+Hooks.on("canvasInit", (canvas) => {
+  tooltip.init();
+});
+
+Hooks.on("canvasReady", (_) => {
+  tooltip.init();
+});
+
 Hooks.once("init", () => {
   /**
    * Register settings
