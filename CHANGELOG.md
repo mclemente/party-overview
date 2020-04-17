@@ -1,8 +1,16 @@
 # Changelog
 
+## [2.1.7] Foundry 0.5.5 compatibilty release
+
+**Note**: This release is available for 0.5.5 and up only.
+
+### Fixed
+
+- Tooltip not appearing for players when their ownership was set while they were not in-game yet
+
 ## [2.1.6] Hotfix
 
-- Recreating the tooltip on scene switch/ update to make it reliably available 
+- Recreating the tooltip on scene switch/ update to make it reliably available
 
 ## [2.1.5] Internal changes
 

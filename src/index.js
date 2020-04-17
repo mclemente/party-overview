@@ -10,8 +10,11 @@ let party;
 let tooltip;
 
 Hooks.once("canvasInit", (canvas) => {
+  console.log("Canvas Init");
   tooltip = new Tooltip();
   canvas.stage.addChild(tooltip);
+  party = new App();
+  party.setTooltip(tooltip);
 });
 
 Hooks.on("canvasInit", (canvas) => {
@@ -60,9 +63,7 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("ready", () => {
-  // main window
-  party = new App();
-  party.setTooltip(tooltip);
+  party.update();
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
