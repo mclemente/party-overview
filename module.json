@@ -18,7 +18,7 @@
       "path": "lang/de.json"
     }
   ],
-  "systems": ["dnd5e"],
+  "systems": ["dnd5e", "pf2e", "wfrp4e"],
   "esmodules": ["./src/index.js"],
   "styles": [
     "./style/module-settings.css",

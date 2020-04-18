@@ -84,104 +84,48 @@ div.vtta.party .table-row .button {
   font-weight: bold;
 }
 
-/*
-div.vtta-party-tooltip {
-  visibility: hidden;
-  width: 200px;
-  background-color: rgba(77, 77, 77, 0.493);
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-  font-size: 1.2rem;
-* /
-  / * Position the tooltip text - see examples below! * /
-  position: absolute;
-  z-index: 1;
-
-  display: flex;
-  flex-direction: column;
+div.vtta.party.wfrp4e .table-row .button {
+  margin-right: 6px;
+}
+div.vtta.party.wfrp4e .table-row .button button {
+  margin: 0px 5px 6px 5px !important;
+  padding: 2px 0px 0px 0px;
+  height: 34px;
+  border: 1px solid black;
+  border-image: url(/systems/wfrp4e/ui/footer-button.png) 10 repeat;
+  border-image-width: 4px;
+  border-image-outset: 0px;
+  box-shadow: 2px 2px 1px #00000085;
+  background: url(/systems/wfrp4e/ui/sidebar_button-background_red.png) repeat;
+  background-origin: padding-box;
+  color: #dadada;
+  font-family: CaslonAntique;
+  font-size: 12px;
+  font-weight: 500;
+  text-shadow: 0px 0px 1px #00000063;
 }
 
-div.vtta-party-tooltip div.section {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+div.vtta.party.wfrp4e .table-row:nth-child(2n) {
+  background-color: rgba(228, 228, 228, 0.34);
 }
+#vtta-party-button.wfrp4e {
+  display: block;
+  flex: 0 0 32px;
+  height: 32px;
 
-div.vtta-party-tooltip div.value {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-div.vtta-party-tooltip div.value i {
-  color: rgb(226, 226, 131);
-}
-
-div.vtta-party-tooltip div.value.small {
-  font-size: 4pt;
-}
-
-div.vtta-party-tooltip div.value * {
-  padding: 5px;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container * /
-div.vtta-party-tooltip.visible {
-  visibility: visible;
-}
-*/
-.tooltip {
-  display: inline-block;
-  position: relative;
-  border-bottom: 1px dotted #666;
-  text-align: left;
-}
-
-.tooltip .top {
-  min-width: 200px;
-  top: -20px;
-  left: 50%;
-  transform: translate(-50%, -100%);
-  padding: 10px 20px;
-  color: #444444;
-  background-color: #eeeeee;
-  font-weight: normal;
-  font-size: 13px;
-  border-radius: 8px;
-  position: absolute;
-  z-index: 99999999;
-  box-sizing: border-box;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.8s;
-}
-
-.tooltip.visible .top {
-  visibility: visible;
-  opacity: 1;
-}
-
-.tooltip .top i {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -12px;
-  width: 24px;
-  height: 12px;
-  overflow: hidden;
-}
-
-.tooltip .top i::after {
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background-color: #eeeeee;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  margin: 0px 5px 6px 5px !important;
+  padding: 2px 0px 0px 2px;
+  height: 34px;
+  border: 1px solid black;
+  border-image: url(/systems/wfrp4e/ui/footer-button.png) 10 repeat;
+  border-image-width: 4px;
+  border-image-outset: 0px;
+  box-shadow: 2px 2px 1px #00000085;
+  background: url(/systems/wfrp4e/ui/sidebar_button-background_red.png) repeat;
+  background-origin: padding-box;
+  color: #c9c6a7;
+  font-family: CaslonAntique;
+  font-size: 12px;
+  font-weight: 500;
+  text-shadow: 0px 0px 1px #00000063;
 }
