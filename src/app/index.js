@@ -16,7 +16,7 @@ class App extends Application {
     this.activeTab = "general";
 
     // initialize
-    this.update();
+    // this.update();
     Hooks.on("hoverToken", this.onHoverToken.bind(this));
   }
 
@@ -62,12 +62,13 @@ class App extends Application {
         (languages, actor) => [...new Set(languages.concat(actor.languages))],
         []
       )
+      .filter((language) => language !== undefined)
       .sort();
     actors = actors.map((actor) => {
       return {
         ...actor,
-        languages: languages.map((language) =>
-          actor.languages.includes(language)
+        languages: languages.map(
+          (language) => actor.languages && actor.languages.includes(language)
         ),
       };
     });
@@ -87,8 +88,8 @@ class App extends Application {
       height: 300,
       resizable: true,
       title: "VTTA Party",
-      template: "/modules/vtta-party/templates/main.hbs",
-      classes: ["vtta", "party"],
+      template: `/modules/vtta-party/templates/${game.system.id}.hbs`,
+      classes: ["vtta", "party", game.system.id],
       tabs: [
         {
           navSelector: ".tabs",
@@ -106,49 +107,101 @@ class App extends Application {
 
   getActorDetails(actor) {
     const data = actor.data.data;
-    return {
-      id: actor.id,
-      isHidden: this.hiddenActors.includes(actor.id),
-      name: actor.name,
-      shortName: actor.name.split(/\s/).shift(),
-      shortestName:
-        actor.name.split(/\s/).shift().length > 10
-          ? actor.name.split(/\s/).shift().substr(0, 10) + "…"
-          : actor.name.split(/\s/).shift().substr(0, 10),
-      hp: {
-        value: data.attributes.hp.value,
-        max: data.attributes.hp.max,
-      },
-      ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
-      spellDC: data.attributes.spelldc,
-      speed: data.attributes.speed.value,
 
-      // passive stuff
-      passives: {
-        perception: data.skills.prc.passive,
-        investigation: data.skills.inv.passive,
-        insight: data.skills.ins.passive,
-        stealth: data.skills.ste.passive,
-      },
+    if (game.system.id === "dnd5e") {
+      return {
+        id: actor.id,
+        isHidden: this.hiddenActors.includes(actor.id),
+        name: actor.name,
+        shortName: actor.name.split(/\s/).shift(),
+        shortestName:
+          actor.name.split(/\s/).shift().length > 10
+            ? actor.name.split(/\s/).shift().substr(0, 10) + "…"
+            : actor.name.split(/\s/).shift().substr(0, 10),
+        hp: {
+          value: data.attributes.hp.value,
+          max: data.attributes.hp.max,
+        },
+        ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
+        spellDC: data.attributes.spelldc,
+        speed: data.attributes.speed.value,
 
-      // details
-      languages: data.traits.languages.value.map(
-        (code) => CONFIG.DND5E.languages[code]
-      ),
-      alignment: data.details.alignment,
-    };
+        // passive stuff
+        passives: {
+          perception: data.skills.prc.passive,
+          investigation: data.skills.inv.passive,
+          insight: data.skills.ins.passive,
+          stealth: data.skills.ste.passive,
+        },
+
+        // details
+        languages: data.traits.languages.value.map(
+          (code) => CONFIG.DND5E.languages[code]
+        ),
+        alignment: data.details.alignment,
+      };
+    }
+
+    if (game.system.id === "pf2e") {
+      return {
+        id: actor.id,
+        isHidden: this.hiddenActors.includes(actor.id),
+        name: actor.name,
+        shortName: actor.name.split(/\s/).shift(),
+        shortestName:
+          actor.name.split(/\s/).shift().length > 10
+            ? actor.name.split(/\s/).shift().substr(0, 10) + "…"
+            : actor.name.split(/\s/).shift().substr(0, 10),
+        hp: {
+          value: data.attributes.hp.value,
+          max: data.attributes.hp.max,
+        },
+        ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
+        shieldAC:
+          data.attributes.shield && data.attributes.shield.ac
+            ? `(+${data.attributes.shield.ac})`
+            : "",
+        perception: data.attributes.perception.value,
+        stealth: data.skills.ste.value,
+        speed: data.attributes.speed.value,
+
+        // passive stuff
+        saves: {
+          fortitude: data.saves.fortitude.value,
+          reflex: data.saves.reflex.value,
+          will: data.saves.will.value,
+        },
+
+        // details
+        languages: data.traits.languages.value.map(
+          (code) => CONFIG.PF2E.languages[code]
+        ),
+      };
+    }
+
+    if (game.system.id === "wfrp4e") {
+      return {
+        id: actor.id,
+        isHidden: this.hiddenActors.includes(actor.id),
+        name: actor.name,
+        shortName: actor.name.split(/\s/).shift(),
+        shortestName:
+          actor.name.split(/\s/).shift().length > 10
+            ? actor.name.split(/\s/).shift().substr(0, 10) + "…"
+            : actor.name.split(/\s/).shift().substr(0, 10),
+        wounds: {
+          value: data.status.wounds.value,
+          max: data.status.wounds.max,
+        },
+        advantage: data.status.advantage.value,
+        movement: data.details.move.value,
+        walk: data.details.move.walk,
+        run: data.details.move.run,
+      };
+    }
   }
 
   activateListeners(html) {
-    // let nav = $('.tabs[data-group="party"]');
-    // nav.find(".tab[data-tab='" + this.activeTab + "']").addClass("active");
-    // new Tabs(nav, {
-    //   initial: this.activeTab ? this.activeTab : "General",
-    //   callback: (tab) => {
-    //     this.activeTab = tab.attr("data-tab");
-    //   },
-    // });
-
     $(".btn-toggle-visibility").on("click", (event) => {
       const actorId = event.currentTarget.dataset.actor;
       this.hiddenActors = this.hiddenActors.includes(actorId)
@@ -205,30 +258,79 @@ class App extends Application {
       data = this.getActorDetails(token.actor);
       seenBy = "No-one";
       if (token.data.hidden) {
-        seenBy = this.state.actors
-          .filter((actor) => actor.passives.perception >= data.passives.stealth)
-          .map((actor) => actor.name)
-          .join(", ");
+        if (game.system.id === "dnd5e") {
+          seenBy = this.state.actors
+            .filter(
+              (actor) => actor.passives.perception >= data.passives.stealth
+            )
+            .map((actor) => actor.name)
+            .join(", ");
+        }
+        if (game.system.id === "pf2e") {
+          seenBy = this.state.actors
+            .filter((actor) => actor.perception >= data.stealth)
+            .map((actor) => actor.name)
+            .join(", ");
+        }
       }
     }
 
     if (!data) return;
+    let lines;
 
-    let lines = [
-      { label: "Health", value: `${data.hp.value} / ${data.hp.max}` },
-      { label: "Armor Class", value: data.ac },
-      { label: "Speed", value: data.speed },
-      { label: "Passive Perception", value: data.passives.perception },
-      { label: "Passive Investigation", value: data.passives.investigation },
-      { label: "Passive Insight", value: data.passives.insight },
-    ];
+    if (game.system.id === "dnd5e") {
+      lines = [
+        { label: "Health", value: `${data.hp.value} / ${data.hp.max}` },
+        { label: "Armor Class", value: data.ac },
+        { label: "Speed", value: data.speed },
+        { label: "Passive Perception", value: data.passives.perception },
+        { label: "Passive Investigation", value: data.passives.investigation },
+        { label: "Passive Insight", value: data.passives.insight },
+      ];
 
-    if (token.data.hidden) {
-      if (seenBy) {
-        lines.unshift({ label: "Noticable by", value: seenBy });
-      } else {
-        lines.unshift({ label: "Noticable by", value: "Undetectable" });
+      if (token.data.hidden) {
+        if (seenBy) {
+          lines.unshift({ label: "Noticable by", value: seenBy });
+        } else {
+          lines.unshift({ label: "Noticable by", value: "Undetectable" });
+        }
       }
+    }
+
+    if (game.system.id === "pf2e") {
+      let ac = `${data.ac}`;
+      if (data.shieldAC !== "") {
+        ac += " " + data.shieldAC;
+      }
+      lines = [
+        { label: "Health", value: `${data.hp.value} / ${data.hp.max}` },
+        { label: "Armor Class", value: ac },
+        { label: "Speed", value: data.speed },
+        { label: "Perception", value: data.perception },
+        {
+          label: "F / R / W",
+          value: `${data.saves.fortitude} / ${data.saves.reflex} / ${data.saves.will}`,
+        },
+      ];
+    }
+
+    if (game.system.id === "wfrp4e") {
+      lines = [
+        {
+          label: game.i18n.localize("Wounds"),
+          value: `${data.wounds.value} / ${data.wounds.max}`,
+        },
+        { label: game.i18n.localize("Advantage"), value: data.advantage },
+        { label: game.i18n.localize("Movement"), value: data.movement },
+        {
+          label: game.i18n.localize("Walk"),
+          value: data.walk + " " + game.i18n.localize("yds"),
+        },
+        {
+          label: game.i18n.localize("Run"),
+          value: data.run + " " + game.i18n.localize("yds"),
+        },
+      ];
     }
 
     this.tooltip.updateTooltip(

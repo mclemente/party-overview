@@ -1,0 +1,43 @@
+<div>
+    <nav class="tabs" data-group="party">
+        <li class="item" data-tab="general">General</li>
+    </nav>
+    <section class="content">
+        <div class="tab" data-tab="general" data-group="party">
+            <div class="table-row header">
+                <div class="button">
+                    <button class="btn-filter">
+                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
+                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
+                    </button>
+                </div>
+                <div class="text">Name</div>
+                <div class="num" title="Health"><i class="fas fa-heart"></i></div>
+                <div class="num" title="Armor Class"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="Perception"><i class="far fa-eye"></i></div>
+                <div class="num" title="Fortitude"><i class="fas fa-fist-raised"></i></div>
+                <div class="num" title="Reflex"><i class="fas fa-running"></i></div>
+                <div class="num" title="Will"><i class="fas fa-brain"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.ac }} {{#if actor.shieldAC}}{{ actor.shieldAC }}{{/if}}</div>
+                <div class="num">{{ actor.perception }}</div>
+                <div class="num">{{ actor.saves.fortitude }}</div>
+                <div class="num">{{ actor.saves.reflex }}</div>
+                <div class="num">{{ actor.saves.will }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>

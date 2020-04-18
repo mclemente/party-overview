@@ -13,7 +13,7 @@ Hooks.once("canvasInit", (canvas) => {
   console.log("Canvas Init");
   tooltip = new Tooltip();
   canvas.stage.addChild(tooltip);
-  party = new App();
+
   party.setTooltip(tooltip);
 });
 
@@ -26,6 +26,7 @@ Hooks.on("canvasReady", (_) => {
 });
 
 Hooks.once("init", () => {
+  party = new App();
   /**
    * Register settings
    */
@@ -63,7 +64,8 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("ready", () => {
-  party.update();
+  if (party) party.update();
+  else party = new App();
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
@@ -71,7 +73,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
     return;
 
   let button = $(
-    '<button id="vtta-party-button"><i class="fas fa-info-circle"></i></button>'
+    `<button id="vtta-party-button" class="${game.system.id}"><i class="fas fa-info-circle"></i></button>`
   );
   button.on("click", (e) => {
     party.render(true);
