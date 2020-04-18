@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.1.8] Looking beyond my own nose
+## [2.2.0] Looking beyond my own nose
 
 This release brings support for two new game systems: Pathfinder 2e and Warhammer Fantasy Roleplay 4th Edition. A big thanks to @AlabasterLeolin (pf2e) and @Moo Man (wfrp4e) for providing help to select the most helpful attributes to display in the tooltip and overview window.
 
