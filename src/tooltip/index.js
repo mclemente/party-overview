@@ -30,7 +30,7 @@ class Tooltip extends CanvasLayer {
       let l = lines[i];
 
       let label = new PIXI.Text(l.label + ": ", {
-        fontSize: 14,
+        fontSize: this.getCalculatedFontSizeInPixels(),
         fontFamily: "Arial",
         fontWeight: "normal", //l.bold ? "bold" : "normal",
         fill: "#000000", //l.color,
@@ -42,7 +42,7 @@ class Tooltip extends CanvasLayer {
       height += label.height + this.linesMargin;
 
       let value = new PIXI.Text(l.value, {
-        fontSize: 14,
+        fontSize: this.getCalculatedFontSizeInPixels(),
         fontFamily: "Arial",
         fontWeight: "bold", //l.bold ? "bold" : "normal",
         fill: "#000000", //l.color,
@@ -115,6 +115,20 @@ class Tooltip extends CanvasLayer {
 
     this.container.setTransform(x, y);
     this.container.visible = true;
+  }
+  
+  getCalculatedFontSizeInPixels() {
+    return this.getScaledFontSizeInPixelsRoundedToTheNearestInteger();
+  }
+
+  getScaledFontSizeInPixelsRoundedToTheNearestInteger() {
+    let smallestAllowedFontSize = 14;
+	
+    return Math.max(Math.round(this.getTooltipFontSizeInPixelsFromGameSettings() / canvas.scene._viewPosition.scale), smallestAllowedFontSize);
+  }
+
+  getTooltipFontSizeInPixelsFromGameSettings() {
+    return game.settings.get("vtta-party", "TooltipFontSizeInPixels");
   }
 
   hide() {
