@@ -49,6 +49,12 @@ Hooks.once("init", () => {
       default: false,
       type: Boolean,
     },
+    {
+      name: "TooltipFontSizeInPixels",
+      scope: "world",
+      default: 14,
+      type: Number,
+    },
   ].forEach((setting) => {
     let options = {
       name: game.i18n.localize(`vtta-party.${setting.name}.Name`),
