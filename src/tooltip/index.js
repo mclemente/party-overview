@@ -73,7 +73,7 @@ class Tooltip extends CanvasLayer {
       0,
       width + this.padding * 2,
       height + this.padding * 2,
-      6
+      this.getTooltipCornerRadiusInPixels()
     );
     width = width + this.padding * 2;
     height = height + this.padding * 2;
@@ -130,6 +130,14 @@ class Tooltip extends CanvasLayer {
   getTooltipFontSizeInPixelsFromGameSettings() {
     return game.settings.get("vtta-party", "TooltipFontSizeInPixels");
   }
+  
+  /**
+   * Adjust the corner radius based on the size of the (now) scaled tooltip
+   * Dividing the font size by 2 looks good enough without a fancy algorithm.
+   */
+  getTooltipCornerRadiusInPixels() {
+    return Math.floor(this.getTooltipFontSizeInPixelsFromGameSettings() * 0.5);
+  }	
 
   hide() {
     this.container.visible = false;
