@@ -5,6 +5,6 @@
   "vtta-party.EnableTooltip.Hint": "Enables or disables tooltips when hovering over tokens",
   "vtta-party.EnablePlayerAccessTooltip.Name": "Enable tooltips for players?",
   "vtta-party.EnablePlayerAccessTooltip.Hint": "Enables or disables tooltips for players, but only for tokens they own.",
-  "vtta-party.TooltipFontSizeInPixels.Name": "Set the font size for tooltips in pixles.",
+  "vtta-party.TooltipFontSizeInPixels.Name": "Set the font size for tooltips in pixels.",
   "vtta-party.TooltipFontSizeInPixels.Hint": "Default: 14"
 }
