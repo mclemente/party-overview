@@ -90,15 +90,9 @@ class Tooltip extends CanvasLayer {
     triangle.lineStyle(2, 0x000000, 0.6);
     triangle.beginFill(0xffffff, 0.8);
 
-    triangle.moveTo(
-      Math.round(width / 2) - Math.floor(triangleWidth / 2),
-      height - 1
-    );
+    triangle.moveTo(Math.round(width / 2) - Math.floor(triangleWidth / 2), height - 1);
     triangle.lineTo(Math.round(width / 2), height + triangleHeight);
-    triangle.lineTo(
-      Math.round(width / 2) + Math.floor(triangleWidth / 2),
-      height - 1
-    );
+    triangle.lineTo(Math.round(width / 2) + Math.floor(triangleWidth / 2), height - 1);
     triangle.endFill();
 
     this.container.addChild(triangle);
