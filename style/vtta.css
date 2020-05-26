@@ -74,13 +74,13 @@ div.vtta.party .table-row .button {
   * General good-look styles, not mandatory.
   */
 
-.table-row {
+div.vtta.party .table-row {
   border-bottom: 1px solid rgb(190, 190, 190);
   border-collapse: collapse;
   padding: 4px;
 }
 
-.table-row.header {
+div.vtta.party .table-row.header {
   font-weight: bold;
 }
 

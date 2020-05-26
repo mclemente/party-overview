@@ -2,10 +2,10 @@
   "name": "vtta-party",
   "title": "Virtual Tabletop Assets - Party overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "author": "Sebastian Will (vttassets@gmail.com)",
   "minimumCoreVersion": "0.5.5",
-  "compatibleCoreVersion": "0.5.5",
+  "compatibleCoreVersion": "0.6.0",
   "languages": [
     {
       "lang": "en",
@@ -20,11 +20,7 @@
   ],
   "systems": ["dnd5e", "pf2e", "wfrp4e"],
   "esmodules": ["./src/index.js"],
-  "styles": [
-    "./style/module-settings.css",
-    "./style/vtta.css",
-    "./style/module-settings.css"
-  ],
+  "styles": ["./style/module-settings.css", "./style/vtta.css", "./style/module-settings.css"],
   "packs": [],
   "url": "https://www.vttassets.com/asset/VTTAssets/vtta-party",
   "manifest": "https://download.vttassets.com/asset/VTTAssets/vtta-party/module.json",

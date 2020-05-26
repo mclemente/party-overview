@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.1] Scale all the way
+
+Thanks to kenster, you can now zoom till the end of ... Foundry's capabilities and still be able to decipher the tooltips: Automatic scaling of the font-size was an amazing addition, thanks!
+
+### Fixed
+
+- CSS clash by applying a more specific selector
+
 ## [2.2.0] Looking beyond my own nose
 
 This release brings support for two new game systems: Pathfinder 2e and Warhammer Fantasy Roleplay 4th Edition. A big thanks to @AlabasterLeolin (pf2e) and @Moo Man (wfrp4e) for providing help to select the most helpful attributes to display in the tooltip and overview window.
