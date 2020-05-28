@@ -121,6 +121,7 @@ class App extends Application {
         hp: {
           value: data.attributes.hp.value,
           max: data.attributes.hp.max,
+          temp: data.attributes.hp.temp,
         },
         ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
         spellDC: data.attributes.spelldc,
@@ -279,14 +280,16 @@ class App extends Application {
     let lines;
 
     if (game.system.id === "dnd5e") {
-      lines = [
-        { label: "Health", value: `${data.hp.value} / ${data.hp.max}` },
-        { label: "Armor Class", value: data.ac },
-        { label: "Speed", value: data.speed },
-        { label: "Passive Perception", value: data.passives.perception },
-        { label: "Passive Investigation", value: data.passives.investigation },
-        { label: "Passive Insight", value: data.passives.insight },
-      ];
+      lines = [{ label: "Health", value: `${data.hp.value} / ${data.hp.max}` }]
+      if ((data.hp.temp != 0) && (data.hp.temp !== undefined) && (data.hp.temp !== null)) {
+         lines.push({ label: "Temp HP", value: data.hp.temp })
+      }
+      lines.push(
+         { label: "Armor Class", value: data.ac },
+         { label: "Speed", value: data.speed },
+         { label: "Passive Perception", value: data.passives.perception },
+         { label: "Passive Investigation", value: data.passives.investigation },
+         { label: "Passive Insight", value: data.passives.insight })
 
       if (token.data.hidden) {
         if (seenBy) {
