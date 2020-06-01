@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.2] Weight in Gold
+
+A nice suggestion from the VTTA Discord resulted in the addition of a wealth overview of the party. The total is displayed too, and automatically calulated to the highest currency based on the standard exchange rates (1 pp = 10 gp = 20 ep = 100 sp = 1,000 cp)
+
+### Added
+- Foundry 0.6.1 compatibility
+- Currency overview (DND5e only)
+
 ## [2.2.1] Scale all the way
 
 Thanks to kenster, you can now zoom till the end of ... Foundry's capabilities and still be able to decipher the tooltips: Automatic scaling of the font-size was an amazing addition, thanks!

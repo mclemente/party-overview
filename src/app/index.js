@@ -26,52 +26,82 @@ class App extends Application {
 
   update() {
     let actors = game.actors.entities
-      .filter((a) => a.isPC)
-      .map((playerActor) => playerActor.getActiveTokens(true))
+      .filter(a => a.isPC)
+      .map(playerActor => playerActor.getActiveTokens(true))
       .flat(1)
-      .map((token) => token.actor);
+      .map(token => token.actor);
 
     // remove duplicates if an actors has multiple tokens on scene
     actors = actors.reduce(
-      (actors, actor) =>
-        actors.map((a) => a.id).includes(actor.id)
-          ? actors
-          : [...actors, actor],
+      (actors, actor) => (actors.map(a => a.id).includes(actor.id) ? actors : [...actors, actor]),
       []
     );
 
     switch (this.displayMode) {
       case DISPLAY_MODE.SHOW_HIDDEN:
-        actors = actors.filter((actor) => this.hiddenActors.includes(actor.id));
+        actors = actors.filter(actor => this.hiddenActors.includes(actor.id));
         break;
       case DISPLAY_MODE.SHOW_VISIBLE:
-        actors = actors.filter(
-          (actor) => !this.hiddenActors.includes(actor.id)
-        );
+        actors = actors.filter(actor => !this.hiddenActors.includes(actor.id));
         break;
     }
 
-    actors = actors.map((actor) => {
+    actors = actors.map(actor => {
       const data = actor.data.data;
       return this.getActorDetails(actor);
     });
 
     // restructure the languages a bit so rendering gets easier
     let languages = actors
-      .reduce(
-        (languages, actor) => [...new Set(languages.concat(actor.languages))],
-        []
-      )
-      .filter((language) => language !== undefined)
+      .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+      .filter(language => language !== undefined)
       .sort();
-    actors = actors.map((actor) => {
+    actors = actors.map(actor => {
       return {
         ...actor,
-        languages: languages.map(
-          (language) => actor.languages && actor.languages.includes(language)
-        ),
+        languages: languages.map(language => actor.languages && actor.languages.includes(language)),
       };
     });
+
+    let totalCurrency = actors.reduce(
+      (currency, actor) => {
+        for (let prop in actor.currency) {
+          currency[prop] += actor.currency[prop];
+        }
+        return currency;
+      },
+      {
+        cp: 0,
+        sp: 0,
+        ep: 0,
+        gp: 0,
+        pp: 0,
+      }
+    );
+    // summing up the total
+    const calcOverflow = (currency, divider) => {
+      return {
+        remainder: currency % divider,
+        overflow: Math.floor(currency / divider),
+      };
+    };
+
+    console.log(totalCurrency);
+
+    let overflow = calcOverflow(totalCurrency.cp, 10);
+    totalCurrency.cp = overflow.remainder;
+    totalCurrency.sp += overflow.overflow;
+    overflow = calcOverflow(totalCurrency.sp, 5);
+    totalCurrency.sp = overflow.remainder;
+    totalCurrency.ep += overflow.overflow;
+    overflow = calcOverflow(totalCurrency.ep, 2);
+    totalCurrency.ep = overflow.remainder;
+    totalCurrency.gp += overflow.overflow;
+    overflow = calcOverflow(totalCurrency.gp, 10);
+    totalCurrency.gp = overflow.remainder;
+    totalCurrency.pp += overflow.overflow;
+
+    console.log(totalCurrency);
 
     this.state = {
       activeTab: this.activeTab,
@@ -79,6 +109,7 @@ class App extends Application {
       name: "Sebastian",
       actors: actors,
       languages: languages,
+      totalCurrency: totalCurrency,
     };
   }
 
@@ -135,10 +166,9 @@ class App extends Application {
         },
 
         // details
-        languages: data.traits.languages.value.map(
-          (code) => CONFIG.DND5E.languages[code]
-        ),
+        languages: data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]),
         alignment: data.details.alignment,
+        currency: data.currency,
       };
     }
 
@@ -157,10 +187,7 @@ class App extends Application {
           max: data.attributes.hp.max,
         },
         ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
-        shieldAC:
-          data.attributes.shield && data.attributes.shield.ac
-            ? `(+${data.attributes.shield.ac})`
-            : "",
+        shieldAC: data.attributes.shield && data.attributes.shield.ac ? `(+${data.attributes.shield.ac})` : "",
         perception: data.attributes.perception.value,
         stealth: data.skills.ste.value,
         speed: data.attributes.speed.value,
@@ -173,9 +200,7 @@ class App extends Application {
         },
 
         // details
-        languages: data.traits.languages.value.map(
-          (code) => CONFIG.PF2E.languages[code]
-        ),
+        languages: data.traits.languages.value.map(code => CONFIG.PF2E.languages[code]),
       };
     }
 
@@ -202,15 +227,15 @@ class App extends Application {
   }
 
   activateListeners(html) {
-    $(".btn-toggle-visibility").on("click", (event) => {
+    $(".btn-toggle-visibility").on("click", event => {
       const actorId = event.currentTarget.dataset.actor;
       this.hiddenActors = this.hiddenActors.includes(actorId)
-        ? this.hiddenActors.filter((id) => id !== actorId)
+        ? this.hiddenActors.filter(id => id !== actorId)
         : [...this.hiddenActors, actorId];
       this.render(false);
     });
 
-    $(".btn-filter").on("click", (event) => {
+    $(".btn-filter").on("click", event => {
       this.displayMode =
         this.displayMode === DISPLAY_MODE.SHOW_ALL
           ? DISPLAY_MODE.SHOW_VISIBLE
@@ -229,11 +254,7 @@ class App extends Application {
       return;
     }
     if (!game.settings.get("vtta-party", "EnableTooltip")) return;
-    if (
-      !game.user.isGM &&
-      !game.settings.get("vtta-party", "EnablePlayerAccessTooltip")
-    )
-      return;
+    if (!game.user.isGM && !game.settings.get("vtta-party", "EnablePlayerAccessTooltip")) return;
     if (!token || !token.actor) return;
 
     if (!hovered) {
@@ -243,16 +264,14 @@ class App extends Application {
     }
 
     // else collect the actor data, update the tooltip, relocate and show it
-    let canvasToken = canvas.tokens.ownedTokens.find(
-      (ownedToken) => ownedToken.id === token.id
-    );
+    let canvasToken = canvas.tokens.ownedTokens.find(ownedToken => ownedToken.id === token.id);
 
     if (!canvasToken) return;
 
     let data;
     let seenBy;
     if (token.actor.isPC) {
-      data = this.state.actors.find((actor) => actor.id === token.actor.id);
+      data = this.state.actors.find(actor => actor.id === token.actor.id);
     } else {
       // could be a mob
       data = this.getActorDetails(token.actor);
@@ -260,16 +279,14 @@ class App extends Application {
       if (token.data.hidden) {
         if (game.system.id === "dnd5e") {
           seenBy = this.state.actors
-            .filter(
-              (actor) => actor.passives.perception >= data.passives.stealth
-            )
-            .map((actor) => actor.name)
+            .filter(actor => actor.passives.perception >= data.passives.stealth)
+            .map(actor => actor.name)
             .join(", ");
         }
         if (game.system.id === "pf2e") {
           seenBy = this.state.actors
-            .filter((actor) => actor.perception >= data.stealth)
-            .map((actor) => actor.name)
+            .filter(actor => actor.perception >= data.stealth)
+            .map(actor => actor.name)
             .join(", ");
         }
       }

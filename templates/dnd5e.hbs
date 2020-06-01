@@ -2,6 +2,7 @@
     <nav class="tabs" data-group="party">
         <li class="item" data-tab="general">General</li>
         <li class="item" data-tab="languages">Languages</li>
+        <li class="item" data-tab="currencies">Wealth</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
@@ -40,6 +41,7 @@
             </div>
             {{/each}}
         </div>
+        <!-- Languages -->
         <div class="tab" data-tab="languages" data-group="party">
             <div class="table-row header">
                 <div class="button">
@@ -70,6 +72,53 @@
                 {{/each}}
             </div>
             {{/each}}
+        </div>
+
+        <!-- Currency -->
+        <div class="tab" data-tab="currencies" data-group="party">
+            <div class="table-row header">
+                <div class="button">
+                    <button class="btn-filter">
+                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
+                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
+                    </button>
+                </div>
+                <div class="text">Name</div>
+                <div class="text icon">Platinum</div>
+                <div class="text icon">Gold</div>
+                <div class="text icon">Electrum</div>
+                <div class="text icon">Silver</div>
+                <div class="text icon">Copper</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="text icon">{{currency.pp}}</div>
+                <div class="text icon">{{currency.gp}}</div>
+                <div class="text icon">{{currency.ep}}</div>
+                <div class="text icon">{{currency.sp}}</div>
+                <div class="text icon">{{currency.cp}}</div>
+            </div>
+            {{/each}}
+            <div class="table-row">
+                <div class="button">
+
+                </div>
+                <div class="text">TOTAL</div>
+                <div class="text icon">{{totalCurrency.pp}}</div>
+                <div class="text icon">{{totalCurrency.gp}}</div>
+                <div class="text icon">{{totalCurrency.ep}}</div>
+                <div class="text icon">{{totalCurrency.sp}}</div>
+                <div class="text icon">{{totalCurrency.cp}}</div>
+            </div>
         </div>
     </section>
 </div>
