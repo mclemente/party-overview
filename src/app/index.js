@@ -121,7 +121,7 @@ class App extends Application {
         hp: {
           value: data.attributes.hp.value,
           max: data.attributes.hp.max,
-          temp: data.attributes.hp.temp,
+          temp: data.attributes.hp.temp || 0,
         },
         ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
         spellDC: data.attributes.spelldc,
