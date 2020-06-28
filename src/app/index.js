@@ -63,12 +63,53 @@ class App extends Application {
       };
     });
 
+    let totalCurrency = actors.reduce(
+      (currency, actor) => {
+        for (let prop in actor.currency) {
+          currency[prop] += actor.currency[prop];
+        }
+        return currency;
+      },
+      {
+        cp: 0,
+        sp: 0,
+        ep: 0,
+        gp: 0,
+        pp: 0,
+      }
+    );
+    // summing up the total
+    const calcOverflow = (currency, divider) => {
+      return {
+        remainder: currency % divider,
+        overflow: Math.floor(currency / divider),
+      };
+    };
+
+    console.log(totalCurrency);
+
+    let overflow = calcOverflow(totalCurrency.cp, 10);
+    totalCurrency.cp = overflow.remainder;
+    totalCurrency.sp += overflow.overflow;
+    overflow = calcOverflow(totalCurrency.sp, 5);
+    totalCurrency.sp = overflow.remainder;
+    totalCurrency.ep += overflow.overflow;
+    overflow = calcOverflow(totalCurrency.ep, 2);
+    totalCurrency.ep = overflow.remainder;
+    totalCurrency.gp += overflow.overflow;
+    overflow = calcOverflow(totalCurrency.gp, 10);
+    totalCurrency.gp = overflow.remainder;
+    totalCurrency.pp += overflow.overflow;
+
+    console.log(totalCurrency);
+
     this.state = {
       activeTab: this.activeTab,
       mode: this.displayMode,
       name: "Sebastian",
       actors: actors,
       languages: languages,
+      totalCurrency: totalCurrency,
     };
   }
 
@@ -140,6 +181,7 @@ class App extends Application {
         // details
         languages: data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]),
         alignment: data.details.alignment,
+        currency: data.currency,
       };
     }
 
