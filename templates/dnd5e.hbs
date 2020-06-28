@@ -32,7 +32,30 @@
                     </button>
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
-                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+
+                <!--
+                {
+                    value: value,
+                    max: max,
+                    tempValue: tempValue,
+                    tempMaxValue: tempMaxValue,
+                    totalValue: value + tempValue,
+                    totalMaxValue = max + tempMaxValue
+                }
+                -->
+
+                <div class="num">
+                    <span style="display: block; border-bottom: thin solid black">
+                        <span name="hpCurrent" class="{{#if actor.hp.tempValue }}adjusted{{/if}}"
+                            data-value="{{actor.hp.value}}" data-total="{{ actor.hp.totalValue }}"
+                            data-temp="{{actor.hp.tempValue}}">
+                            {{ actor.hp.totalValue }}</span>
+                    </span>
+                    <span style="display: block"><span name="hpMax" data-value="{{actor.hp.max}}"
+                            data-total="{{ actor.hp.totalMaxValue }}" data-temp="{{actor.hp.tempMaxValue}}"
+                            class="{{#if actor.hp.tempMaxValue }}adjusted{{/if}}">{{ actor.hp.totalMaxValue }}</span>
+                    </span>
+                </div>
                 <div class="num">{{ actor.ac }}</div>
                 <div class="num">{{ actor.passives.perception }}</div>
                 <div class="num">{{ actor.passives.investigation }}</div>

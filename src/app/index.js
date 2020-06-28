@@ -140,6 +140,22 @@ class App extends Application {
     const data = actor.data.data;
 
     if (game.system.id === "dnd5e") {
+      const getHitpoints = hp => {
+        const value = parseInt(hp.value);
+        const max = parseInt(hp.max);
+        const tempValue = isNaN(parseInt(data.attributes.hp.temp)) ? 0 : parseInt(data.attributes.hp.temp);
+        const tempMaxValue = isNaN(parseInt(data.attributes.hp.tempmax)) ? 0 : parseInt(data.attributes.hp.tempmax);
+
+        return {
+          value: value,
+          max: max,
+          tempValue: tempValue,
+          tempMaxValue: tempMaxValue,
+          totalValue: value + tempValue,
+          totalMaxValue: max + tempMaxValue,
+        };
+      };
+
       return {
         id: actor.id,
         isHidden: this.hiddenActors.includes(actor.id),
@@ -149,10 +165,7 @@ class App extends Application {
           actor.name.split(/\s/).shift().length > 10
             ? actor.name.split(/\s/).shift().substr(0, 10) + "…"
             : actor.name.split(/\s/).shift().substr(0, 10),
-        hp: {
-          value: data.attributes.hp.value,
-          max: data.attributes.hp.max,
-        },
+        hp: getHitpoints(data.attributes.hp),
         ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
         spellDC: data.attributes.spelldc,
         speed: data.attributes.speed.value,
@@ -245,6 +258,24 @@ class App extends Application {
       this.render(false);
     });
 
+    //  $('span[name="hpCurrent"]', html).on("mouseover", event => {
+    //     console.log("mouseover");
+    //     const data = event.currentTarget.dataset;
+    //     $(event.currentTarget).val(`${data.value} (+${data.temp})`);
+    //     console.log(data);
+    //   });
+
+    $('span[name="hpCurrent"], span[name="hpMax"]', html).hover(
+      function () {
+        const data = $(this).data();
+        $(this).text(data.temp ? `${data.value} (+${data.temp})` : data.value);
+      },
+      function () {
+        const data = $(this).data();
+        $(this).text(`${data.total}`);
+      }
+    );
+
     super.activateListeners(html);
   }
 
@@ -296,14 +327,33 @@ class App extends Application {
     let lines;
 
     if (game.system.id === "dnd5e") {
+      // this blanks the temp hitpoints if it is a zero-value
+      // return {
+      //   value: value,
+      //   max: max,
+      //   tempValue: tempValue,
+      //   tempMaxValue: tempMaxValue,
+      //   totalValue: value + tempValue,
+      //   totalMaxValue: max + tempMaxValue,
+      // };
+
+      const temporaryHitpoints = data.hp.tempValue ? ` (+${data.hp.tempValue})` : "";
+      const tempMaxHitpoints = data.hp.tempMaxValue ? ` (+${data.hp.tempMaxValue})` : "";
       lines = [
-        { label: "Health", value: `${data.hp.value} / ${data.hp.max}` },
+        {
+          label: "Health",
+          value: `${data.hp.value + data.hp.tempValue}${temporaryHitpoints} / ${
+            data.hp.max + data.hp.tempMaxValue
+          }${tempMaxHitpoints}`,
+        },
+      ];
+      lines.push(
         { label: "Armor Class", value: data.ac },
         { label: "Speed", value: data.speed },
         { label: "Passive Perception", value: data.passives.perception },
         { label: "Passive Investigation", value: data.passives.investigation },
-        { label: "Passive Insight", value: data.passives.insight },
-      ];
+        { label: "Passive Insight", value: data.passives.insight }
+      );
 
       if (token.data.hidden) {
         if (seenBy) {
