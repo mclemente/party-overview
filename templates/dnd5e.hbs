@@ -15,7 +15,6 @@
                 </div>
                 <div class="text">Name</div>
                 <div class="num" title="Health"><i class="fas fa-heart"></i></div>
-                <div class="num" title="Temporary HP"><i class="fas fa-heartbeat"></i></div>
                 <div class="num" title="Armor Class"><i class="fas fa-shield-alt"></i></div>
                 <div class="num" title="Passive Perception"><i class="far fa-eye"></i></div>
                 <div class="num" title="Passive Investigation"><i class="fas fa-search"></i></div>
@@ -32,8 +31,30 @@
                     </button>
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
-                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
-                <div class="num">{{ actor.hp.temp }}</div>
+
+                <!--
+                {
+                    value: value,
+                    max: max,
+                    tempValue: tempValue,
+                    tempMaxValue: tempMaxValue,
+                    totalValue: value + tempValue,
+                    totalMaxValue = max + tempMaxValue
+                }
+                -->
+
+                <div class="num">
+                    <span style="display: block; border-bottom: thin solid black">
+                        <span name="hpCurrent" class="{{#if actor.hp.tempValue }}adjusted{{/if}}"
+                            data-value="{{actor.hp.value}}" data-total="{{ actor.hp.totalValue }}"
+                            data-temp="{{actor.hp.tempValue}}">
+                            {{ actor.hp.totalValue }}</span>
+                    </span>
+                    <span style="display: block"><span name="hpMax" data-value="{{actor.hp.max}}"
+                            data-total="{{ actor.hp.totalMaxValue }}" data-temp="{{actor.hp.tempMaxValue}}"
+                            class="{{#if actor.hp.tempMaxValue }}adjusted{{/if}}">{{ actor.hp.totalMaxValue }}</span>
+                    </span>
+                </div>
                 <div class="num">{{ actor.ac }}</div>
                 <div class="num">{{ actor.passives.perception }}</div>
                 <div class="num">{{ actor.passives.investigation }}</div>

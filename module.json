@@ -5,7 +5,7 @@
   "version": "2.2.1",
   "author": "Sebastian Will (vttassets@gmail.com)",
   "minimumCoreVersion": "0.5.5",
-  "compatibleCoreVersion": "0.6.0",
+  "compatibleCoreVersion": "0.6.4",
   "languages": [
     {
       "lang": "en",

@@ -36,6 +36,18 @@ div.vtta.party .table-row {
   width: 100%;
 }
 
+div.vtta.party .table-row span.note {
+  font-size: 0.6rem;
+  color: green;
+  font-weight: bold;
+  line-height: 18pt;
+}
+
+div.vtta.party .table-row span.adjusted {
+  color: green;
+  font-weight: bold;
+}
+
 div.vtta.party .table-row:nth-child(2n) {
   background-color: rgb(228, 228, 228);
 }
