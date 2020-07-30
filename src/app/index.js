@@ -6,6 +6,8 @@ const DISPLAY_MODE = {
   SHOW_VISIBLE: "SHOW_VISIBLE",
 };
 
+const SIMPLE_SYTEMS = ['swade'];
+
 class App extends Application {
   constructor(options) {
     super(options);
@@ -51,57 +53,62 @@ class App extends Application {
       return this.getActorDetails(actor);
     });
 
-    // restructure the languages a bit so rendering gets easier
-    let languages = actors
-      .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-      .filter(language => language !== undefined)
-      .sort();
-    actors = actors.map(actor => {
-      return {
-        ...actor,
-        languages: languages.map(language => actor.languages && actor.languages.includes(language)),
-      };
-    });
-
-    let totalCurrency = actors.reduce(
-      (currency, actor) => {
-        for (let prop in actor.currency) {
-          currency[prop] += actor.currency[prop];
+    let languages;
+    let totalCurrency;
+    if (! SIMPLE_SYTEMS.includes(game.system.id)) {
+      // restructure the languages a bit so rendering gets easier
+      languages = actors
+        .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+        .filter(language => language !== undefined)
+        .sort();
+      actors = actors.map(actor => {
+        return {
+          ...actor,
+          languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+        };
+      });
+      totalCurrency = actors.reduce(
+        (currency, actor) => {
+          for (let prop in actor.currency) {
+            currency[prop] += actor.currency[prop];
+          }
+          return currency;
+        },
+        {
+          cp: 0,
+          sp: 0,
+          ep: 0,
+          gp: 0,
+          pp: 0,
         }
-        return currency;
-      },
-      {
-        cp: 0,
-        sp: 0,
-        ep: 0,
-        gp: 0,
-        pp: 0,
-      }
-    );
-    // summing up the total
-    const calcOverflow = (currency, divider) => {
-      return {
-        remainder: currency % divider,
-        overflow: Math.floor(currency / divider),
+      );
+      // summing up the total
+      const calcOverflow = (currency, divider) => {
+        return {
+          remainder: currency % divider,
+          overflow: Math.floor(currency / divider),
+        };
       };
-    };
 
-    console.log(totalCurrency);
+      console.log(totalCurrency);
 
-    let overflow = calcOverflow(totalCurrency.cp, 10);
-    totalCurrency.cp = overflow.remainder;
-    totalCurrency.sp += overflow.overflow;
-    overflow = calcOverflow(totalCurrency.sp, 5);
-    totalCurrency.sp = overflow.remainder;
-    totalCurrency.ep += overflow.overflow;
-    overflow = calcOverflow(totalCurrency.ep, 2);
-    totalCurrency.ep = overflow.remainder;
-    totalCurrency.gp += overflow.overflow;
-    overflow = calcOverflow(totalCurrency.gp, 10);
-    totalCurrency.gp = overflow.remainder;
-    totalCurrency.pp += overflow.overflow;
+      let overflow = calcOverflow(totalCurrency.cp, 10);
+      totalCurrency.cp = overflow.remainder;
+      totalCurrency.sp += overflow.overflow;
+      overflow = calcOverflow(totalCurrency.sp, 5);
+      totalCurrency.sp = overflow.remainder;
+      totalCurrency.ep += overflow.overflow;
+      overflow = calcOverflow(totalCurrency.ep, 2);
+      totalCurrency.ep = overflow.remainder;
+      totalCurrency.gp += overflow.overflow;
+      overflow = calcOverflow(totalCurrency.gp, 10);
+      totalCurrency.gp = overflow.remainder;
+      totalCurrency.pp += overflow.overflow;
 
-    console.log(totalCurrency);
+      console.log(totalCurrency);
+
+    }
+
 
     this.state = {
       activeTab: this.activeTab,
@@ -235,6 +242,26 @@ class App extends Application {
         movement: data.details.move.value,
         walk: data.details.move.walk,
         run: data.details.move.run,
+      };
+    }
+
+    if (game.system.id === 'swade') {
+      let armor
+      if (actor.data.data.stats.toughness.armor > 0) {
+        armor = actor.data.data.stats.toughness.armor
+      }
+      return {
+        id: actor.id,
+        isHidden: this.hiddenActors.includes(actor.id),
+        name: actor.name,
+        current_wounds: actor.data.data.wounds.value,
+        max_wounds: actor.data.data.wounds.max,
+        current_fatigue: actor.data.data.fatigue.value,
+        max_fatigue: actor.data.data.fatigue.max,
+        bennies: actor.data.data.bennies.value,
+        parry: actor.data.data.stats.parry.value,
+        toughness: actor.data.data.stats.toughness.value,
+        armor: armor
       };
     }
   }
@@ -397,6 +424,20 @@ class App extends Application {
           label: game.i18n.localize("Run"),
           value: data.run + " " + game.i18n.localize("yds"),
         },
+      ];
+    }
+
+    if (game.system.id === 'swade') {
+      let armor = '';
+      if (data.armor) {
+        armor = `(${data.armor})`
+      }
+      lines = [
+          {label: "Bennies", value: data.bennies},
+          {label: "Wounds", value: `${data.current_wounds}/${data.max_wounds}`},
+          {label: "Fatigue", value: `${data.current_fatigue}/${data.max_fatigue}`},
+          {label: "Parry", value: data.parry},
+          {label: "Toughness (Armor)", value: `${data.toughness} ${armor}`}
       ];
     }
 

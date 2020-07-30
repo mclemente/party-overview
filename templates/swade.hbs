@@ -1,0 +1,35 @@
+<div class="table-row header">
+    <div class="button">
+        <button class="btn-filter">
+            <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+            {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
+            {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
+        </button>
+    </div>
+    <div class="text">Name</div>
+    <div class="num" title="Bennies"><i class="fas fa-bullseye"></i></div>
+    <div class="num" title="Wounds"><i class="fas fa-skull"></i></div>
+    <div class="num" title="Fatigue"><i class="fas fa-dizzy"></i></div>
+    <div class="num" title="Parry"><i class="fas fa-shield-alt"></i></div>
+    <div class="text" title="Toughness"><i class="fas fa-heart"></i></div>
+</div>
+
+{{#each actors as | actor | }}
+    <div class="table-row">
+        <div class="button">
+            <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                    class="value fas fa-eye"></i>{{/if}}
+            </button>
+        </div>
+        <div class="text">{{ actor.name }}</div>
+        <div class="num">{{ actor.bennies }}</div>
+        <div class="num">{{ actor.current_wounds }}/{{ actor.max_wounds }}</div>
+        <div class="num">{{ actor.current_fatigue }}/{{ actor.max_fatigue }}</div>
+        <div class="num">{{ actor.parry }}</div>
+        <div class="text">
+            {{ actor.toughness }}
+            {{#if actor.armor}}({{actor.armor}}){{/if}}
+        </div>
+    </div>
+{{/each}}
