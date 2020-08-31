@@ -2,7 +2,7 @@
   "name": "vtta-party",
   "title": "Virtual Tabletop Assets - Party overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "author": "Sebastian Will (vttassets@gmail.com)",
   "minimumCoreVersion": "0.5.5",
   "compatibleCoreVersion": "0.6.4",

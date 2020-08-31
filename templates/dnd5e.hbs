@@ -113,6 +113,7 @@
                 <div class="text icon">Electrum</div>
                 <div class="text icon">Silver</div>
                 <div class="text icon">Copper</div>
+                <div class="text icon">Gold (Total)</div>
             </div>
 
             {{#each actors as | actor | }}
@@ -129,6 +130,7 @@
                 <div class="text icon">{{currency.ep}}</div>
                 <div class="text icon">{{currency.sp}}</div>
                 <div class="text icon">{{currency.cp}}</div>
+                <div class="text icon"><b>{{actor.totalGP}}</b></div>
             </div>
             {{/each}}
             <div class="table-row">
@@ -141,6 +143,7 @@
                 <div class="text icon">{{totalCurrency.ep}}</div>
                 <div class="text icon">{{totalCurrency.sp}}</div>
                 <div class="text icon">{{totalCurrency.cp}}</div>
+                <div class="text icon"><b>{{totalPartyGP}}</b></div>
             </div>
         </div>
     </section>

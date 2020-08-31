@@ -78,30 +78,8 @@ class App extends Application {
         pp: 0,
       }
     );
-    // summing up the total
-    const calcOverflow = (currency, divider) => {
-      return {
-        remainder: currency % divider,
-        overflow: Math.floor(currency / divider),
-      };
-    };
 
-    console.log(totalCurrency);
-
-    let overflow = calcOverflow(totalCurrency.cp, 10);
-    totalCurrency.cp = overflow.remainder;
-    totalCurrency.sp += overflow.overflow;
-    overflow = calcOverflow(totalCurrency.sp, 5);
-    totalCurrency.sp = overflow.remainder;
-    totalCurrency.ep += overflow.overflow;
-    overflow = calcOverflow(totalCurrency.ep, 2);
-    totalCurrency.ep = overflow.remainder;
-    totalCurrency.gp += overflow.overflow;
-    overflow = calcOverflow(totalCurrency.gp, 10);
-    totalCurrency.gp = overflow.remainder;
-    totalCurrency.pp += overflow.overflow;
-
-    console.log(totalCurrency);
+    let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
 
     this.state = {
       activeTab: this.activeTab,
@@ -110,6 +88,7 @@ class App extends Application {
       actors: actors,
       languages: languages,
       totalCurrency: totalCurrency,
+      totalPartyGP: totalPartyGP,
     };
   }
 
@@ -134,6 +113,18 @@ class App extends Application {
   getData() {
     this.update();
     return this.state;
+  }
+
+  getTotalGP(currency) {
+    // summing up the total
+    const calcOverflow = (currency, divider) => {
+      return {
+        remainder: currency % divider,
+        overflow: Math.floor(currency / divider),
+      };
+    };
+    let gold = currency.cp / 100 + currency.sp / 10 + currency.ep / 2 + currency.gp + currency.pp * 10;
+    return gold;
   }
 
   getActorDetails(actor) {
@@ -182,6 +173,7 @@ class App extends Application {
         languages: data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]),
         alignment: data.details.alignment,
         currency: data.currency,
+        totalGP: this.getTotalGP(data.currency).toFixed(2),
       };
     }
 

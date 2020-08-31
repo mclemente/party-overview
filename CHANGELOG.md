@@ -1,10 +1,15 @@
 # Changelog
 
+## [2.2.3] Coins are heavy
+
+The wealth tab now provides a summed up gold value, but also a plain sum of all coins of each type in order to get a feel for the weight the party is carrying. Thanks @Kage for the suggestion.
+
 ## [2.2.2] Weight in Gold
 
 A nice suggestion from the VTTA Discord resulted in the addition of a wealth overview of the party. The total is displayed too, and automatically calulated to the highest currency based on the standard exchange rates (1 pp = 10 gp = 20 ep = 100 sp = 1,000 cp)
 
 ### Added
+
 - Foundry 0.6.1 compatibility
 - Currency overview (DND5e only)
 
