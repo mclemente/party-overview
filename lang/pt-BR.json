@@ -1,10 +1,10 @@
 {
   "vtta-party.EnablePlayerAccess.Name": "Permita acesso do panorama aos jogadores?",
-  "vtta-party.EnablePlayerAccess.Hint": "Permita ou bloqueie aos jogadores acesso a janela de grupo para ver os estatus de cada jogador em cena.",
+  "vtta-party.EnablePlayerAccess.Hint": "Permita ou bloqueie aos jogadores acesso a janela de grupo para ver os status de cada jogador em cena.",
   "vtta-party.EnableTooltip.Name": "Habilitar Dicas?",
   "vtta-party.EnableTooltip.Hint": "Habilitar ou desabilitar dicas quando sobrepor os tokens",
   "vtta-party.EnablePlayerAccessTooltip.Name": "Habilitar dicas para jogadores?",
-  "vtta-party.EnablePlayerAccessTooltip.Hint": "Habilitar ou desabilitar dicas aos jogadores, bas somente para seus proprios tokens.",
-  "vtta-party.TooltipFontSizeInPixels.Name": "Defina o tamanho da fonte para as dicas em pixels.",
+  "vtta-party.EnablePlayerAccessTooltip.Hint": "Habilitar ou desabilitar dicas aos jogadores, mas somente para seus proprios tokens.",
+  "vtta-party.TooltipFontSizeInPixels.Name": "Defina o tamanho da fonte em pixels:",
   "vtta-party.TooltipFontSizeInPixels.Hint": "Padrão: 14"
 }
