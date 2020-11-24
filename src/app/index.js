@@ -147,6 +147,21 @@ class App extends Application {
         };
       };
 
+      const getSpeed = move => {
+        let extra = [];
+        if (move.fly)    extra.push(`${move.fly} ${move.units} fly`);
+        if (move.hover)  extra.push("hover");
+        if (move.burrow) extra.push(`${move.burrow} ${move.units} burrow`);
+        if (move.swim)   extra.push(`${move.swim} ${move.units} swim`);
+        if (move.climb)  extra.push(`${move.climb} ${move.units} climb`);
+
+        let str = `${move.walk} ${move.units}`;
+        if (extra.length)
+          str += ` (${extra.join(", ")})`;
+
+        return str;
+      };
+
       return {
         id: actor.id,
         isHidden: this.hiddenActors.includes(actor.id),
@@ -159,7 +174,7 @@ class App extends Application {
         hp: getHitpoints(data.attributes.hp),
         ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
         spellDC: data.attributes.spelldc,
-        speed: data.attributes.speed.value,
+        speed: getSpeed(data.attributes.movement),
 
         // passive stuff
         passives: {
