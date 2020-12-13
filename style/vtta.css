@@ -66,6 +66,12 @@ div.vtta.party .table-row .text.icon {
   text-align: center;
 }
 
+div.vtta.party .table-row .text.background {
+  white-space: pre-wrap;
+  text-align: left;
+  vertical-align: top;
+}
+
 div.vtta.party .table-row .num {
   margin: auto;
   text-align: center;

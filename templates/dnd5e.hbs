@@ -3,6 +3,7 @@
         <li class="item" data-tab="general">General</li>
         <li class="item" data-tab="languages">Languages</li>
         <li class="item" data-tab="currencies">Wealth</li>
+        <li class="item" data-tab="background">Background</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
@@ -15,6 +16,7 @@
                     </button>
                 </div>
                 <div class="text">Name</div>
+                <div class="num" title="Inspiration"><span>&#x1f340;</span></div>
                 <div class="num" title="Health"><i class="fas fa-heart"></i></div>
                 <div class="num" title="Armor Class"><i class="fas fa-shield-alt"></i></div>
                 <div class="num" title="Passive Perception"><i class="far fa-eye"></i></div>
@@ -43,7 +45,7 @@
                     totalMaxValue = max + tempMaxValue
                 }
                 -->
-
+                <div class="num">{{#if actor.inspiration}} <i class="fas fa-dice-d20"></i> {{/if}}</div>
                 <div class="num">
                     <span style="display: block; border-bottom: thin solid black">
                         <span name="hpCurrent" class="{{#if actor.hp.tempValue }}adjusted{{/if}}"
@@ -145,6 +147,40 @@
                 <div class="text icon">{{totalCurrency.cp}}</div>
                 <div class="text icon"><b>{{totalPartyGP}}</b></div>
             </div>
+        </div>
+
+         <!-- Background -->
+        <div class="tab" data-tab="background" data-group="party">
+            <div class="table-row header">
+                <div class="button">
+                    <button class="btn-filter">
+                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
+                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
+                    </button>
+                </div>
+                <div class="text">Name</div>
+                <div class="text icon">Traços</div>
+                <div class="text icon">Ideais</div>
+                <div class="text icon">Vínculos</div>
+                <div class="text icon">Defeitos</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }} {{#if actor.inspiration}} <span title="Inspiration">&#x1f340;</span> {{/if}}</div>
+                <div class="text background">{{actor.background.trait}}</div>
+                <div class="text background">{{actor.background.ideal}}</div>
+                <div class="text background">{{actor.background.flaw}}</div>
+                <div class="text background">{{actor.background.bond}}</div>
+            </div>
+            {{/each}}
         </div>
     </section>
 </div>
