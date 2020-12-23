@@ -2,7 +2,13 @@
 
 ## [2.3.0] Rising from the Ashes
 
-I am now taking over maintanance of this module (Zamrod#9326). Now works with Foundry 0.7.9 and DnD5e 1.2.0. Adds a new tab for background information (thanks @rogerioavsilva). Tool tips appears on top and now display all speeds (thanks @haasn). Supports SWADE (thanks @javierriveracastro). 
+I am now taking over maintanance of this module (Zamrod#9326). 
+
+### Added
+- Foundry 0.7.9 and DnD5e 1.2.0 combatibility. 
+- Adds a new tab for background information (thanks @rogerioavsilva). 
+- Tool tips appears on top and now display all speeds (thanks @haasn).
+- Supports SWADE (thanks @javierriveracastro). 
 
 ## [2.2.3] Coins are heavy
 
