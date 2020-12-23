@@ -6,6 +6,8 @@ const DISPLAY_MODE = {
   SHOW_VISIBLE: "SHOW_VISIBLE",
 };
 
+const SIMPLE_SYTEMS = ['swade'];
+
 class App extends Application {
   constructor(options) {
     super(options);
@@ -26,8 +28,8 @@ class App extends Application {
 
   update() {
     let actors = game.actors.entities
-      .filter(a => a.hasPlayerOwner)
-      .map(playerActor => playerActor.getActiveTokens())
+      .filter(a => a.isPC)
+      .map(playerActor => playerActor.getActiveTokens(true))
       .flat(1)
       .map(token => token.actor);
 
@@ -51,35 +53,62 @@ class App extends Application {
       return this.getActorDetails(actor);
     });
 
-    // restructure the languages a bit so rendering gets easier
-    let languages = actors
-      .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-      .filter(language => language !== undefined)
-      .sort();
-    actors = actors.map(actor => {
-      return {
-        ...actor,
-        languages: languages.map(language => actor.languages && actor.languages.includes(language)),
-      };
-    });
-
-    let totalCurrency = actors.reduce(
-      (currency, actor) => {
-        for (let prop in actor.currency) {
-          currency[prop] += actor.currency[prop];
+    let languages;
+    let totalCurrency;
+    if (! SIMPLE_SYTEMS.includes(game.system.id)) {
+      // restructure the languages a bit so rendering gets easier
+      languages = actors
+        .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+        .filter(language => language !== undefined)
+        .sort();
+      actors = actors.map(actor => {
+        return {
+          ...actor,
+          languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+        };
+      });
+      totalCurrency = actors.reduce(
+        (currency, actor) => {
+          for (let prop in actor.currency) {
+            currency[prop] += actor.currency[prop];
+          }
+          return currency;
+        },
+        {
+          cp: 0,
+          sp: 0,
+          ep: 0,
+          gp: 0,
+          pp: 0,
         }
-        return currency;
-      },
-      {
-        cp: 0,
-        sp: 0,
-        ep: 0,
-        gp: 0,
-        pp: 0,
-      }
-    );
+      );
+      // summing up the total
+      const calcOverflow = (currency, divider) => {
+        return {
+          remainder: currency % divider,
+          overflow: Math.floor(currency / divider),
+        };
+      };
 
-    let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+      console.log(totalCurrency);
+
+      let overflow = calcOverflow(totalCurrency.cp, 10);
+      totalCurrency.cp = overflow.remainder;
+      totalCurrency.sp += overflow.overflow;
+      overflow = calcOverflow(totalCurrency.sp, 5);
+      totalCurrency.sp = overflow.remainder;
+      totalCurrency.ep += overflow.overflow;
+      overflow = calcOverflow(totalCurrency.ep, 2);
+      totalCurrency.ep = overflow.remainder;
+      totalCurrency.gp += overflow.overflow;
+      overflow = calcOverflow(totalCurrency.gp, 10);
+      totalCurrency.gp = overflow.remainder;
+      totalCurrency.pp += overflow.overflow;
+
+      console.log(totalCurrency);
+
+    }
+
 
     this.state = {
       activeTab: this.activeTab,
@@ -88,7 +117,6 @@ class App extends Application {
       actors: actors,
       languages: languages,
       totalCurrency: totalCurrency,
-      totalPartyGP: totalPartyGP,
     };
   }
 
@@ -115,22 +143,6 @@ class App extends Application {
     return this.state;
   }
 
-  getTotalGP(currency) {
-    // summing up the total
-    const calcOverflow = (currency, divider) => {
-      return {
-        remainder: currency % divider,
-        overflow: Math.floor(currency / divider),
-      };
-    };
-    let gold = currency.cp / 100 + currency.sp / 10 + currency.ep / 2 + currency.gp + currency.pp * 10;
-    return gold;
-  }
-
-  htmlDecode(input) {
-    var doc = new DOMParser().parseFromString(input, "text/html");
-    return doc.documentElement.textContent;
-  }
   getActorDetails(actor) {
     const data = actor.data.data;
 
@@ -151,21 +163,6 @@ class App extends Application {
         };
       };
 
-      const getSpeed = move => {
-        let extra = [];
-        if (move.fly)    extra.push(`${move.fly} ${move.units} fly`);
-        if (move.hover)  extra.push("hover");
-        if (move.burrow) extra.push(`${move.burrow} ${move.units} burrow`);
-        if (move.swim)   extra.push(`${move.swim} ${move.units} swim`);
-        if (move.climb)  extra.push(`${move.climb} ${move.units} climb`);
-
-        let str = `${move.walk} ${move.units}`;
-        if (extra.length)
-          str += ` (${extra.join(", ")})`;
-
-        return str;
-      };
-
       return {
         id: actor.id,
         isHidden: this.hiddenActors.includes(actor.id),
@@ -178,7 +175,7 @@ class App extends Application {
         hp: getHitpoints(data.attributes.hp),
         ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
         spellDC: data.attributes.spelldc,
-        speed: getSpeed(data.attributes.movement),
+        speed: data.attributes.speed.value,
 
         // passive stuff
         passives: {
@@ -187,20 +184,11 @@ class App extends Application {
           insight: data.skills.ins.passive,
           stealth: data.skills.ste.passive,
         },
-        // background
-        background: {
-          trait: this.htmlDecode(data.details.trait),
-          ideal: this.htmlDecode(data.details.ideal),
-          bond: this.htmlDecode(data.details.bond),
-          flaw: this.htmlDecode(data.details.flaw)
-        },
 
         // details
-        inspiration: data.attributes.inspiration,
         languages: data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]),
         alignment: data.details.alignment,
         currency: data.currency,
-        totalGP: this.getTotalGP(data.currency).toFixed(2),
       };
     }
 
@@ -254,6 +242,26 @@ class App extends Application {
         movement: data.details.move.value,
         walk: data.details.move.walk,
         run: data.details.move.run,
+      };
+    }
+
+    if (game.system.id === 'swade') {
+      let armor
+      if (actor.data.data.stats.toughness.armor > 0) {
+        armor = actor.data.data.stats.toughness.armor
+      }
+      return {
+        id: actor.id,
+        isHidden: this.hiddenActors.includes(actor.id),
+        name: actor.name,
+        current_wounds: actor.data.data.wounds.value,
+        max_wounds: actor.data.data.wounds.max,
+        current_fatigue: actor.data.data.fatigue.value,
+        max_fatigue: actor.data.data.fatigue.max,
+        bennies: actor.data.data.bennies.value,
+        parry: actor.data.data.stats.parry.value,
+        toughness: actor.data.data.stats.toughness.value,
+        armor: armor
       };
     }
   }
@@ -320,7 +328,7 @@ class App extends Application {
 
     let data;
     let seenBy;
-    if (token.actor.hasPlayerOwner) {
+    if (token.actor.isPC) {
       data = this.state.actors.find(actor => actor.id === token.actor.id);
     } else {
       // could be a mob
@@ -416,6 +424,20 @@ class App extends Application {
           label: game.i18n.localize("Run"),
           value: data.run + " " + game.i18n.localize("yds"),
         },
+      ];
+    }
+
+    if (game.system.id === 'swade') {
+      let armor = '';
+      if (data.armor) {
+        armor = `(${data.armor})`
+      }
+      lines = [
+          {label: "Bennies", value: data.bennies},
+          {label: "Wounds", value: `${data.current_wounds}/${data.max_wounds}`},
+          {label: "Fatigue", value: `${data.current_fatigue}/${data.max_fatigue}`},
+          {label: "Parry", value: data.parry},
+          {label: "Toughness (Armor)", value: `${data.toughness} ${armor}`}
       ];
     }
 
