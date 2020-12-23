@@ -28,8 +28,8 @@ class App extends Application {
 
   update() {
     let actors = game.actors.entities
-      .filter(a => a.isPC)
-      .map(playerActor => playerActor.getActiveTokens(true))
+      .filter(a => a.hasPlayerOwner)
+      .map(playerActor => playerActor.getActiveTokens())
       .flat(1)
       .map(token => token.actor);
 
@@ -162,6 +162,21 @@ class App extends Application {
           totalMaxValue: max + tempMaxValue,
         };
       };
+      
+      const getSpeed = move => {
+        let extra = [];
+        if (move.fly)    extra.push(`${move.fly} ${move.units} fly`);
+        if (move.hover)  extra.push("hover");
+        if (move.burrow) extra.push(`${move.burrow} ${move.units} burrow`);
+        if (move.swim)   extra.push(`${move.swim} ${move.units} swim`);
+        if (move.climb)  extra.push(`${move.climb} ${move.units} climb`);
+
+        let str = `${move.walk} ${move.units}`;
+        if (extra.length)
+          str += ` (${extra.join(", ")})`;
+
+        return str;
+      };
 
       return {
         id: actor.id,
@@ -175,7 +190,7 @@ class App extends Application {
         hp: getHitpoints(data.attributes.hp),
         ac: data.attributes.ac.value ? data.attributes.ac.value : 10,
         spellDC: data.attributes.spelldc,
-        speed: data.attributes.speed.value,
+        speed: getSpeed(data.attributes.movement),
 
         // passive stuff
         passives: {
@@ -328,7 +343,7 @@ class App extends Application {
 
     let data;
     let seenBy;
-    if (token.actor.isPC) {
+    if (token.actor.hasPlayerOwner) {
       data = this.state.actors.find(actor => actor.id === token.actor.id);
     } else {
       // could be a mob
