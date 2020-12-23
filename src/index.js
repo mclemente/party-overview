@@ -89,14 +89,14 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 });
 
 Hooks.on("deleteActor", (actor, ...rest) => {
-  if (actor.isPC) {
+  if (actor.hasPlayerOwner) {
     party.update();
     party.render(false);
   }
 });
 
 Hooks.on("updateActor", (actor, ...rest) => {
-  if (actor.isPC) {
+  if (actor.hasPlayerOwner) {
     party.update();
     party.render(false);
   }
@@ -104,7 +104,7 @@ Hooks.on("updateActor", (actor, ...rest) => {
 
 Hooks.on("createToken", (scene, sceneId, token, ...rest) => {
   let actor = game.actors.entities.find((actor) => actor.id === token.actorId);
-  if (actor && actor.isPC) {
+  if (actor && actor.hasPlayerOwner) {
     party.update();
     party.render(false);
   }
