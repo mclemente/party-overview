@@ -26,8 +26,8 @@ class App extends Application {
 
   update() {
     let actors = game.actors.entities
-      .filter(a => a.isPC)
-      .map(playerActor => playerActor.getActiveTokens(true))
+      .filter(a => a.hasPlayerOwner)
+      .map(playerActor => playerActor.getActiveTokens())
       .flat(1)
       .map(token => token.actor);
 
@@ -320,7 +320,7 @@ class App extends Application {
 
     let data;
     let seenBy;
-    if (token.actor.isPC) {
+    if (token.actor.hasPlayerOwner) {
       data = this.state.actors.find(actor => actor.id === token.actor.id);
     } else {
       // could be a mob
