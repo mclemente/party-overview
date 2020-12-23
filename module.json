@@ -1,11 +1,11 @@
 {
-  "name": "vtta-party",
-  "title": "Virtual Tabletop Assets - Party overview",
+  "name": "party-overview",
+  "title": "Party Overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
-  "version": "2.2.4",
-  "author": "Sebastian Will (vttassets@gmail.com)",
+  "version": "2.3.0",
+  "author": "Sebastian Will (vttassets@gmail.com), Chris Wachal (Zamrod#9326)",
   "minimumCoreVersion": "0.5.5",
-  "compatibleCoreVersion": "0.6.4",
+  "compatibleCoreVersion": "0.7.9",
   "languages": [
     {
       "lang": "en",
@@ -28,6 +28,6 @@
   "styles": ["./style/module-settings.css", "./style/vtta.css", "./style/module-settings.css"],
   "packs": [],
   "url": "https://www.vttassets.com/asset/VTTAssets/vtta-party",
-  "manifest": "https://download.vttassets.com/asset/VTTAssets/vtta-party/module.json",
+  "manifest": "https://raw.githubusercontent.com/League-of-Foundry-Developers/vtta-party/master/module.json",
   "download": "https://download.vttassets.com/asset/VTTAssets/vtta-party"
 }
