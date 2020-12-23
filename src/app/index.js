@@ -199,8 +199,15 @@ class App extends Application {
           insight: data.skills.ins.passive,
           stealth: data.skills.ste.passive,
         },
-
+        // background
+        background: {
+          trait: this.htmlDecode(data.details.trait),
+          ideal: this.htmlDecode(data.details.ideal),
+          bond: this.htmlDecode(data.details.bond),
+          flaw: this.htmlDecode(data.details.flaw)
+        },
         // details
+        inspiration: data.attributes.inspiration,
         languages: data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]),
         alignment: data.details.alignment,
         currency: data.currency,
