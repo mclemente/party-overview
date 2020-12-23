@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.3.0] Rising from the Ashes
+
+Now works with Foundry 0.7.9 and DnD5e 1.2.0. Adds a new tab for background information (thanks @rogerioavsilva). Tool tips appears on top and now display all speeds (thanks @haasn). Supports SWADE (thanks @javierriveracastro). 
+
 ## [2.2.3] Coins are heavy
 
 The wealth tab now provides a summed up gold value, but also a plain sum of all coins of each type in order to get a feel for the weight the party is carrying. Thanks @Kage for the suggestion.
