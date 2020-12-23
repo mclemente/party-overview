@@ -12,6 +12,7 @@ class Tooltip extends CanvasLayer {
     this.linesMargin = 4;
     this.width = 0;
     this.height = 0;
+    this.zIndex = 999;
     this.addChild(this.container);
   }
 
