@@ -123,7 +123,7 @@ class Tooltip extends CanvasLayer {
   }
 
   getTooltipFontSizeInPixelsFromGameSettings() {
-    return game.settings.get("vtta-party", "TooltipFontSizeInPixels");
+    return game.settings.get("party-overview", "TooltipFontSizeInPixels");
   }
   
   /**

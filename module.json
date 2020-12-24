@@ -25,7 +25,7 @@
   ],
   "systems": ["dnd5e", "pf2e", "wfrp4e", "swade"],
   "esmodules": ["./src/index.js"],
-  "styles": ["./style/module-settings.css", "./style/vtta.css", "./style/module-settings.css"],
+  "styles": ["./style/module-settings.css", "./style/party-overview.css", "./style/module-settings.css"],
   "packs": [],
   "url": "http://github.com/League-of-Foundry-Developers/party-overview",
   "bugs": "http://github.com/League-of-Foundry-Developers/party-overview/issues",
