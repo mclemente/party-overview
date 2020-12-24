@@ -83,6 +83,7 @@ class App extends Application {
         }
       );
       // summing up the total
+	  /*
       const calcOverflow = (currency, divider) => {
         return {
           remainder: currency % divider,
@@ -106,9 +107,10 @@ class App extends Application {
       totalCurrency.pp += overflow.overflow;
 
       console.log(totalCurrency);
-
+*/
     }
 
+	let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
 
     this.state = {
       activeTab: this.activeTab,
@@ -117,6 +119,7 @@ class App extends Application {
       actors: actors,
       languages: languages,
       totalCurrency: totalCurrency,
+	  totalPartyGP: totalPartyGP,
     };
   }
 
@@ -141,6 +144,23 @@ class App extends Application {
   getData() {
     this.update();
     return this.state;
+  }
+  
+    getTotalGP(currency) {
+    // summing up the total
+    const calcOverflow = (currency, divider) => {
+      return {
+        remainder: currency % divider,
+        overflow: Math.floor(currency / divider),
+      };
+    };
+    let gold = currency.cp / 100 + currency.sp / 10 + currency.ep / 2 + currency.gp + currency.pp * 10;
+    return gold;
+  }
+
+  htmlDecode(input) {
+    var doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.documentElement.textContent;
   }
 
   getActorDetails(actor) {
@@ -211,6 +231,7 @@ class App extends Application {
         languages: data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]),
         alignment: data.details.alignment,
         currency: data.currency,
+		totalGP: this.getTotalGP(data.currency).toFixed(2),
       };
     }
 
