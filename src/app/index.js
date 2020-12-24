@@ -8,7 +8,7 @@ const DISPLAY_MODE = {
 
 const SIMPLE_SYTEMS = ['swade'];
 
-class App extends Application {
+class PartyOverviewApp extends Application {
   constructor(options) {
     super(options);
 
@@ -494,4 +494,4 @@ class App extends Application {
   }
 }
 
-export default App;
+export default PartyOverviewApp;

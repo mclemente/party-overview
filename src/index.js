@@ -1,5 +1,5 @@
 import config from "./config.js";
-import App from "./app/index.js";
+import PartyOverviewApp from "./app/index.js";
 import Tooltip from "./tooltip/index.js";
 
 Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
@@ -26,7 +26,7 @@ Hooks.on("canvasReady", (_) => {
 });
 
 Hooks.once("init", () => {
-  party = new App();
+  party = new PartyOverviewApp();
   /**
    * Register settings
    */
@@ -71,7 +71,7 @@ Hooks.once("init", () => {
 
 Hooks.on("ready", () => {
   if (party) party.update();
-  else party = new App();
+  else party = new PartyOverviewApp();
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
