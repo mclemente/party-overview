@@ -8,7 +8,7 @@ const DISPLAY_MODE = {
 
 const SIMPLE_SYTEMS = ['swade'];
 
-class App extends Application {
+class PartyOverviewApp extends Application {
   constructor(options) {
     super(options);
 
@@ -128,9 +128,9 @@ class App extends Application {
       width: 500,
       height: 300,
       resizable: true,
-      title: "VTTA Party",
-      template: `/modules/vtta-party/templates/${game.system.id}.hbs`,
-      classes: ["vtta", "party", game.system.id],
+      title: "Party Overview",
+      template: `/modules/party-overview/templates/${game.system.id}.hbs`,
+      classes: ["party-overview", game.system.id],
       tabs: [
         {
           navSelector: ".tabs",
@@ -354,8 +354,8 @@ class App extends Application {
       console.log("Tooltip not initialized");
       return;
     }
-    if (!game.settings.get("vtta-party", "EnableTooltip")) return;
-    if (!game.user.isGM && !game.settings.get("vtta-party", "EnablePlayerAccessTooltip")) return;
+    if (!game.settings.get("party-overview", "EnableTooltip")) return;
+    if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccessTooltip")) return;
     if (!token || !token.actor) return;
 
     if (!hovered) {
@@ -494,4 +494,4 @@ class App extends Application {
   }
 }
 
-export default App;
+export default PartyOverviewApp;

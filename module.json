@@ -1,5 +1,5 @@
 {
-  "name": "vtta-party",
+  "name": "party-overview",
   "title": "Party Overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
   "version": "2.3.3",
@@ -25,9 +25,10 @@
   ],
   "systems": ["dnd5e", "pf2e", "wfrp4e", "swade"],
   "esmodules": ["./src/index.js"],
-  "styles": ["./style/module-settings.css", "./style/vtta.css", "./style/module-settings.css"],
+  "styles": ["./style/module-settings.css", "./style/party-overview.css", "./style/module-settings.css"],
   "packs": [],
-  "url": "http://github.com/League-of-Foundry-Developers/vtta-party",
-  "manifest": "http://github.com/League-of-Foundry-Developers/vtta-party/releases/latest/download/module.json",
-  "download": "http://github.com/League-of-Foundry-Developers/vtta-party/releases/latest/download/module.zip"
+  "url": "http://github.com/League-of-Foundry-Developers/party-overview",
+  "bugs": "http://github.com/League-of-Foundry-Developers/party-overview/issues",
+  "manifest": "http://github.com/League-of-Foundry-Developers/party-overview/releases/latest/download/module.json",
+  "download": "http://github.com/League-of-Foundry-Developers/party-overview/releases/latest/download/module.zip"
 }

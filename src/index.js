@@ -1,5 +1,5 @@
 import config from "./config.js";
-import App from "./app/index.js";
+import PartyOverviewApp from "./app/index.js";
 import Tooltip from "./tooltip/index.js";
 
 Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
@@ -26,7 +26,7 @@ Hooks.on("canvasReady", (_) => {
 });
 
 Hooks.once("init", () => {
-  party = new App();
+  party = new PartyOverviewApp();
   /**
    * Register settings
    */
@@ -57,29 +57,29 @@ Hooks.once("init", () => {
     },
   ].forEach((setting) => {
     let options = {
-      name: game.i18n.localize(`vtta-party.${setting.name}.Name`),
-      hint: game.i18n.localize(`vtta-party.${setting.name}.Hint`),
+      name: game.i18n.localize(`party-overview.${setting.name}.Name`),
+      hint: game.i18n.localize(`party-overview.${setting.name}.Hint`),
       scope: setting.scope,
       config: true,
       default: setting.default,
       type: setting.type,
     };
     if (setting.choices) options.choices = setting.choices;
-    game.settings.register("vtta-party", setting.name, options);
+    game.settings.register("party-overview", setting.name, options);
   });
 });
 
 Hooks.on("ready", () => {
   if (party) party.update();
-  else party = new App();
+  else party = new PartyOverviewApp();
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
-  if (!game.user.isGM && !game.settings.get("vtta-party", "EnablePlayerAccess"))
+  if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccess"))
     return;
 
   let button = $(
-    `<button id="vtta-party-button" class="${game.system.id}"><i class="fas fa-info-circle"></i></button>`
+    `<button id="party-overview-button" class="${game.system.id}"><i class="fas fa-info-circle"></i></button>`
   );
   button.on("click", (e) => {
     party.render(true);

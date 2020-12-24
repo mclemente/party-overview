@@ -1,30 +1,30 @@
-div.vtta.party nav.tabs {
+div.party-overview nav.tabs {
   display: flex;
   flex-direction: row;
 }
 
-div.vtta.party nav li {
+div.party-overview nav li {
   display: inline-block;
   list-style-type: none;
 }
 
-div.vtta.party nav .item {
+div.party-overview nav .item {
   color: gray;
 }
 
-div.vtta.party nav .item.active {
+div.party-overview nav .item.active {
   color: black;
   border-bottom: 2px solid #782e22;
   text-shadow: none;
 }
 
-#vtta-party-button {
+#party-overview-button {
   display: block;
   flex: 0 0 32px;
   height: 32px;
 }
 
-div.vtta.party .table-row {
+div.party-overview .table-row {
   display: flex;
   display: -webkit-flex;
   flex-direction: row;
@@ -36,23 +36,23 @@ div.vtta.party .table-row {
   width: 100%;
 }
 
-div.vtta.party .table-row span.note {
+div.party-overview .table-row span.note {
   font-size: 0.6rem;
   color: green;
   font-weight: bold;
   line-height: 18pt;
 }
 
-div.vtta.party .table-row span.adjusted {
+div.party-overview .table-row span.adjusted {
   color: green;
   font-weight: bold;
 }
 
-div.vtta.party .table-row:nth-child(2n) {
+div.party-overview .table-row:nth-child(2n) {
   background-color: rgb(228, 228, 228);
 }
 
-div.vtta.party .table-row .text {
+div.party-overview .table-row .text {
   margin: auto;
   flex-grow: 2;
   overflow: hidden;
@@ -62,17 +62,17 @@ div.vtta.party .table-row .text {
   flex-basis: 50px;
 }
 
-div.vtta.party .table-row .text.icon {
+div.party-overview .table-row .text.icon {
   text-align: center;
 }
 
-div.vtta.party .table-row .text.background {
+div.party-overview .table-row .text.background {
   white-space: pre-wrap;
   text-align: left;
   vertical-align: top;
 }
 
-div.vtta.party .table-row .num {
+div.party-overview .table-row .num {
   margin: auto;
   text-align: center;
   flex-basis: 50px;
@@ -80,7 +80,7 @@ div.vtta.party .table-row .num {
   flex-shrink: 1;
 }
 
-div.vtta.party .table-row .button {
+div.party-overview .table-row .button {
   margin: auto;
   text-align: center;
   flex-basis: 70px;
@@ -92,20 +92,20 @@ div.vtta.party .table-row .button {
   * General good-look styles, not mandatory.
   */
 
-div.vtta.party .table-row {
+div.party-overview .table-row {
   border-bottom: 1px solid rgb(190, 190, 190);
   border-collapse: collapse;
   padding: 4px;
 }
 
-div.vtta.party .table-row.header {
+div.party-overview .table-row.header {
   font-weight: bold;
 }
 
-div.vtta.party.wfrp4e .table-row .button {
+div.party-overview.wfrp4e .table-row .button {
   margin-right: 6px;
 }
-div.vtta.party.wfrp4e .table-row .button button {
+div.party-overview.wfrp4e .table-row .button button {
   margin: 0px 5px 6px 5px !important;
   padding: 2px 0px 0px 0px;
   height: 34px;
@@ -123,10 +123,10 @@ div.vtta.party.wfrp4e .table-row .button button {
   text-shadow: 0px 0px 1px #00000063;
 }
 
-div.vtta.party.wfrp4e .table-row:nth-child(2n) {
+div.party-overview.wfrp4e .table-row:nth-child(2n) {
   background-color: rgba(228, 228, 228, 0.34);
 }
-#vtta-party-button.wfrp4e {
+#party-overview-button.wfrp4e {
   display: block;
   flex: 0 0 32px;
   height: 32px;

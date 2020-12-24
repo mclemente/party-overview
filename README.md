@@ -1,6 +1,6 @@
-# (loefd-)vtta-party
+# party-overview
 
-This is a League of Extraordinary Foundry Developers stewarded module fork. The original author indicated after some time of this not being updated that he was open to having a new maintainer and so we stepped in to steward it. In the process we made the call to remove some functionality as it was badly outdated and superceded by other, newer modules.
+This is a League of Extraordinary Foundry Developers stewarded module fork of [vtta-party](https://github.com/VTTAssets/vtta-party). The original author indicated after some time of this not being updated that he was open to having a new maintainer and so we stepped in to steward it. In the process we made the call to remove some functionality as it was badly outdated and superceded by other, newer modules.
 
 The plan at the moment is to remove the Tooltip functionality from the module, keeping instead only the party overview Application. In our opinion, the [Token Tooltip Alt](https://github.com/bmarian/token-tooltip-alt) module enables all of its functionality and more.
 

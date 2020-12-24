@@ -84,7 +84,7 @@ Along with some minor bugfixes, I switched from HTML tooltips to rendered PIXI t
 
 ## [2.1.0] Loads of Love
 
-This release is dedicated to Tim, the patient. Without you poking me all the time I probably would have trashed vtta-party someday because I seem to be the only one finding it not that useful ;) At least the code base is now up to some standards again.
+This release is dedicated to Tim, the patient. Without you poking me all the time I probably would have trashed party-overview someday because I seem to be the only one finding it not that useful ;) At least the code base is now up to some standards again.
 
 Minor new features:
 

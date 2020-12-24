@@ -1,6 +1,6 @@
 const config = {
-  name: "VTTA Party",
-  version: "2.3.0",
+  name: "Party Overview",
+  version: "2.3.4",
 };
 
 export default config;
