@@ -2,7 +2,7 @@
   "name": "vtta-party",
   "title": "Party Overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "author": "Sebastian Will (vttassets@gmail.com), Chris Wachal (Zamrod#9326)",
   "minimumCoreVersion": "0.5.5",
   "compatibleCoreVersion": "0.7.9",
@@ -27,7 +27,7 @@
   "esmodules": ["./src/index.js"],
   "styles": ["./style/module-settings.css", "./style/vtta.css", "./style/module-settings.css"],
   "packs": [],
-  "url": "https://www.vttassets.com/asset/VTTAssets/vtta-party",
-  "manifest": "https://raw.githubusercontent.com/League-of-Foundry-Developers/vtta-party/master/module.json",
-  "download": "https://download.vttassets.com/asset/VTTAssets/vtta-party"
+  "url": "http://github.com/League-of-Foundry-Developers/vtta-party",
+  "manifest": "http://github.com/League-of-Foundry-Developers/vtta-party/releases/latest/download/module.json",
+  "download": "http://github.com/League-of-Foundry-Developers/vtta-party/releases/latest/download/module.zip"
 }
