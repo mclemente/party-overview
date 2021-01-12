@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.4.0] So long and thanks for all the tips
+
+### Removed
+- Tool tips have been removed and are not part of this module anymore. Alt Tooltips already does a much better job of this.
+
 ## [2.3.0] Rising from the Ashes
 
 I am now taking over maintanance of this module (Zamrod#9326). 

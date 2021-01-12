@@ -1,6 +1,6 @@
 import config from "./config.js";
 import PartyOverviewApp from "./app/index.js";
-import Tooltip from "./tooltip/index.js";
+//import Tooltip from "./tooltip/index.js";
 
 Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 == arg2 ? options.fn(this) : options.inverse(this);
@@ -25,35 +25,18 @@ Hooks.on("canvasReady", (_) => {
   tooltip.init();
 });
 
+
 Hooks.once("init", () => {
   party = new PartyOverviewApp();
   /**
    * Register settings
    */
-  [
+   [
     {
       name: "EnablePlayerAccess",
       scope: "world",
       default: true,
       type: Boolean,
-    },
-    {
-      name: "EnableTooltip",
-      scope: "world",
-      default: true,
-      type: Boolean,
-    },
-    {
-      name: "EnablePlayerAccessTooltip",
-      scope: "world",
-      default: false,
-      type: Boolean,
-    },
-    {
-      name: "TooltipFontSizeInPixels",
-      scope: "world",
-      default: 14,
-      type: Number,
     },
   ].forEach((setting) => {
     let options = {
