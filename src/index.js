@@ -1,29 +1,11 @@
 import config from "./config.js";
 import PartyOverviewApp from "./app/index.js";
-//import Tooltip from "./tooltip/index.js";
 
 Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 == arg2 ? options.fn(this) : options.inverse(this);
 });
 
 let party;
-let tooltip;
-
-Hooks.once("canvasInit", (canvas) => {
-  console.log("Canvas Init");
-  tooltip = new Tooltip();
-  canvas.stage.addChild(tooltip);
-
-  party.setTooltip(tooltip);
-});
-
-Hooks.on("canvasInit", (canvas) => {
-  tooltip.init();
-});
-
-Hooks.on("canvasReady", (_) => {
-  tooltip.init();
-});
 
 
 Hooks.once("init", () => {
@@ -62,7 +44,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
     return;
 
   let button = $(
-    `<button id="party-overview-button" class="${game.system.id}"><i class="fas fa-info-circle"></i></button>`
+    `<button id="party-overview-button" class="${game.system.id}">Party Overview</button>`
   );
   button.on("click", (e) => {
     party.render(true);

@@ -1,5 +1,3 @@
-import Tooltip from "../tooltip/index.js";
-
 const DISPLAY_MODE = {
   SHOW_ALL: "SHOW_ALL",
   SHOW_HIDDEN: "SHOW_HIDDEN",
@@ -16,15 +14,8 @@ class PartyOverviewApp extends Application {
     this.state = {};
     this.displayMode = DISPLAY_MODE.SHOW_VISIBLE;
     this.activeTab = "general";
-
-    // initialize
-    // this.update();
-    Hooks.on("hoverToken", this.onHoverToken.bind(this));
   }
 
-  setTooltip(tooltip) {
-    this.tooltip = tooltip;
-  }
 
   update() {
     let actors = game.actors.entities
@@ -83,31 +74,6 @@ class PartyOverviewApp extends Application {
         }
       );
       // summing up the total
-	  /*
-      const calcOverflow = (currency, divider) => {
-        return {
-          remainder: currency % divider,
-          overflow: Math.floor(currency / divider),
-        };
-      };
-
-      console.log(totalCurrency);
-
-      let overflow = calcOverflow(totalCurrency.cp, 10);
-      totalCurrency.cp = overflow.remainder;
-      totalCurrency.sp += overflow.overflow;
-      overflow = calcOverflow(totalCurrency.sp, 5);
-      totalCurrency.sp = overflow.remainder;
-      totalCurrency.ep += overflow.overflow;
-      overflow = calcOverflow(totalCurrency.ep, 2);
-      totalCurrency.ep = overflow.remainder;
-      totalCurrency.gp += overflow.overflow;
-      overflow = calcOverflow(totalCurrency.gp, 10);
-      totalCurrency.gp = overflow.remainder;
-      totalCurrency.pp += overflow.overflow;
-
-      console.log(totalCurrency);
-*/
     }
 
 	let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
@@ -328,12 +294,6 @@ class PartyOverviewApp extends Application {
       this.render(false);
     });
 
-    //  $('span[name="hpCurrent"]', html).on("mouseover", event => {
-    //     console.log("mouseover");
-    //     const data = event.currentTarget.dataset;
-    //     $(event.currentTarget).val(`${data.value} (+${data.temp})`);
-    //     console.log(data);
-    //   });
 
     $('span[name="hpCurrent"], span[name="hpMax"]', html).hover(
       function () {
@@ -349,149 +309,6 @@ class PartyOverviewApp extends Application {
     super.activateListeners(html);
   }
 
-  onHoverToken(token, hovered) {
-    if (!this.tooltip) {
-      console.log("Tooltip not initialized");
-      return;
-    }
-    if (!game.settings.get("party-overview", "EnableTooltip")) return;
-    if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccessTooltip")) return;
-    if (!token || !token.actor) return;
-
-    if (!hovered) {
-      this.tooltip.hide();
-      //canvas.tokens.removeChild(this.tooltip.container);
-      return;
-    }
-
-    // else collect the actor data, update the tooltip, relocate and show it
-    let canvasToken = canvas.tokens.ownedTokens.find(ownedToken => ownedToken.id === token.id);
-
-    if (!canvasToken) return;
-
-    let data;
-    let seenBy;
-    if (token.actor.hasPlayerOwner) {
-      data = this.state.actors.find(actor => actor.id === token.actor.id);
-    } else {
-      // could be a mob
-      data = this.getActorDetails(token.actor);
-      seenBy = "No-one";
-      if (token.data.hidden) {
-        if (game.system.id === "dnd5e") {
-          seenBy = this.state.actors
-            .filter(actor => actor.passives.perception >= data.passives.stealth)
-            .map(actor => actor.name)
-            .join(", ");
-        }
-        if (game.system.id === "pf2e") {
-          seenBy = this.state.actors
-            .filter(actor => actor.perception >= data.stealth)
-            .map(actor => actor.name)
-            .join(", ");
-        }
-      }
-    }
-
-    if (!data) return;
-    let lines;
-
-    if (game.system.id === "dnd5e") {
-      // this blanks the temp hitpoints if it is a zero-value
-      // return {
-      //   value: value,
-      //   max: max,
-      //   tempValue: tempValue,
-      //   tempMaxValue: tempMaxValue,
-      //   totalValue: value + tempValue,
-      //   totalMaxValue: max + tempMaxValue,
-      // };
-
-      const temporaryHitpoints = data.hp.tempValue ? ` (+${data.hp.tempValue})` : "";
-      const tempMaxHitpoints = data.hp.tempMaxValue ? ` (+${data.hp.tempMaxValue})` : "";
-      lines = [
-        {
-          label: "Health",
-          value: `${data.hp.value + data.hp.tempValue}${temporaryHitpoints} / ${
-            data.hp.max + data.hp.tempMaxValue
-          }${tempMaxHitpoints}`,
-        },
-      ];
-      lines.push(
-        { label: "Armor Class", value: data.ac },
-        { label: "Speed", value: data.speed },
-        { label: "Passive Perception", value: data.passives.perception },
-        { label: "Passive Investigation", value: data.passives.investigation },
-        { label: "Passive Insight", value: data.passives.insight }
-      );
-
-      if (token.data.hidden) {
-        if (seenBy) {
-          lines.unshift({ label: "Noticable by", value: seenBy });
-        } else {
-          lines.unshift({ label: "Noticable by", value: "Undetectable" });
-        }
-      }
-    }
-
-    if (game.system.id === "pf2e") {
-      let ac = `${data.ac}`;
-      if (data.shieldAC !== "") {
-        ac += " " + data.shieldAC;
-      }
-      lines = [
-        { label: "Health", value: `${data.hp.value} / ${data.hp.max}` },
-        { label: "Armor Class", value: ac },
-        { label: "Speed", value: data.speed },
-        { label: "Perception", value: data.perception },
-        {
-          label: "F / R / W",
-          value: `${data.saves.fortitude} / ${data.saves.reflex} / ${data.saves.will}`,
-        },
-      ];
-    }
-
-    if (game.system.id === "wfrp4e") {
-      lines = [
-        {
-          label: game.i18n.localize("Wounds"),
-          value: `${data.wounds.value} / ${data.wounds.max}`,
-        },
-        { label: game.i18n.localize("Advantage"), value: data.advantage },
-        { label: game.i18n.localize("Movement"), value: data.movement },
-        {
-          label: game.i18n.localize("Walk"),
-          value: data.walk + " " + game.i18n.localize("yds"),
-        },
-        {
-          label: game.i18n.localize("Run"),
-          value: data.run + " " + game.i18n.localize("yds"),
-        },
-      ];
-    }
-
-    if (game.system.id === 'swade') {
-      let armor = '';
-      if (data.armor) {
-        armor = `(${data.armor})`
-      }
-      lines = [
-          {label: "Bennies", value: data.bennies},
-          {label: "Wounds", value: `${data.current_wounds}/${data.max_wounds}`},
-          {label: "Fatigue", value: `${data.current_fatigue}/${data.max_fatigue}`},
-          {label: "Parry", value: data.parry},
-          {label: "Toughness (Armor)", value: `${data.toughness} ${armor}`}
-      ];
-    }
-
-    this.tooltip.updateTooltip(
-      {
-        x: canvasToken.center.x,
-        y: canvasToken.center.y - Math.floor(canvasToken.w / 2),
-      },
-      lines
-    );
-  }
 }
 
 export default PartyOverviewApp;
