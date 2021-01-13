@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.4.1] Bugfix
+
+### Changed
+-Fixed errors caused due to leftover tooltip code
+
 ## [2.4.0] So long and thanks for all the tips
 
 ### Removed
