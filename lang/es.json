@@ -1,0 +1,10 @@
+{
+  "party-overview.EnablePlayerAccess.Name": "¿Permitir a jugadores una visión general del grupo?",
+  "party-overview.EnablePlayerAccess.Hint": "Permite o rechaza el permiso a los jugadores para acceder la ventana del Grupo para ver las estadísticas de cada jugador en la escena actual, también",
+  "party-overview.EnableTooltip.Name": "¿Habilita tooltips?",
+  "party-overview.EnableTooltip.Hint": "Habilita o deshabilita los tooltips al desplazar el puntero sobre fichas",
+  "party-overview.EnablePlayerAccessTooltip.Name": "¿Habilita tooltips para jugadores?",
+  "party-overview.EnablePlayerAccessTooltip.Hint": "Habilita o deshabilita los tooltips para jugadores, pero solamente para fichas que poseen.",
+  "party-overview.TooltipFontSizeInPixels.Name": "Establece el tamaño de la fuente de los tooltips en pixeles.",
+  "party-overview.TooltipFontSizeInPixels.Hint": "Por defecto: 14"
+}
