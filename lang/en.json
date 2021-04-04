@@ -1,6 +1,6 @@
 {
   "party-overview.EnablePlayerAccess.Name": "Grant Players access to the overview?",
-  "party-overview.EnablePlayerAccess.Hint": "Allows or disallows players to access the Party window to see the stats every player on the current scene, too",
+  "party-overview.EnablePlayerAccess.Hint": "Allows or disallows players to access the Party window to see the stats of every player on the current scene, too",
   "party-overview.EnableTooltip.Name": "Enable tooltips?",
   "party-overview.EnableTooltip.Hint": "Enables or disables tooltips when hovering over tokens",
   "party-overview.EnablePlayerAccessTooltip.Name": "Enable tooltips for players?",
