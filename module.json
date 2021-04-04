@@ -21,6 +21,11 @@
       "lang": "pt-BR",
       "name": "Português Brasileiro",
       "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json"
     }
   ],
   "systems": ["dnd5e", "pf2e", "wfrp4e", "swade"],
