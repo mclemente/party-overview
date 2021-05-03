@@ -55,7 +55,7 @@ class PartyOverviewApp extends Application {
       actors = actors.map(actor => {
         return {
           ...actor,
-          languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+          languages: (actor.languages?(languages.map(language => actor.languages && actor.languages.includes(language))):[])
         };
       });
       totalCurrency = actors.reduce(
@@ -229,7 +229,7 @@ class PartyOverviewApp extends Application {
         },
 
         // details
-        languages: data.traits.languages.value.map(code => CONFIG.PF2E.languages[code]),
+	      languages: (data.traits.languages?(data.traits.languages.value.map(code => CONFIG.PF2E.languages[code])):[]),
       };
     }
 
