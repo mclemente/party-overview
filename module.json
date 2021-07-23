@@ -28,7 +28,6 @@
       "path": "lang/es.json"
     }
   ],
-  "system": [],
   "esmodules": ["./party-overview.js"],
   "styles": ["./style/module-settings.css", "./style/party-overview.css", "./style/module-settings.css"],
   "packs": [],
