@@ -3,6 +3,10 @@ export class SystemProvider {
 		this.id = id
 	}
 
+    get hasCurrency() {
+        return false;
+    }
+
     get template() {
         throw new Error("A SystemProvider must implement the template function");
     }
@@ -13,6 +17,16 @@ export class SystemProvider {
 }
 
 export class dnd5eProvider extends SystemProvider {
+    get hasCurrency() {
+        return {
+            cp: 0,
+            sp: 0,
+            ep: 0,
+            gp: 0,
+            pp: 0,
+        }
+    }
+    
     get template() {
         return "/modules/party-overview/templates/dnd5e.hbs"
     }
@@ -87,7 +101,7 @@ export class dnd5eProvider extends SystemProvider {
                 flaw: this.htmlDecode(data.details.flaw)
             },
             inspiration: data.attributes.inspiration,
-            languages: data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]),
+            languages: data.traits.languages ? data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]) : [],
             alignment: data.details.alignment,
             currency: data.currency,
             totalGP: this.getTotalGP(data).toFixed(2)
@@ -96,6 +110,15 @@ export class dnd5eProvider extends SystemProvider {
 }
 
 export class pf2eProvider extends SystemProvider {
+    get hasCurrency() {
+        return {
+            cp: 0,
+            sp: 0,
+            gp: 0,
+            pp: 0,
+        }
+    }
+
     get template() {
         return "/modules/party-overview/templates/pf2e.hbs"
     }
@@ -142,7 +165,7 @@ export class pf2eProvider extends SystemProvider {
                 reflex: data.saves.reflex.value,
                 will: data.saves.will.value,
             },
-            languages: data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF2E.languages[code])),
+            languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
             currency: currency,
             totalGP: this.getTotalGP(currency).toFixed(2)
         }

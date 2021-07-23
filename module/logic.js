@@ -6,7 +6,7 @@ const DISPLAY_MODE = {
   SHOW_VISIBLE: "SHOW_VISIBLE",
 };
 
-const SIMPLE_SYTEMS = ['swade'];
+const SIMPLE_SYTEMS = ['swade', 'wfrp4e'];
 
 class PartyOverviewApp extends Application {
   constructor(options) {
@@ -20,7 +20,7 @@ class PartyOverviewApp extends Application {
 
 
   update() {
-    let actors = game.actors.entities
+    let actors = game.actors.contents
       .filter(a => a.hasPlayerOwner)
       .map(playerActor => playerActor.getActiveTokens())
       .flat(1)
@@ -55,7 +55,7 @@ class PartyOverviewApp extends Application {
 
     let languages;
     let totalCurrency;
-    if (! SIMPLE_SYTEMS.includes(game.system.id)) {
+    if (currentSystemProvider.hasCurrency) {
       // restructure the languages a bit so rendering gets easier
       languages = actors
         .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
@@ -74,13 +74,7 @@ class PartyOverviewApp extends Application {
           }
           return currency;
         },
-        {
-          cp: 0,
-          sp: 0,
-          ep: 0,
-          gp: 0,
-          pp: 0,
-        }
+        currentSystemProvider.hasCurrency
       );
       // summing up the total
     }

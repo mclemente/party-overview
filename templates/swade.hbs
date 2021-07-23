@@ -1,11 +1,5 @@
 <div class="table-row header">
-    <div class="button">
-        <button class="btn-filter">
-            {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
-            {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
-            {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
-        </button>
-    </div>
+    {{> "modules/party-overview/templates/parts/FilterButton.html"}}
     <div class="text">Name</div>
     <div class="num" title="Bennies"><i class="fas fa-bullseye"></i></div>
     <div class="num" title="Wounds"><i class="fas fa-skull"></i></div>

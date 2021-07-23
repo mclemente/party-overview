@@ -8,13 +8,7 @@
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
             <div class="table-row header">
-                <div class="button">
-                    <button class="btn-filter">
-                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
-                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
-                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
-                    </button>
-                </div>
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
                 <div class="num" title="Inspiration"><span>&#x1f340;</span></div>
                 <div class="num" title="Health"><i class="fas fa-heart"></i></div>
@@ -57,48 +51,12 @@
             {{/each}}
         </div>
         <!-- Languages -->
-        <div class="tab" data-tab="languages" data-group="party">
-            <div class="table-row header">
-                <div class="button">
-                    <button class="btn-filter">
-                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
-                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
-                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
-                    </button>
-                </div>
-                <div class="text">Name</div>
-                {{#each languages as | language | }}
-                <div class="text icon">{{language}}</div>
-                {{/each}}
-            </div>
-
-            {{#each actors as | actor | }}
-            <div class="table-row">
-                <div class="button">
-                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                            class="value fas fa-eye"></i>{{/if}}
-                    </button>
-                </div>
-                <div class="text">{{ actor.shortestName }}</div>
-                {{#each actor.languages as | language | }}
-                <div class="text icon">{{#if language}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times"
-                        style="color: gray"></i>{{/if}}</div>
-                {{/each}}
-            </div>
-            {{/each}}
-        </div>
+        {{> "modules/party-overview/templates/parts/Languages.html"}}
 
         <!-- Currency -->
         <div class="tab" data-tab="currencies" data-group="party">
             <div class="table-row header">
-                <div class="button">
-                    <button class="btn-filter">
-                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
-                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
-                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
-                    </button>
-                </div>
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
                 <div class="text icon">Platinum</div>
                 <div class="text icon">Gold</div>
@@ -142,13 +100,7 @@
          <!-- Background -->
         <div class="tab" data-tab="background" data-group="party">
             <div class="table-row header">
-                <div class="button">
-                    <button class="btn-filter">
-                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
-                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
-                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
-                    </button>
-                </div>
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
                 <div class="text icon">Traits</div>
                 <div class="text icon">Ideals</div>

@@ -12,6 +12,11 @@ Hooks.once("init", () => {
   registerSettings();
   initApi();
   party = new PartyOverviewApp();
+
+  return loadTemplates([
+    "modules/party-overview/templates/parts/FilterButton.html",
+    "modules/party-overview/templates/parts/Languages.html"
+  ]);
 });
 
 Hooks.on("ready", () => {
