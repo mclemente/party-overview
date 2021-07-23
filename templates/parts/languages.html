@@ -7,7 +7,7 @@
                 {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
             </button>
         </div>
-        <div class="text" style="flex: 3">Name</div>
+        <div class="text">Name</div>
         {{#each languages as | language | }}
         <div class="text icon" style="flex: 1" title="{{language}}">{{language}}</div>
         {{/each}}
@@ -21,7 +21,7 @@
                     class="value fas fa-eye"></i>{{/if}}
             </button>
         </div>
-        <div class="text" style="flex: 3">{{ actor.shortestName }}</div>
+        <div class="text">{{ actor.shortestName }}</div>
         {{#each actor.languages as | language | }}
         <div class="text icon" style="flex: 1">{{#if language}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times"
                 style="color: gray"></i>{{/if}}</div>
