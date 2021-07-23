@@ -4,7 +4,7 @@ export function registerSettings() {
 	game.settings.registerMenu("party-overview", "PartyOverviewSystemSettings", {
 		name: "Party Overview System Settings",
 		label: "Party Overview System Settings",
-		icon: "",
+		icon: "fas fa-users",
 		type: SystemProviderSettings,
 		restricted: true
 	});

@@ -19,9 +19,10 @@ div.party-overview nav .item.active {
 }
 
 #party-overview-button {
-  display: block;
-  flex: 0 0 32px;
-  height: 32px;
+  height: 28px;
+  line-height: 26px;
+  margin: 4px;
+  width: 97%;
 }
 
 div.party-overview .table-row {

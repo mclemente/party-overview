@@ -29,7 +29,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
     return;
 
   let button = $(
-    `<button id="party-overview-button" class="${game.system.id}">Party Overview</button>`
+    `<button id="party-overview-button" class="${game.system.id}"><i class="fas fa-users"></i> Party Overview</button>`
   );
   button.on("click", (e) => {
     party.render(true);
