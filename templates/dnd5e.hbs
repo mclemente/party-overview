@@ -10,7 +10,7 @@
             <div class="table-row header">
                 <div class="button">
                     <button class="btn-filter">
-                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
                     </button>
@@ -35,16 +35,6 @@
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
 
-                <!--
-                {
-                    value: value,
-                    max: max,
-                    tempValue: tempValue,
-                    tempMaxValue: tempMaxValue,
-                    totalValue: value + tempValue,
-                    totalMaxValue = max + tempMaxValue
-                }
-                -->
                 <div class="num">{{#if actor.inspiration}} <i class="fas fa-dice-d20"></i> {{/if}}</div>
                 <div class="num">
                     <span style="display: block; border-bottom: thin solid black">
@@ -58,7 +48,7 @@
                             class="{{#if actor.hp.tempMaxValue }}adjusted{{/if}}">{{ actor.hp.totalMaxValue }}</span>
                     </span>
                 </div>
-                <div class="num">{{ actor.ac }}</div>
+                <div class="num">{{ actor.armor }}</div>
                 <div class="num">{{ actor.passives.perception }}</div>
                 <div class="num">{{ actor.passives.investigation }}</div>
                 <div class="num">{{ actor.passives.insight }}</div>
@@ -104,7 +94,7 @@
             <div class="table-row header">
                 <div class="button">
                     <button class="btn-filter">
-                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
                     </button>
@@ -139,7 +129,7 @@
                 <div class="button">
 
                 </div>
-                <div class="text">TOTAL</div>
+                <div class="text">Total</div>
                 <div class="text icon">{{totalCurrency.pp}}</div>
                 <div class="text icon">{{totalCurrency.gp}}</div>
                 <div class="text icon">{{totalCurrency.ep}}</div>
@@ -154,7 +144,7 @@
             <div class="table-row header">
                 <div class="button">
                     <button class="btn-filter">
-                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
                     </button>

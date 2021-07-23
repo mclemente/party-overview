@@ -1,5 +1,6 @@
-import config from "./config.js";
-import PartyOverviewApp from "./app/index.js";
+import {getDefaultSystemProvider, initApi, updateSystemProvider} from "./module/api.js"
+import PartyOverviewApp from "./module/logic.js";
+import { registerSettings } from "./module/settings.js"
 
 Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 == arg2 ? options.fn(this) : options.inverse(this);
@@ -7,31 +8,10 @@ Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
 
 let party;
 
-
 Hooks.once("init", () => {
+  registerSettings();
+  initApi();
   party = new PartyOverviewApp();
-  /**
-   * Register settings
-   */
-   [
-    {
-      name: "EnablePlayerAccess",
-      scope: "world",
-      default: true,
-      type: Boolean,
-    },
-  ].forEach((setting) => {
-    let options = {
-      name: game.i18n.localize(`party-overview.${setting.name}.Name`),
-      hint: game.i18n.localize(`party-overview.${setting.name}.Hint`),
-      scope: setting.scope,
-      config: true,
-      default: setting.default,
-      type: setting.type,
-    };
-    if (setting.choices) options.choices = setting.choices;
-    game.settings.register("party-overview", setting.name, options);
-  });
 });
 
 Hooks.on("ready", () => {

@@ -2,13 +2,14 @@
     <nav class="tabs" data-group="party">
         <li class="item" data-tab="general">General</li>
 		<li class="item" data-tab="languages">Languages</li>
+		<li class="item" data-tab="currencies">Currencies</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
             <div class="table-row header">
                 <div class="button">
                     <button class="btn-filter">
-                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
                     </button>
@@ -32,7 +33,7 @@
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
-                <div class="num">{{ actor.ac }} {{#if actor.shieldAC}}{{ actor.shieldAC }}{{/if}}</div>
+                <div class="num">{{ actor.armor }} {{#if actor.shieldAC}}{{ actor.shieldAC }}{{/if}}</div>
                 <div class="num">{{ actor.perception }}</div>
                 <div class="num">{{ actor.saves.fortitude }}</div>
                 <div class="num">{{ actor.saves.reflex }}</div>
@@ -45,7 +46,7 @@
             <div class="table-row header">
                 <div class="button">
                     <button class="btn-filter">
-                        <i class="fas fa-filter {{#ifEquals mode 'SHOW_ALL'}}inactive{{/ifEquals}}"></i>
+                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
                         {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
                     </button>
@@ -71,6 +72,53 @@
                 {{/each}}
             </div>
             {{/each}}
+        </div>
+
+        <!-- Currency -->
+        <div class="tab" data-tab="currencies" data-group="party">
+            <div class="table-row header">
+                <div class="button">
+                    <button class="btn-filter">
+                        {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
+                        {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
+                        {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
+                    </button>
+                </div>
+                <div class="text">Name</div>
+                <div class="text icon">Platinum</div>
+                <div class="text icon">Gold</div>
+                <div class="text icon">Silver</div>
+                <div class="text icon">Copper</div>
+                <div class="text icon">Gold (Total)</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="text icon">{{currency.pp}}</div>
+                <div class="text icon">{{currency.gp}}</div>
+                <div class="text icon">{{currency.sp}}</div>
+                <div class="text icon">{{currency.cp}}</div>
+                <div class="text icon"><b>{{actor.totalGP}}</b></div>
+            </div>
+            {{/each}}
+            <div class="table-row">
+                <div class="button">
+
+                </div>
+                <div class="text">Total</div>
+                <div class="text icon">{{totalCurrency.pp}}</div>
+                <div class="text icon">{{totalCurrency.gp}}</div>
+                <div class="text icon">{{totalCurrency.sp}}</div>
+                <div class="text icon">{{totalCurrency.cp}}</div>
+                <div class="text icon"><b>{{totalPartyGP}}</b></div>
+            </div>
         </div>
     </section>
 </div>

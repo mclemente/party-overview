@@ -83,9 +83,16 @@ div.party-overview .table-row .num {
 div.party-overview .table-row .button {
   margin: auto;
   text-align: center;
-  flex-basis: 70px;
+  flex-basis: 45px;
   flex-grow: 0;
   flex-shrink: 1;
+}
+
+button.btn-filter,
+button.btn-toggle-visibility
+ {
+  line-height: initial;
+  padding: 2px;
 }
 
 /*

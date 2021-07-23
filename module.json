@@ -2,10 +2,10 @@
   "name": "party-overview",
   "title": "Party Overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
-  "version": "2.4.2",
-  "author": "Sebastian Will (vttassets@gmail.com), Chris Wachal (Zamrod#9326)",
-  "minimumCoreVersion": "0.5.5",
-  "compatibleCoreVersion": "0.7.9",
+  "version": "2.5.0",
+  "author": "Matheus Clemente (mclemente#5524), Sebastian Will (vttassets@gmail.com), Chris Wachal (Zamrod#9326)",
+  "minimumCoreVersion": "0.8.8",
+  "compatibleCoreVersion": "0.8.8",
   "languages": [
     {
       "lang": "en",
@@ -28,12 +28,12 @@
       "path": "lang/es.json"
     }
   ],
-  "systems": ["dnd5e", "pf2e", "wfrp4e", "swade"],
-  "esmodules": ["./src/index.js"],
+  "systems": [],
+  "esmodules": ["./party-overview.js"],
   "styles": ["./style/module-settings.css", "./style/party-overview.css", "./style/module-settings.css"],
   "packs": [],
-  "url": "http://github.com/League-of-Foundry-Developers/party-overview",
-  "bugs": "http://github.com/League-of-Foundry-Developers/party-overview/issues",
-  "manifest": "http://github.com/League-of-Foundry-Developers/party-overview/releases/latest/download/module.json",
-  "download": "http://github.com/League-of-Foundry-Developers/party-overview/releases/latest/download/module.zip"
+  "url": "http://github.com/mclemente/party-overview",
+  "bugs": "http://github.com/mclemente/party-overview/issues",
+  "manifest": "http://github.com/mclemente/party-overview/releases/latest/download/module.json",
+  "download": "http://github.com/mclemente/party-overview/releases/latest/download/module.zip"
 }
