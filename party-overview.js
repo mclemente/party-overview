@@ -1,4 +1,4 @@
-import {getDefaultSystemProvider, initApi, updateSystemProvider} from "./module/api.js"
+import {currentSystemProvider, initApi} from "./module/api.js"
 import PartyOverviewApp from "./module/logic.js";
 import { registerSettings } from "./module/settings.js"
 
@@ -15,7 +15,8 @@ Hooks.once("init", () => {
 
   return loadTemplates([
     "modules/party-overview/templates/parts/FilterButton.html",
-    "modules/party-overview/templates/parts/Languages.html"
+    "modules/party-overview/templates/parts/Languages.html",
+    ...currentSystemProvider.loadTemplates
   ]);
 });
 

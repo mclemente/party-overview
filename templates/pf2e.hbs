@@ -2,6 +2,7 @@
     <nav class="tabs" data-group="party">
         <li class="item" data-tab="general">General</li>
 		<li class="item" data-tab="languages">Languages</li>
+		<li class="item" data-tab="lore">Lore</li>
 		<li class="item" data-tab="currencies">Currencies</li>
     </nav>
     <section class="content">
@@ -37,6 +38,9 @@
         </div>
 		<!-- Languages -->
         {{> "modules/party-overview/templates/parts/Languages.html"}}
+
+        <!-- Lore -->
+        {{> "modules/party-overview/templates/parts/PF2e-Lore.html"}}
 
         <!-- Currency -->
         <div class="tab" data-tab="currencies" data-group="party">

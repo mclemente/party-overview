@@ -7,12 +7,60 @@ export class SystemProvider {
         return false;
     }
 
+    get hasLanguages() {
+        return false;
+    }
+
+    get loadTemplates() {
+        return [];
+    }
+
     get template() {
         throw new Error("A SystemProvider must implement the template function");
     }
 
     get width() {
         return 500;
+    }
+
+
+    getUpdate(actors) {
+        let languages;
+        let totalCurrency;
+        if (this.hasLanguages) {
+            // restructure the languages a bit so rendering gets easier
+            languages = actors
+                .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+                .filter(language => language !== undefined)
+                .sort();
+            actors = actors.map(actor => {
+                return {
+                    ...actor,
+                    languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+                };
+            });
+        }
+        if (this.hasCurrency) {
+            totalCurrency = actors.reduce(
+                (currency, actor) => {
+                    for (let prop in actor.currency) {
+                        currency[prop] += actor.currency[prop];
+                    }
+                    return currency;
+                },
+                this.hasCurrency
+            );
+            // summing up the total
+        }
+        let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+        return [
+            actors,
+            {
+                languages: languages,
+                totalCurrency: totalCurrency,
+                totalPartyGP: totalPartyGP
+            }
+        ]
     }
 }
 
@@ -27,6 +75,10 @@ export class dnd5eProvider extends SystemProvider {
         }
     }
     
+    get hasLanguages() {
+        return true;
+    }
+
     get template() {
         return "/modules/party-overview/templates/dnd5e.hbs"
     }
@@ -119,6 +171,14 @@ export class pf2eProvider extends SystemProvider {
         }
     }
 
+    get hasLanguages() {
+        return true;
+    }
+
+    get loadTemplates() {
+        return ["modules/party-overview/templates/parts/PF2e-Lore.html"];
+    }
+
     get template() {
         return "/modules/party-overview/templates/pf2e.hbs"
     }
@@ -138,6 +198,11 @@ export class pf2eProvider extends SystemProvider {
         const currency = {"pp":0, "gp":0, "sp":0, "cp":0}
         data.items.filter(a => coins.includes(a.name)).map(a => currency[wealth[a.name]] += a.quantity);
         return currency;
+    }
+
+    getLore(data) {
+        const lore = data.items.filter(a => a.type == "lore").map(a => a.name);
+        return lore;
     }
 
     getTotalGP(currency) {
@@ -166,9 +231,33 @@ export class pf2eProvider extends SystemProvider {
                 will: data.saves.will.value,
             },
             languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
+            lore: this.getLore(actor.data),
             currency: currency,
             totalGP: this.getTotalGP(currency).toFixed(2)
         }
+    }
+
+    getUpdate(actors) {
+        let updates;
+        [actors, updates] = super.getUpdate(actors);
+        let lores;
+        lores = actors
+            .reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
+            .filter(lore => lore !== undefined)
+            .sort();
+        actors = actors.map(actor => {
+            return {
+                ...actor,
+                lore: lores.map(lore => actor.lore && actor.lore.includes(lore))
+            }
+        })
+        return [
+            actors,
+            {
+                ...updates,
+                lore: lores
+            }
+        ]
     }
 }
 

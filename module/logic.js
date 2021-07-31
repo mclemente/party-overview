@@ -53,41 +53,14 @@ class PartyOverviewApp extends Application {
       }
     });
 
-    let languages;
-    let totalCurrency;
-    if (currentSystemProvider.hasCurrency) {
-      // restructure the languages a bit so rendering gets easier
-      languages = actors
-        .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-        .filter(language => language !== undefined)
-        .sort();
-      actors = actors.map(actor => {
-        return {
-          ...actor,
-          languages: languages.map(language => actor.languages && actor.languages.includes(language)),
-        };
-      });
-      totalCurrency = actors.reduce(
-        (currency, actor) => {
-          for (let prop in actor.currency) {
-            currency[prop] += actor.currency[prop];
-          }
-          return currency;
-        },
-        currentSystemProvider.hasCurrency
-      );
-      // summing up the total
-    }
-
-    let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+    let updates;
+    [actors, updates] = currentSystemProvider.getUpdate(actors);
 
     this.state = {
       activeTab: this.activeTab,
       mode: this.displayMode,
       actors: actors,
-      languages: languages,
-      totalCurrency: totalCurrency,
-      totalPartyGP: totalPartyGP,
+      ...updates
     };
   }
 
