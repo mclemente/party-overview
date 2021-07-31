@@ -29,7 +29,7 @@
     }
   ],
   "esmodules": ["./party-overview.js"],
-  "styles": ["./style/module-settings.css", "./style/party-overview.css", "./style/module-settings.css"],
+  "styles": ["./style/party-overview.css"],
   "packs": [],
   "url": "http://github.com/mclemente/party-overview",
   "bugs": "http://github.com/mclemente/party-overview/issues",

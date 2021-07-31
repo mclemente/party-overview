@@ -18,13 +18,6 @@ div.party-overview nav .item.active {
   text-shadow: none;
 }
 
-#party-overview-button {
-  height: 28px;
-  line-height: 26px;
-  margin: 4px;
-  width: 97%;
-}
-
 div.party-overview .table-row {
   display: flex;
   display: -webkit-flex;
@@ -90,8 +83,7 @@ div.party-overview .table-row .button {
 }
 
 button.btn-filter,
-button.btn-toggle-visibility
- {
+button.btn-toggle-visibility {
   line-height: initial;
   padding: 2px;
 }
@@ -134,24 +126,8 @@ div.party-overview.wfrp4e .table-row .button button {
 div.party-overview.wfrp4e .table-row:nth-child(2n) {
   background-color: rgba(228, 228, 228, 0.34);
 }
-#party-overview-button.wfrp4e {
-  display: block;
-  flex: 0 0 32px;
-  height: 32px;
 
-  margin: 0px 5px 6px 5px !important;
-  padding: 2px 0px 0px 2px;
-  height: 34px;
-  border: 1px solid black;
-  border-image: url(/systems/wfrp4e/ui/footer-button.png) 10 repeat;
-  border-image-width: 4px;
-  border-image-outset: 0px;
-  box-shadow: 2px 2px 1px #00000085;
-  background: url(/systems/wfrp4e/ui/sidebar_button-background_red.png) repeat;
-  background-origin: padding-box;
-  color: #c9c6a7;
-  font-family: CaslonAntique;
-  font-size: 12px;
-  font-weight: 500;
-  text-shadow: 0px 0px 1px #00000063;
+.dnd5e button.party-overview {
+  background: rgba(255, 255, 240, 0.8);
+  border: 1px solid #b5b3a4;
 }

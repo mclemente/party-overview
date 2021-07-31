@@ -6,8 +6,6 @@ const DISPLAY_MODE = {
   SHOW_VISIBLE: "SHOW_VISIBLE",
 };
 
-const SIMPLE_SYTEMS = ['swade', 'wfrp4e'];
-
 class PartyOverviewApp extends Application {
   constructor(options) {
     super(options);

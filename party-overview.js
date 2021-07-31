@@ -28,15 +28,19 @@ Hooks.on("ready", () => {
 Hooks.on("renderActorDirectory", (app, html, data) => {
   if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccess"))
     return;
+  let div = $(
+    `<div id="party-overview" class="action-buttons flexrow ${game.system.id}"></div>`
+  );
+  $(html).find("header.directory-header").prepend(div);
 
   let button = $(
-    `<button id="party-overview-button" class="${game.system.id}"><i class="fas fa-users"></i> Party Overview</button>`
+    `<button class="party-overview"><i class="fas fa-users"></i> Party Overview</button>`
   );
   button.on("click", (e) => {
     party.render(true);
   });
 
-  $(html).find("header.directory-header").prepend(button);
+  $(html).find("#party-overview").prepend(button);
 });
 
 Hooks.on("deleteActor", (actor, ...rest) => {
@@ -54,7 +58,7 @@ Hooks.on("updateActor", (actor, ...rest) => {
 });
 
 Hooks.on("createToken", (scene, sceneId, token, ...rest) => {
-  let actor = game.actors.entities.find((actor) => actor.id === token.actorId);
+  let actor = game.actors.contents.find((actor) => actor.id === token.actorId);
   if (actor && actor.hasPlayerOwner) {
     party.update();
     party.render(false);

@@ -53,8 +53,8 @@ export function initApi() {
 		case "swade":
 			systemProviders.push(new swadeProvider("native.swade"));
 			break;
-		case "wfrp4":
-			systemProviders.push(new wfrp4eProvider("native.wfrp4"));
+		case "wfrp4e":
+			systemProviders.push(new wfrp4eProvider("native.wfrp4e"));
 			break;
 		default:
 			systemProviders.push(new SystemProvider("native"));
