@@ -193,7 +193,7 @@ export class pf2eProvider extends SystemProvider {
         for (let item of containerItems) {
             const itemData = item.data.data;
             if (itemData.weight.value == "L") containers[itemData.containerId.value].lightCount += 1;
-            else containers[itemData.containerId.value].negateBulk += value;
+            else containers[itemData.containerId.value].negateBulk += (itemData.equipped.value ? Number(itemData.equippedBulk.value || itemData.weight.value) : Number(itemData.weight.value)) || 0;
         }
         for (let container in containers) {
             if (containers[container].equipped) {
