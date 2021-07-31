@@ -3,14 +3,6 @@ export class SystemProvider {
 		this.id = id
 	}
 
-    get hasCurrency() {
-        return false;
-    }
-
-    get hasLanguages() {
-        return false;
-    }
-
     get loadTemplates() {
         return [];
     }
@@ -23,62 +15,12 @@ export class SystemProvider {
         return 500;
     }
 
-
     getUpdate(actors) {
-        let languages;
-        let totalCurrency;
-        if (this.hasLanguages) {
-            // restructure the languages a bit so rendering gets easier
-            languages = actors
-                .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-                .filter(language => language !== undefined)
-                .sort();
-            actors = actors.map(actor => {
-                return {
-                    ...actor,
-                    languages: languages.map(language => actor.languages && actor.languages.includes(language)),
-                };
-            });
-        }
-        if (this.hasCurrency) {
-            totalCurrency = actors.reduce(
-                (currency, actor) => {
-                    for (let prop in actor.currency) {
-                        currency[prop] += actor.currency[prop];
-                    }
-                    return currency;
-                },
-                this.hasCurrency
-            );
-            // summing up the total
-        }
-        let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
-        return [
-            actors,
-            {
-                languages: languages,
-                totalCurrency: totalCurrency,
-                totalPartyGP: totalPartyGP
-            }
-        ]
+        return [actors, {}]
     }
 }
 
 export class dnd5eProvider extends SystemProvider {
-    get hasCurrency() {
-        return {
-            cp: 0,
-            sp: 0,
-            ep: 0,
-            gp: 0,
-            pp: 0,
-        }
-    }
-    
-    get hasLanguages() {
-        return true;
-    }
-
     get template() {
         return "/modules/party-overview/templates/dnd5e.hbs"
     }
@@ -159,24 +101,51 @@ export class dnd5eProvider extends SystemProvider {
             totalGP: this.getTotalGP(data).toFixed(2)
         }
     }
+
+    getUpdate(actors) {
+        let languages = actors
+            .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+            .filter(language => language !== undefined)
+            .sort();
+        actors = actors.map(actor => {
+            return {
+                ...actor,
+                languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+            };
+        });
+        let totalCurrency = actors.reduce(
+            (currency, actor) => {
+                for (let prop in actor.currency) {
+                    currency[prop] += actor.currency[prop];
+                }
+                return currency;
+            },
+            {
+                cp: 0,
+                sp: 0,
+                ep: 0,
+                gp: 0,
+                pp: 0,
+            }
+        );
+        let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+        return [
+            actors,
+            {
+                languages: languages,
+                totalCurrency: totalCurrency,
+                totalPartyGP: totalPartyGP
+            }
+        ]
+    }
 }
 
 export class pf2eProvider extends SystemProvider {
-    get hasCurrency() {
-        return {
-            cp: 0,
-            sp: 0,
-            gp: 0,
-            pp: 0,
-        }
-    }
-
-    get hasLanguages() {
-        return true;
-    }
-
     get loadTemplates() {
-        return ["modules/party-overview/templates/parts/PF2e-Lore.html"];
+        return [
+            "modules/party-overview/templates/parts/PF2e-Lore.html",
+            "modules/party-overview/templates/parts/PF2e-Bulk.html"
+        ];
     }
 
     get template() {
@@ -205,6 +174,46 @@ export class pf2eProvider extends SystemProvider {
         return lore;
     }
 
+    getEncumbrance(data) {
+        let sum = 0;
+        let lightCount = 0;
+        let containers = {};
+        let containerItems = [];
+        for (let item of data.items) {
+            if (item.data.isPhysical) {
+                const itemData = item.data.data;
+                if (item.type == "backpack") containers[item.id] = {equipped: itemData.equipped.value, bulk: 0, negateBulk: -Number(itemData.negateBulk.value), lightCount: 0};
+                if (itemData.containerId?.value) containerItems.push(item);
+                else {
+                    if (itemData.weight.value == "L") lightCount += 1;
+                    else sum += (itemData.equipped.value ? Number(itemData.equippedBulk.value || itemData.weight.value) : Number(itemData.weight.value)) || 0;
+                }
+            }
+        }
+        for (let item of containerItems) {
+            const itemData = item.data.data;
+            if (itemData.weight.value == "L") containers[itemData.containerId.value].lightCount += 1;
+            else containers[itemData.containerId.value].negateBulk += value;
+        }
+        for (let container in containers) {
+            if (containers[container].equipped) {
+                let bulk = containers[container].bulk + Math.trunc(containers[container].lightCount/10) - containers[container].negateBulk;
+                sum = (bulk < 0) ? sum : sum + bulk;
+                lightCount = (bulk < 0) ? lightCount : lightCount + containers[container].lightCount % 10;
+            }
+            else {
+                sum += containers[container].bulk + Math.trunc(containers[container].lightCount/10);
+                lightCount += containers[container].lightCount % 10;
+            }
+        }
+        sum += Math.trunc(lightCount/10);
+        lightCount = lightCount % 10;
+        let encumberedAt = data.data.abilities.str.mod + data.data.attributes.bonusEncumbranceBulk + 5;
+        let limit = data.data.abilities.str.mod + data.data.attributes.bonusLimitBulk + 10;
+        // data.items.filter(a => a.data.data.weight).map(a => sum += (a.data.data.equipped.value ? (Number(a.data.data.equippedBulk.value) || 0) : (Number(a.data.data.weight.value) || 0)) - (Number(a.data.data.negateBulk.value) || 0));
+        return {bulk: sum, encumberedAt, lightItems: lightCount, limit}
+    }
+
     getTotalGP(currency) {
         return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
     }
@@ -231,30 +240,51 @@ export class pf2eProvider extends SystemProvider {
                 will: data.saves.will.value,
             },
             languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
-            lore: this.getLore(actor.data),
             currency: currency,
+
+            lore: this.getLore(actor.data),
+            encumbrance: this.getEncumbrance(actor.data),
             totalGP: this.getTotalGP(currency).toFixed(2)
         }
     }
 
     getUpdate(actors) {
-        let updates;
-        [actors, updates] = super.getUpdate(actors);
-        let lores;
-        lores = actors
+        let languages = actors
+            .reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+            .filter(language => language !== undefined)
+            .sort();
+        let totalCurrency = actors.reduce(
+            (currency, actor) => {
+                for (let prop in actor.currency) {
+                    currency[prop] += actor.currency[prop];
+                }
+                return currency;
+            },
+            {
+                cp: 0,
+                sp: 0,
+                gp: 0,
+                pp: 0,
+            }
+        );
+        let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+        let lores = actors
             .reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
             .filter(lore => lore !== undefined)
             .sort();
         actors = actors.map(actor => {
             return {
                 ...actor,
-                lore: lores.map(lore => actor.lore && actor.lore.includes(lore))
+                languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+                lore: lores.map(lore => actor.lore && actor.lore.includes(lore)),
             }
         })
         return [
             actors,
             {
-                ...updates,
+                languages: languages,
+                totalCurrency: totalCurrency,
+                totalPartyGP: totalPartyGP,
                 lore: lores
             }
         ]

@@ -1,0 +1,32 @@
+<div class="tab" data-tab="bulk" data-group="party">
+    <div class="table-row header">
+        {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+        <div class="text">Name</div>
+        <div class="text icon" style="flex: 1">Bulk</div>
+        <div class="text icon" style="flex: 2">Encumbered At</div>
+        <div class="text icon" style="flex: 1">Limit</div>
+    </div>
+
+    {{#each actors as | actor | }}
+    <div class="table-row">
+        <div class="button">
+            <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                    class="value fas fa-eye"></i>{{/if}}
+            </button>
+        </div>
+        <div class="text">{{ actor.shortestName }}</div>
+        {{#with actor.encumbrance}}
+        <div class="text icon" style="flex: 1">
+            {{bulk}} {{#if lightItems}}({{lightItems}} L){{/if}}
+        </div>
+        <div class="text icon" style="flex: 2">
+            {{encumberedAt}}
+        </div>
+        <div class="text icon" style="flex: 1">
+            {{limit}}
+        </div>
+        {{/with}}
+    </div>
+    {{/each}}
+</div>

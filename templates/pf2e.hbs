@@ -1,9 +1,10 @@
 <div>
     <nav class="tabs" data-group="party">
         <li class="item" data-tab="general">General</li>
+		<li class="item" data-tab="bulk">Bulk</li>
+		<li class="item" data-tab="currencies">Currencies</li>
 		<li class="item" data-tab="languages">Languages</li>
 		<li class="item" data-tab="lore">Lore</li>
-		<li class="item" data-tab="currencies">Currencies</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
@@ -82,5 +83,8 @@
                 <div class="text icon"><b>{{totalPartyGP}}</b></div>
             </div>
         </div>
+
+        <!-- Lore -->
+        {{> "modules/party-overview/templates/parts/PF2e-Bulk.html"}}
     </section>
 </div>
