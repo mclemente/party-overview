@@ -10,18 +10,18 @@ export function registerSettings() {
 	});
 	game.settings.register("party-overview", "EnablePlayerAccess", {
 		name: game.i18n.localize(`party-overview.EnablePlayerAccess.Name`),
-        hint: game.i18n.localize(`party-overview.EnablePlayerAccess.Hint`),
-        scope: "world",
-        default: true,
-        config: true,
-        type: Boolean
+		hint: game.i18n.localize(`party-overview.EnablePlayerAccess.Hint`),
+		scope: "world",
+		default: true,
+		config: true,
+		type: Boolean
 	})
 	game.settings.register("party-overview", "systemProvider", {
 		scope: "world",
-        config: false,
-        type: String,
-        default: getDefaultSystemProvider(),
-        onChange: updateSystemProvider
+		config: false,
+		type: String,
+		default: getDefaultSystemProvider(),
+		onChange: updateSystemProvider
 	})
 }
 
