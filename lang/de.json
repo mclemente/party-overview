@@ -1,8 +1,8 @@
 {
-  "party-overview.EnablePlayerAccess.Name": "Dürfen Spieler die Übersicht nutzen?",
-  "party-overview.EnablePlayerAccess.Hint": "Erlaubt oder verhindert, dass Spieler ebenfalls die Übersicht nutzen können, um die Statistiken aller Spieler auf der gerade aktiven Szene zu überblicken.",
-  "party-overview.EnableTooltip.Name": "Tooltips aktivieren?",
-  "party-overview.EnableTooltip.Hint": "Aktiviert oder deaktiviert Tooltips, die beim Schweben über Tokens angezeigt werden.",
-  "party-overview.EnablePlayerAccessTooltip.Name": "Tooltips für Spieler aktivieren?",
-  "party-overview.EnablePlayerAccessTooltip.Hint": "Aktiviert oder deaktiviert Tooltips für Spieler, jedoch nur für ihre eigenen Tokens"
+  "party-overview": {
+    "EnablePlayerAccess": {
+      "Name": "Dürfen Spieler die Übersicht nutzen?",
+      "Hint": "Erlaubt oder verhindert, dass Spieler ebenfalls die Übersicht nutzen können, um die Statistiken aller Spieler auf der gerade aktiven Szene zu überblicken."
+    }
+  }
 }

@@ -1,13 +1,7 @@
 <div class="tab" data-tab="languages" data-group="party">
     <div class="table-row header">
-        <div class="button">
-            <button class="btn-filter">
-                {{#ifEquals mode 'SHOW_ALL'}}<i class="fas fa-filter"></i>{{/ifEquals}}
-                {{#ifEquals mode 'SHOW_VISIBLE' }}<i class="fas fa-eye"></i>{{/ifEquals}}
-                {{#ifEquals mode 'SHOW_HIDDEN' }}<i class="fas fa-eye-slash"></i>{{/ifEquals}}
-            </button>
-        </div>
-        <div class="text">Name</div>
+        {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+        <div class="text">{{localize "party-overview.NAME"}}</div>
         {{#each languages as | language | }}
         <div class="text icon" style="flex: 1" title="{{language}}">{{language}}</div>
         {{/each}}

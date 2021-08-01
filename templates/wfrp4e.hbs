@@ -1,12 +1,12 @@
 <div style="background: url(systems/wfrp4e/ui/frames/parchment-texture.png);">
     <nav class="tabs" data-group="party">
-        <li class="item" data-tab="general">General</li>
+        <li class="item" data-tab="general">{{localize "party-overview.GENERAL"}}</li>
     </nav>
     <section class="content" style="color: black;">
         <div class="tab" data-tab="general" data-group="party">
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
-                <div class="text">Name</div>
+                <div class="text">{{localize "party-overview.NAME"}}</div>
                 <div class="num" title="{{localize "Wounds"}}"><i class="fas fa-heart"></i></div>
                 <div class="num" title="{{localize "Advantage"}}"><i class="fas fa-plus-circle"></i></div>
                 <div class="num" title="{{localize "Movement"}}"><i class="fas fa-shoe-prints"></i></div>

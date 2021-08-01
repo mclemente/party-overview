@@ -1,16 +1,16 @@
 <div>
     <nav class="tabs" data-group="party">
-        <li class="item" data-tab="general">General</li>
-		<li class="item" data-tab="bulk">Bulk</li>
-		<li class="item" data-tab="currencies">Currencies</li>
-		<li class="item" data-tab="languages">Languages</li>
-		<li class="item" data-tab="lore">Lore</li>
+        <li class="item" data-tab="general">{{localize "party-overview.GENERAL"}}</li>
+		<li class="item" data-tab="bulk">{{localize "PF2E.BulkShortLabel"}}</li>
+		<li class="item" data-tab="currencies">{{localize "party-overview.WEALTH"}}</li>
+		<li class="item" data-tab="languages">{{localize "PF2E.Languages"}}</li>
+		<li class="item" data-tab="lore">{{localize "PF2E.Lore"}}</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
-                <div class="text">Name</div>
+                <div class="text">{{localize "party-overview.NAME"}}</div>
                 <div class="num" title="Health"><i class="fas fa-heart"></i></div>
                 <div class="num" title="Armor Class"><i class="fas fa-shield-alt"></i></div>
                 <div class="num" title="Perception"><i class="far fa-eye"></i></div>
@@ -48,11 +48,11 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
-                <div class="text icon">Platinum</div>
-                <div class="text icon">Gold</div>
-                <div class="text icon">Silver</div>
-                <div class="text icon">Copper</div>
-                <div class="text icon">Gold (Total)</div>
+                <div class="text icon">{{localize "PF2E.CurrencyPP"}}</div>
+                <div class="text icon">{{localize "PF2E.CurrencyGP"}}</div>
+                <div class="text icon">{{localize "PF2E.CurrencySP"}}</div>
+                <div class="text icon">{{localize "PF2E.CurrencyCP"}}</div>
+                <div class="text icon">{{localize "PF2E.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
             </div>
 
             {{#each actors as | actor | }}
@@ -75,7 +75,7 @@
                 <div class="button">
 
                 </div>
-                <div class="text">Total</div>
+                <div class="text">{{localize "party-overview.TOTAL"}}</div>
                 <div class="text icon">{{totalCurrency.pp}}</div>
                 <div class="text icon">{{totalCurrency.gp}}</div>
                 <div class="text icon">{{totalCurrency.sp}}</div>

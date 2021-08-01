@@ -1,7 +1,7 @@
 <div class="tab" data-tab="lore" data-group="party">
     <div class="table-row header">
         {{> "modules/party-overview/templates/parts/FilterButton.html"}}
-        <div class="text">Name</div>
+        <div class="text">{{localize "party-overview.NAME"}}</div>
         {{#each lore as | l | }}
         <div class="text icon" style="flex: 1" title="{{l}}">{{l}}</div>
         {{/each}}

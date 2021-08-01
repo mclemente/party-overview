@@ -2,15 +2,7 @@
   "party-overview": {
     "EnablePlayerAccess": {
       "Name": "Grant Players access to the overview?",
-      "Hint": "Allows or disallows players to access the Party window to see the stats every player on the current scene, too"
-    },
-    "EnableTooltip": {
-      "Name": "Enable tooltips?",
-      "Hint": "Enables or disables tooltips when hovering over tokens"
-    },
-    "EnablePlayerAccessTooltip": {
-      "Name": "Enable tooltips for players?",
-      "Hint": "Enables or disables tooltips for players, but only for tokens they own."
+      "Hint": "Allow players to access the Party window."
     },
     "SystemProvider": {
       "Name": "System Provider",
@@ -20,9 +12,16 @@
         "system": "System {name}"
       }
     },
-    "TooltipFontSizeInPixels": {
-      "Name": "Set the font size for tooltips in pixels.",
-      "Hint": "Default: 14"
+    "GENERAL": "General",
+    "LIMIT": "Limit",
+    "NAME": "Name",
+    "TOTAL": "Total",
+    "WEALTH": "Wealth",
+    "DND5E": {
+      "Traits": "Traits"
+    },
+    "PF2E": {
+      "EncumberedAt": "Encumbered At"
     }
   }
 }
