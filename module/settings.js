@@ -1,5 +1,9 @@
 import { availableSystemProviders, currentSystemProvider, getDefaultSystemProvider, updateSystemProvider } from "./api.js"
 
+const debouncedReload = foundry.utils.debounce(() => {
+	window.location.reload();
+}, 100);
+
 export function registerSettings() {
 	game.settings.registerMenu("party-overview", "PartyOverviewSystemSettings", {
 		name: "Party Overview System Settings",
@@ -98,7 +102,7 @@ export class SystemProviderSettings extends FormApplication {
 		html.find('button').on('click', async (event) => {
 			if (event.currentTarget?.dataset?.action === 'reset') {
 				game.settings.settings.get("party-overview.systemProvider").default = getDefaultSystemProvider();
-				window.location.reload();
+				debouncedReload();
 			}
 		});
 	}
