@@ -169,7 +169,7 @@ export class pf2eProvider extends SystemProvider {
 			"Copper Pieces": "cp"
 		};
 		const currency = {"pp":0, "gp":0, "sp":0, "cp":0}
-		data.items.filter(a => coins.includes(a.name)).map(a => currency[wealth[a.name]] += a.quantity);
+		data.items.filter(a => coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name)).map(a => currency[wealth[a.data?.flags?.babele?.originalName || a.name]] += a.quantity);
 		return currency;
 	}
 
