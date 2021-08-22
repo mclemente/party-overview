@@ -69,7 +69,7 @@ class PartyOverviewApp extends Application {
 			resizable: true,
 			title: "Party Overview",
 			template: currentSystemProvider.template,
-			classes: ["party-overview", game.system.id],
+			classes: ["party-overview", ...currentSystemProvider.customCSS],
 			tabs: [
 				{
 					navSelector: ".tabs",

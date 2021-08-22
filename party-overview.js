@@ -29,7 +29,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
   if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccess"))
     return;
   let div = $(
-    `<div id="party-overview" class="action-buttons flexrow ${game.system.id}"></div>`
+    `<div id="party-overview" class="action-buttons flexrow"></div>`
   );
   $(html).find("header.directory-header").prepend(div);
 

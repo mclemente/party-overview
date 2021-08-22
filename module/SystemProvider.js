@@ -7,16 +7,29 @@ export class SystemProvider {
 		this.id = id
 	}
 
+	get customCSS() {
+		return [];
+	}
+
 	get loadTemplates() {
 		return [];
 	}
 
 	get template() {
-		throw new Error("A SystemProvider must implement the template function");
+		return "/modules/party-overview/templates/generic.hbs"
 	}
 
 	get width() {
 		return 500;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.attributes?.hp || data.hp
+		}
 	}
 
 	getUpdate(actors) {
@@ -144,6 +157,102 @@ export class dnd5eProvider extends SystemProvider {
 	}
 }
 
+export class pf1Provider extends SystemProvider {
+	get loadTemplates() {
+		return [
+			"modules/party-overview/templates/parts/PF2e-Lore.html",
+			"modules/party-overview/templates/parts/PF2e-Bulk.html"
+		];
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/pf1.hbs"
+	}
+
+	getLore(data) {
+		let result = [];
+		for (let key in data) {
+			result.push(data[key].name);
+		}
+	
+		return result;
+	}
+
+	getTotalGP(currency) {
+		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: {
+				value: data.attributes.hp.value,
+				max: data.attributes.hp.max
+			},
+			armor: data.armor.total ? data.armor.total : 10,
+			shieldAC: data.shield && data.shield.total ? `(+${data.shield.total})` : "",
+			perception: data.skills.per.mod,
+			stealth: data.skills.ste.mod,
+			speed: data.attributes.speed.land.total,
+
+			saves: {
+				fortitude: data.attributes.savingThrows.fort.total,
+				reflex: data.attributes.savingThrows.ref.total,
+				will: data.attributes.savingThrows.will.total,
+			},
+			languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
+			currency: data.currency,
+
+			lore: this.getLore(actor.data.data.skills.lor.subSkills),
+			totalGP: this.getTotalGP(data.currency).toFixed(2)
+		}
+	}
+
+	getUpdate(actors) {
+		let languages = actors
+			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+			.filter(language => language !== undefined)
+			.sort();
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.currency) {
+					currency[prop] += actor.currency[prop];
+				}
+				return currency;
+			},
+			{
+				cp: 0,
+				sp: 0,
+				gp: 0,
+				pp: 0,
+			}
+		);
+		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+		let lores = actors
+			.reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
+			.filter(lore => lore !== undefined)
+			.sort();
+		actors = actors.map(actor => {
+			return {
+				...actor,
+				languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+				lore: lores.map(lore => actor.lore && actor.lore.includes(lore)),
+			}
+		})
+		return [
+			actors,
+			{
+				languages: languages,
+				totalCurrency: totalCurrency,
+				totalPartyGP: totalPartyGP,
+				lore: lores
+			}
+		]
+	}
+}
+
 export class pf2eProvider extends SystemProvider {
 	get loadTemplates() {
 		return [
@@ -254,6 +363,99 @@ export class pf2eProvider extends SystemProvider {
 	}
 }
 
+export class sfrpgProvider extends SystemProvider {
+	get loadTemplates() {
+		return [
+			"modules/party-overview/templates/parts/PF2e-Lore.html",
+			"modules/party-overview/templates/parts/PF2e-Bulk.html"
+		];
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/sfrpg.hbs"
+	}
+
+	getLore(data) {
+		let result = [];
+		for (let key in data) {
+			if (key.startsWith("pro") && Number(key.slice(key.length-1))) {
+				result.push(data[key].subname);
+			}
+		}
+		return result;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: {
+				value: data.attributes.hp.value,
+				max: data.attributes.hp.max
+			},
+			armor: data.attributes.eac.value ? data.attributes.eac.value : 10,
+			perception: data.skills.per.mod,
+			stealth: data.skills.ste.mod,
+			speed: data.attributes.speed.land.value,
+
+			saves: {
+				fortitude: data.attributes.fort.value,
+				reflex: data.attributes.reflex.value,
+				will: data.attributes.will.value,
+			},
+			languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.SFRPG.languages[code])) : [],
+			currency: data.currency,
+
+			lore: this.getLore(actor.data.data.skills)
+		}
+	}
+
+	getUpdate(actors) {
+		let languages = actors
+			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+			.filter(language => language !== undefined)
+			.sort();
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.currency) {
+					currency[prop] += actor.currency[prop];
+				}
+				return currency;
+			},
+			{
+				cp: 0,
+				sp: 0,
+				gp: 0,
+				pp: 0,
+			}
+		);
+		let totalPartyCredits = actors.reduce((total, actor) => total + parseFloat(actor.currency.credit), 0);
+		let totalPartyUPB = actors.reduce((total, actor) => total + parseFloat(actor.currency.upb), 0);
+		let lores = actors
+			.reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
+			.filter(lore => lore !== undefined)
+			.sort();
+		actors = actors.map(actor => {
+			return {
+				...actor,
+				languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+				lore: lores.map(lore => actor.lore && actor.lore.includes(lore)),
+			}
+		})
+		return [
+			actors,
+			{
+				languages: languages,
+				totalCurrency: totalCurrency,
+				totalPartyCredits: totalPartyCredits,
+				totalPartyUPB: totalPartyUPB,
+				lore: lores
+			}
+		]
+	}
+}
+
 export class swadeProvider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/swade.hbs"
@@ -276,6 +478,10 @@ export class swadeProvider extends SystemProvider {
 }
 
 export class wfrp4eProvider extends SystemProvider {
+	get customCSS() {
+		return ["wfrp4e"];
+	}
+
 	get template() {
 		return "/modules/party-overview/templates/wfrp4e.hbs"
 	}

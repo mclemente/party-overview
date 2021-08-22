@@ -3,7 +3,7 @@
         {{> "modules/party-overview/templates/parts/FilterButton.html"}}
         <div class="text">{{localize "party-overview.NAME"}}</div>
         {{#each lore as | l | }}
-        <div class="text icon" style="flex: 1" title="{{l}}">{{l}}</div>
+        <div class="text" style="flex: 1" title="{{l}}">{{l}}</div>
         {{/each}}
     </div>
 
@@ -17,7 +17,7 @@
         </div>
         <div class="text">{{ actor.shortestName }}</div>
         {{#each actor.lore as | lore | }}
-        <div class="text icon" style="flex: 1">{{#if lore}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times"
+        <div class="text" style="flex: 1">{{#if lore}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times"
                 style="color: gray"></i>{{/if}}</div>
         {{/each}}
     </div>

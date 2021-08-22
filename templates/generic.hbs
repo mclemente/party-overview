@@ -1,0 +1,28 @@
+<div>
+    <nav class="tabs" data-group="party">
+        <li class="item" data-tab="general">{{localize "party-overview.GENERAL"}}</li>
+    </nav>
+    <section class="content">
+        <div class="tab" data-tab="general" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="num" title="Health"><i class="fas fa-heart"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>

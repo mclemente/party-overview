@@ -126,8 +126,3 @@ div.party-overview.wfrp4e .table-row .button button {
 div.party-overview.wfrp4e .table-row:nth-child(2n) {
   background-color: rgba(228, 228, 228, 0.34);
 }
-
-.dnd5e button.party-overview {
-  background: rgba(255, 255, 240, 0.8);
-  border: 1px solid #b5b3a4;
-}
