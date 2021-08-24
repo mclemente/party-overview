@@ -66,10 +66,10 @@ export class dnd5eProvider extends SystemProvider {
 		const move = data.attributes.movement;
 		let extra = [];
 		if (move.fly)	extra.push(`${move.fly} ${move.units} fly`);
-		if (move.hover)  extra.push("hover");
+		if (move.hover) extra.push("hover");
 		if (move.burrow) extra.push(`${move.burrow} ${move.units} burrow`);
-		if (move.swim)   extra.push(`${move.swim} ${move.units} swim`);
-		if (move.climb)  extra.push(`${move.climb} ${move.units} climb`);
+		if (move.swim) extra.push(`${move.swim} ${move.units} swim`);
+		if (move.climb) extra.push(`${move.climb} ${move.units} climb`);
 
 		let str = `${move.walk} ${move.units}`;
 		if (extra.length)
@@ -80,7 +80,13 @@ export class dnd5eProvider extends SystemProvider {
 
 	getTotalGP(data) {
 		const currency = data.currency;
-		return currency.cp / 100 + currency.sp / 10 + currency.ep / 2 + currency.gp + currency.pp * 10;
+		const convert = CONFIG.DND5E.currencyConversion;
+		for ( let [c, t] of Object.entries(convert) ) {
+			let change = Math.floor(currency[c] / t.each);
+			currency[c] -= (change * t.each);
+			currency[t.into] += change;
+		}
+		return currency["pp"] * convert["gp"].each;
 	}
 	
 	htmlDecode(input) {
