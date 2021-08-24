@@ -94,6 +94,7 @@ export class dnd5eProvider extends SystemProvider {
 			id: actor.id,
 			name: actor.name,
 			hp: this.getHitPoints(data),
+			abilities: data.abilities,
 			armor: data.attributes.ac.value ? data.attributes.ac.value : 10, //TODO: replace "ac" for "armor" on .hbs
 			speed: this.getSpeed(data),
 			spellDC: data.attributes.spelldc,
@@ -146,9 +147,17 @@ export class dnd5eProvider extends SystemProvider {
 			}
 		);
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+		let saves = {};
+		for (let ability in CONFIG.DND5E.abilities) {
+			saves[ability] = {
+				short: CONFIG.DND5E.abilityAbbreviations[ability],
+				long: CONFIG.DND5E.abilities[ability]
+			}
+		}
 		return [
 			actors,
 			{
+				saves: saves,
 				languages: languages,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP
@@ -194,7 +203,6 @@ export class pf1Provider extends SystemProvider {
 			armor: data.armor.total ? data.armor.total : 10,
 			shieldAC: data.shield && data.shield.total ? `(+${data.shield.total})` : "",
 			perception: data.skills.per.mod,
-			stealth: data.skills.ste.mod,
 			speed: data.attributes.speed.land.total,
 
 			saves: {
@@ -301,10 +309,10 @@ export class pf2eProvider extends SystemProvider {
 				value: data.attributes.hp.value,
 				max: data.attributes.hp.max
 			},
+			heroPoints: data.attributes.heroPoints,
 			armor: data.attributes.ac.value ? data.attributes.ac.value : 10,
 			shieldAC: data.attributes.shield && data.attributes.shield.ac ? `(+${data.attributes.shield.ac})` : "",
 			perception: data.attributes.perception.value,
-			stealth: data.skills.ste.value,
 			speed: data.attributes.speed.value,
 
 			saves: {
@@ -375,6 +383,10 @@ export class sfrpgProvider extends SystemProvider {
 		return "/modules/party-overview/templates/sfrpg.hbs"
 	}
 
+	get width() {
+		return 640;
+	}
+
 	getLore(data) {
 		let result = [];
 		for (let key in data) {
@@ -394,9 +406,17 @@ export class sfrpgProvider extends SystemProvider {
 				value: data.attributes.hp.value,
 				max: data.attributes.hp.max
 			},
+			sp: {
+				value: data.attributes.sp.value,
+				max: data.attributes.sp.max
+			},
+			rp: {
+				value: data.attributes.sp.value,
+				max: data.attributes.sp.max
+			},
 			armor: data.attributes.eac.value ? data.attributes.eac.value : 10,
+			kac: data.attributes.kac.value ? data.attributes.kac.value : 10,
 			perception: data.skills.per.mod,
-			stealth: data.skills.ste.mod,
 			speed: data.attributes.speed.land.value,
 
 			saves: {

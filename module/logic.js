@@ -65,7 +65,7 @@ class PartyOverviewApp extends Application {
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			width: currentSystemProvider.width,
-			height: 300,
+			height: "fit-content",
 			resizable: true,
 			title: "Party Overview",
 			template: currentSystemProvider.template,

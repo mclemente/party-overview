@@ -11,12 +11,13 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">{{localize "party-overview.NAME"}}</div>
-                <div class="num" title="Health"><i class="fas fa-heart"></i></div>
-                <div class="num" title="Armor Class"><i class="fas fa-shield-alt"></i></div>
-                <div class="num" title="Perception"><i class="far fa-eye"></i></div>
-                <div class="num" title="Fortitude"><i class="fas fa-hard-hat"></i></div>
-                <div class=" num" title="Reflex"><i class="fas fa-running"></i></div>
-                <div class="num" title="Will"><i class="fas fa-brain"></i></div>
+                <div class="num" title="{{localize "PF2E.HeroPointsLabel"}}">Hero</div>
+                <div class="num" title="{{localize "PF2E.HitPointsLabel"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "PF2E.ArmorClass"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize "PF2E.Perception"}}"><i class="far fa-eye"></i></div>
+                <div class="num" title="{{localize "PF2E.SavesFortitude"}}"><i class="fas fa-hard-hat"></i></div>
+                <div class=" num" title="{{localize "PF2E.SavesReflex"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "PF2E.SavesWill"}}"><i class="fas fa-brain"></i></div>
             </div>
 
             {{#each actors as | actor | }}
@@ -28,6 +29,7 @@
                     </button>
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
+                <div class="num">{{ actor.heroPoints.rank }}/{{ actor.heroPoints.max }}</div>
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
                 <div class="num">{{ actor.armor }} {{#if actor.shieldAC}}{{ actor.shieldAC }}{{/if}}</div>
                 <div class="num">{{ actor.perception }}</div>

@@ -1,11 +1,11 @@
 <div class="table-row header">
     {{> "modules/party-overview/templates/parts/FilterButton.html"}}
     <div class="text">{{localize "party-overview.NAME"}}</div>
-    <div class="num" title="Bennies"><i class="fas fa-bullseye"></i></div>
-    <div class="num" title="Wounds"><i class="fas fa-skull"></i></div>
-    <div class="num" title="Fatigue"><i class="fas fa-dizzy"></i></div>
-    <div class="num" title="Parry"><i class="fas fa-shield-alt"></i></div>
-    <div class="text" title="Toughness"><i class="fas fa-heart"></i></div>
+    <div class="num" title="{{localize "SWADE.Bennies"}}"><i class="fas fa-bullseye"></i></div>
+    <div class="num" title="{{localize "SWADE.Wounds"}}"><i class="fas fa-skull"></i></div>
+    <div class="num" title="{{localize "SWADE.Fatigue"}}"><i class="fas fa-dizzy"></i></div>
+    <div class="num" title="{{localize "SWADE.Parry"}}"><i class="fas fa-shield-alt"></i></div>
+    <div class="text" title="{{localize "SWADE.Tough"}}"><i class="fas fa-heart"></i></div>
 </div>
 
 {{#each actors as | actor | }}

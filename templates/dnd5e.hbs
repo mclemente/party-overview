@@ -4,19 +4,20 @@
         <li class="item" data-tab="languages">{{localize "DND5E.Languages"}}</li>
         <li class="item" data-tab="currencies">{{localize "party-overview.WEALTH"}}</li>
         <li class="item" data-tab="background">{{localize "DND5E.Background"}}</li>
+        <li class="item" data-tab="saves">{{localize "DND5E.ClassSaves"}}</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
-                <div class="num" title="Inspiration"><span>&#x1f340;</span></div>
-                <div class="num" title="Health"><i class="fas fa-heart"></i></div>
-                <div class="num" title="Armor Class"><i class="fas fa-shield-alt"></i></div>
-                <div class="num" title="Passive Perception"><i class="far fa-eye"></i></div>
-                <div class="num" title="Passive Investigation"><i class="fas fa-search"></i></div>
-                <div class="num" title="Passive Insight"><i class="fas fa-brain"></i></div>
-                <div class="num" title="Passive Stealth"><i class="fas fa-user-secret"></i></div>
+                <div class="num" title="{{localize "DND5E.Inspiration"}}"><span>&#x1f340;</span></div>
+                <div class="num" title="{{localize "DND5E.HitPoints"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "DND5E.ArmorClass"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize "DND5E.SkillPrc"}}"><i class="far fa-eye"></i></div>
+                <div class="num" title="{{localize "DND5E.SkillInv"}}"><i class="fas fa-search"></i></div>
+                <div class="num" title="{{localize "DND5E.SkillIns"}}"><i class="fas fa-brain"></i></div>
+                <div class="num" title="{{localize "DND5E.SkillSte"}}"><i class="fas fa-user-secret"></i></div>
             </div>
 
             {{#each actors as | actor | }}
@@ -123,6 +124,32 @@
                 <div class="text background">{{actor.background.bond}}</div>
             </div>
             {{/each}}
+        </div>
+
+        <!-- Background -->
+        <div class="tab" data-tab="saves" data-group="party">
+            <div class="table-row header">
+            {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+            <div class="text">{{localize "party-overview.NAME"}}</div>
+            {{#each saves as | ability | }}
+            <div class="text" style="flex: 1; text-transform: capitalize;" title="{{ability.long}}">{{ability.short}}</div>
+            {{/each}}
+        </div>
+
+        {{#each actors as | actor | }}
+        <div class="table-row">
+            <div class="button">
+                <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                    {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                        class="value fas fa-eye"></i>{{/if}}
+                </button>
+            </div>
+            <div class="text">{{ actor.shortestName }}</div>
+            {{#each actor.abilities as | ability | }}
+            <div class="text" style="flex: 1">{{numberFormat ability.save decimals=0 sign=true}}</div>
+            {{/each}}
+        </div>
+        {{/each}}
         </div>
     </section>
 </div>
