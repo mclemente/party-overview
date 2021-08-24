@@ -126,3 +126,11 @@ div.party-overview.wfrp4e .table-row .button button {
 div.party-overview.wfrp4e .table-row:nth-child(2n) {
   background-color: rgba(228, 228, 228, 0.34);
 }
+
+/* Buttons */
+button.party-overview.wfrp4e {
+  min-width: max-content;
+}
+button.party-overview:not(.wfrp4e) {
+  flex-basis: 100%;
+}

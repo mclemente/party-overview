@@ -28,19 +28,15 @@ Hooks.on("ready", () => {
 Hooks.on("renderActorDirectory", (app, html, data) => {
   if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccess"))
     return;
-  let div = $(
-    `<div id="party-overview" class="action-buttons flexrow"></div>`
-  );
-  $(html).find("header.directory-header").prepend(div);
 
   let button = $(
-    `<button class="party-overview"><i class="fas fa-users"></i> Party Overview</button>`
+    `<button class="party-overview ${currentSystemProvider.customCSS}"><i class="fas fa-users"></i> Party Overview</button>`
   );
   button.on("click", (e) => {
     party.render(true);
   });
 
-  $(html).find("#party-overview").prepend(button);
+  $(html).find(".header-actions").prepend(button);
 });
 
 Hooks.on("deleteActor", (actor, ...rest) => {

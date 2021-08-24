@@ -8,7 +8,7 @@ export class SystemProvider {
 	}
 
 	get customCSS() {
-		return [];
+		return "";
 	}
 
 	get loadTemplates() {
@@ -509,7 +509,7 @@ export class swadeProvider extends SystemProvider {
 
 export class wfrp4eProvider extends SystemProvider {
 	get customCSS() {
-		return ["wfrp4e"];
+		return "wfrp4e";
 	}
 
 	get template() {
