@@ -316,21 +316,21 @@ export class pf2eProvider extends SystemProvider {
 			id: actor.id,
 			name: actor.name,
 			hp: {
-				value: data.attributes.hp.value,
-				max: data.attributes.hp.max
+				value: data.attributes.hp?.value || 0,
+				max: data.attributes.hp?.max || 0
 			},
-			heroPoints: data.attributes.heroPoints,
-			armor: data.attributes.ac.value ? data.attributes.ac.value : 10,
+			heroPoints: data.attributes.heroPoints || 0,
+			armor: data.attributes.ac?.value ? data.attributes.ac.value : 10,
 			shieldAC: data.attributes.shield && data.attributes.shield.ac ? `(+${data.attributes.shield.ac})` : "",
-			perception: data.attributes.perception.value,
-			speed: data.attributes.speed.value,
+			perception: data.attributes.perception?.value || 0,
+			speed: data.attributes.speed?.value || 0,
 
 			saves: {
-				fortitude: data.saves.fortitude.value,
-				reflex: data.saves.reflex.value,
-				will: data.saves.will.value,
+				fortitude: data.saves?.fortitude.value || 0,
+				reflex: data.saves?.reflex.value || 0,
+				will: data.saves?.will.value || 0,
 			},
-			languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
+			languages: data.traits?.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
 			currency: currency,
 
 			lore: this.getLore(actor.data),
