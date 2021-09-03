@@ -16,39 +16,32 @@ class PartyOverviewApp extends Application {
 		this.activeTab = "general";
 	}
 
-
 	update() {
 		let actors = game.actors.contents
-			.filter(a => a.hasPlayerOwner)
-			.map(playerActor => playerActor.getActiveTokens())
+			.filter((a) => a.hasPlayerOwner)
+			.map((playerActor) => playerActor.getActiveTokens())
 			.flat(1)
-			.map(token => token.actor);
+			.map((token) => token.actor);
 
 		// remove duplicates if an actors has multiple tokens on scene
-		actors = actors.reduce(
-			(actors, actor) => (actors.map(a => a.id).includes(actor.id) ? actors : [...actors, actor]),
-			[]
-		);
+		actors = actors.reduce((actors, actor) => (actors.map((a) => a.id).includes(actor.id) ? actors : [...actors, actor]), []);
 
 		switch (this.displayMode) {
 			case DISPLAY_MODE.SHOW_HIDDEN:
-				actors = actors.filter(actor => this.hiddenActors.includes(actor.id));
+				actors = actors.filter((actor) => this.hiddenActors.includes(actor.id));
 				break;
 			case DISPLAY_MODE.SHOW_VISIBLE:
-				actors = actors.filter(actor => !this.hiddenActors.includes(actor.id));
+				actors = actors.filter((actor) => !this.hiddenActors.includes(actor.id));
 				break;
 		}
 
-		actors = actors.map(actor => {
+		actors = actors.map((actor) => {
 			return {
 				...currentSystemProvider.getActorDetails(actor),
 				shortName: actor.name.split(/\s/).shift(),
-				shortestName:
-					actor.name.split(/\s/).shift().length > 10
-						? actor.name.split(/\s/).shift().substr(0, 10) + "…"
-						: actor.name.split(/\s/).shift().substr(0, 10),
-				isHidden: this.hiddenActors.includes(actor.id)
-			}
+				shortestName: actor.name.split(/\s/).shift().length > 10 ? actor.name.split(/\s/).shift().substr(0, 10) + "…" : actor.name.split(/\s/).shift().substr(0, 10),
+				isHidden: this.hiddenActors.includes(actor.id),
+			};
 		});
 
 		let updates;
@@ -58,7 +51,7 @@ class PartyOverviewApp extends Application {
 			activeTab: this.activeTab,
 			mode: this.displayMode,
 			actors: actors,
-			...updates
+			...updates,
 		};
 	}
 
@@ -86,24 +79,17 @@ class PartyOverviewApp extends Application {
 	}
 
 	activateListeners(html) {
-		$(".btn-toggle-visibility").on("click", event => {
+		$(".btn-toggle-visibility").on("click", (event) => {
 			const actorId = event.currentTarget.dataset.actor;
-			this.hiddenActors = this.hiddenActors.includes(actorId)
-				? this.hiddenActors.filter(id => id !== actorId)
-				: [...this.hiddenActors, actorId];
+			this.hiddenActors = this.hiddenActors.includes(actorId) ? this.hiddenActors.filter((id) => id !== actorId) : [...this.hiddenActors, actorId];
 			this.render(false);
 		});
 
-		$(".btn-filter").on("click", event => {
+		$(".btn-filter").on("click", (event) => {
 			this.displayMode =
-				this.displayMode === DISPLAY_MODE.SHOW_ALL
-					? DISPLAY_MODE.SHOW_VISIBLE
-					: this.displayMode === DISPLAY_MODE.SHOW_VISIBLE
-					? DISPLAY_MODE.SHOW_HIDDEN
-					: DISPLAY_MODE.SHOW_ALL;
+				this.displayMode === DISPLAY_MODE.SHOW_ALL ? DISPLAY_MODE.SHOW_VISIBLE : this.displayMode === DISPLAY_MODE.SHOW_VISIBLE ? DISPLAY_MODE.SHOW_HIDDEN : DISPLAY_MODE.SHOW_ALL;
 			this.render(false);
 		});
-
 
 		$('span[name="hpCurrent"], span[name="hpMax"]', html).hover(
 			function () {
@@ -118,7 +104,6 @@ class PartyOverviewApp extends Application {
 
 		super.activateListeners(html);
 	}
-
 }
 
 export default PartyOverviewApp;

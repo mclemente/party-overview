@@ -4,7 +4,7 @@ function isNumeric(n) {
 
 export class SystemProvider {
 	constructor(id) {
-		this.id = id
+		this.id = id;
 	}
 
 	get customCSS() {
@@ -16,7 +16,7 @@ export class SystemProvider {
 	}
 
 	get template() {
-		return "/modules/party-overview/templates/generic.hbs"
+		return "/modules/party-overview/templates/generic.hbs";
 	}
 
 	get width() {
@@ -28,18 +28,18 @@ export class SystemProvider {
 		return {
 			id: actor.id,
 			name: actor.name,
-			hp: data.attributes?.hp || data.hp
-		}
+			hp: data.attributes?.hp || data.hp,
+		};
 	}
 
 	getUpdate(actors) {
-		return [actors, {}]
+		return [actors, {}];
 	}
 }
 
 export class dnd5eProvider extends SystemProvider {
 	get template() {
-		return "/modules/party-overview/templates/dnd5e.hbs"
+		return "/modules/party-overview/templates/dnd5e.hbs";
 	}
 
 	get width() {
@@ -65,15 +65,14 @@ export class dnd5eProvider extends SystemProvider {
 	getSpeed(data) {
 		const move = data.attributes.movement;
 		let extra = [];
-		if (move.fly)	extra.push(`${move.fly} ${move.units} fly`);
+		if (move.fly) extra.push(`${move.fly} ${move.units} fly`);
 		if (move.hover) extra.push("hover");
 		if (move.burrow) extra.push(`${move.burrow} ${move.units} burrow`);
 		if (move.swim) extra.push(`${move.swim} ${move.units} swim`);
 		if (move.climb) extra.push(`${move.climb} ${move.units} climb`);
 
 		let str = `${move.walk} ${move.units}`;
-		if (extra.length)
-			str += ` (${extra.join(", ")})`;
+		if (extra.length) str += ` (${extra.join(", ")})`;
 
 		return str;
 	}
@@ -81,18 +80,20 @@ export class dnd5eProvider extends SystemProvider {
 	getTotalGP(data) {
 		const currency = foundry.utils.deepClone(data.currency);
 		const convert = CONFIG.DND5E.currencyConversion;
-		for ( let [c, t] of Object.entries(convert) ) {
+		for (let [c, t] of Object.entries(convert)) {
 			let change = Math.floor(currency[c] / t.each);
-			currency[c] -= (change * t.each);
+			currency[c] -= change * t.each;
 			currency[t.into] += change;
 		}
-		return currency["pp"] * convert["gp"].each
-			+ currency["gp"]
-			+ currency["ep"] / convert["ep"].each
-			+ (currency["sp"] / convert["sp"].each / convert["ep"].each)
-			+ (currency["cp"] / convert["cp"].each / convert["sp"].each / convert["ep"].each);
+		return (
+			currency["pp"] * convert["gp"].each +
+			currency["gp"] +
+			currency["ep"] / convert["ep"].each +
+			currency["sp"] / convert["sp"].each / convert["ep"].each +
+			currency["cp"] / convert["cp"].each / convert["sp"].each / convert["ep"].each
+		);
 	}
-	
+
 	htmlDecode(input) {
 		var doc = new DOMParser().parseFromString(input, "text/html");
 		return doc.documentElement.textContent;
@@ -120,25 +121,25 @@ export class dnd5eProvider extends SystemProvider {
 				trait: this.htmlDecode(data.details.trait),
 				ideal: this.htmlDecode(data.details.ideal),
 				bond: this.htmlDecode(data.details.bond),
-				flaw: this.htmlDecode(data.details.flaw)
+				flaw: this.htmlDecode(data.details.flaw),
 			},
 			inspiration: data.attributes.inspiration,
-			languages: data.traits.languages ? data.traits.languages.value.map(code => CONFIG.DND5E.languages[code]) : [],
+			languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
 			alignment: data.details.alignment,
 			currency: data.currency,
-			totalGP: this.getTotalGP(data).toFixed(2)
-		}
+			totalGP: this.getTotalGP(data).toFixed(2),
+		};
 	}
 
 	getUpdate(actors) {
 		let languages = actors
 			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-			.filter(language => language !== undefined)
+			.filter((language) => language !== undefined)
 			.sort();
-		actors = actors.map(actor => {
+		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map(language => actor.languages && actor.languages.includes(language)),
+				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
 			};
 		});
 		let totalCurrency = actors.reduce(
@@ -161,8 +162,8 @@ export class dnd5eProvider extends SystemProvider {
 		for (let ability in CONFIG.DND5E.abilities) {
 			saves[ability] = {
 				short: CONFIG.DND5E.abilityAbbreviations[ability],
-				long: CONFIG.DND5E.abilities[ability]
-			}
+				long: CONFIG.DND5E.abilities[ability],
+			};
 		}
 		return [
 			actors,
@@ -170,22 +171,19 @@ export class dnd5eProvider extends SystemProvider {
 				saves: saves,
 				languages: languages,
 				totalCurrency: totalCurrency,
-				totalPartyGP: totalPartyGP
-			}
-		]
+				totalPartyGP: totalPartyGP,
+			},
+		];
 	}
 }
 
 export class pf1Provider extends SystemProvider {
 	get loadTemplates() {
-		return [
-			"modules/party-overview/templates/parts/PF2e-Lore.html",
-			"modules/party-overview/templates/parts/PF2e-Bulk.html"
-		];
+		return ["modules/party-overview/templates/parts/PF2e-Lore.html", "modules/party-overview/templates/parts/PF2e-Bulk.html"];
 	}
 
 	get template() {
-		return "/modules/party-overview/templates/pf1.hbs"
+		return "/modules/party-overview/templates/pf1.hbs";
 	}
 
 	getLore(data) {
@@ -193,7 +191,7 @@ export class pf1Provider extends SystemProvider {
 		for (let key in data) {
 			result.push(data[key].name);
 		}
-	
+
 		return result;
 	}
 
@@ -208,7 +206,7 @@ export class pf1Provider extends SystemProvider {
 			name: actor.name,
 			hp: {
 				value: data.attributes.hp.value,
-				max: data.attributes.hp.max
+				max: data.attributes.hp.max,
 			},
 			armor: data.armor.total ? data.armor.total : 10,
 			shieldAC: data.shield && data.shield.total ? `(+${data.shield.total})` : "",
@@ -220,18 +218,18 @@ export class pf1Provider extends SystemProvider {
 				reflex: data.attributes.savingThrows.ref.total,
 				will: data.attributes.savingThrows.will.total,
 			},
-			languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
+			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
 			currency: data.currency,
 
 			lore: this.getLore(actor.data.data.skills.lor.subSkills),
-			totalGP: this.getTotalGP(data.currency).toFixed(2)
-		}
+			totalGP: this.getTotalGP(data.currency).toFixed(2),
+		};
 	}
 
 	getUpdate(actors) {
 		let languages = actors
 			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-			.filter(language => language !== undefined)
+			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
 			(currency, actor) => {
@@ -250,37 +248,34 @@ export class pf1Provider extends SystemProvider {
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
 		let lores = actors
 			.reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
-			.filter(lore => lore !== undefined)
+			.filter((lore) => lore !== undefined)
 			.sort();
-		actors = actors.map(actor => {
+		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map(language => actor.languages && actor.languages.includes(language)),
-				lore: lores.map(lore => actor.lore && actor.lore.includes(lore)),
-			}
-		})
+				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+				lore: lores.map((lore) => actor.lore && actor.lore.includes(lore)),
+			};
+		});
 		return [
 			actors,
 			{
 				languages: languages,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
-				lore: lores
-			}
-		]
+				lore: lores,
+			},
+		];
 	}
 }
 
 export class pf2eProvider extends SystemProvider {
 	get loadTemplates() {
-		return [
-			"modules/party-overview/templates/parts/PF2e-Lore.html",
-			"modules/party-overview/templates/parts/PF2e-Bulk.html"
-		];
+		return ["modules/party-overview/templates/parts/PF2e-Lore.html", "modules/party-overview/templates/parts/PF2e-Bulk.html"];
 	}
 
 	get template() {
-		return "/modules/party-overview/templates/pf2e.hbs"
+		return "/modules/party-overview/templates/pf2e.hbs";
 	}
 
 	get width() {
@@ -288,20 +283,22 @@ export class pf2eProvider extends SystemProvider {
 	}
 
 	getCurrency(data) {
-		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"]
+		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
 		const wealth = {
 			"Platinum Pieces": "pp",
 			"Gold Pieces": "gp",
 			"Silver Pieces": "sp",
-			"Copper Pieces": "cp"
+			"Copper Pieces": "cp",
 		};
-		const currency = {"pp":0, "gp":0, "sp":0, "cp":0}
-		data.items.filter(a => coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name)).map(a => currency[wealth[a.data?.flags?.babele?.originalName || a.name]] += a.quantity);
+		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
+		data.items
+			.filter((a) => coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name))
+			.map((a) => (currency[wealth[a.data?.flags?.babele?.originalName || a.name]] += a.quantity));
 		return currency;
 	}
 
 	getLore(data) {
-		const lore = data.items.filter(a => a.type == "lore").map(a => a.name);
+		const lore = data.items.filter((a) => a.type == "lore").map((a) => a.name);
 		return lore;
 	}
 
@@ -317,7 +314,7 @@ export class pf2eProvider extends SystemProvider {
 			name: actor.name,
 			hp: {
 				value: data.attributes.hp?.value || 0,
-				max: data.attributes.hp?.max || 0
+				max: data.attributes.hp?.max || 0,
 			},
 			heroPoints: data.attributes.heroPoints || 0,
 			armor: data.attributes.ac?.value ? data.attributes.ac.value : 10,
@@ -330,18 +327,18 @@ export class pf2eProvider extends SystemProvider {
 				reflex: data.saves?.reflex.value || 0,
 				will: data.saves?.will.value || 0,
 			},
-			languages: data.traits?.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
+			languages: data.traits?.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
 			currency: currency,
 
 			lore: this.getLore(actor.data),
-			totalGP: this.getTotalGP(currency).toFixed(2)
-		}
+			totalGP: this.getTotalGP(currency).toFixed(2),
+		};
 	}
 
 	getUpdate(actors) {
 		let languages = actors
 			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-			.filter(language => language !== undefined)
+			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
 			(currency, actor) => {
@@ -360,37 +357,34 @@ export class pf2eProvider extends SystemProvider {
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
 		let lores = actors
 			.reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
-			.filter(lore => lore !== undefined)
+			.filter((lore) => lore !== undefined)
 			.sort();
-		actors = actors.map(actor => {
+		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map(language => actor.languages && actor.languages.includes(language)),
-				lore: lores.map(lore => actor.lore && actor.lore.includes(lore)),
-			}
-		})
+				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+				lore: lores.map((lore) => actor.lore && actor.lore.includes(lore)),
+			};
+		});
 		return [
 			actors,
 			{
 				languages: languages,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
-				lore: lores
-			}
-		]
+				lore: lores,
+			},
+		];
 	}
 }
 
 export class sfrpgProvider extends SystemProvider {
 	get loadTemplates() {
-		return [
-			"modules/party-overview/templates/parts/PF2e-Lore.html",
-			"modules/party-overview/templates/parts/PF2e-Bulk.html"
-		];
+		return ["modules/party-overview/templates/parts/PF2e-Lore.html", "modules/party-overview/templates/parts/PF2e-Bulk.html"];
 	}
 
 	get template() {
-		return "/modules/party-overview/templates/sfrpg.hbs"
+		return "/modules/party-overview/templates/sfrpg.hbs";
 	}
 
 	get width() {
@@ -400,7 +394,7 @@ export class sfrpgProvider extends SystemProvider {
 	getLore(data) {
 		let result = [];
 		for (let key in data) {
-			if (key.startsWith("pro") && Number(key.slice(key.length-1))) {
+			if (key.startsWith("pro") && Number(key.slice(key.length - 1))) {
 				result.push(data[key].subname);
 			}
 		}
@@ -414,15 +408,15 @@ export class sfrpgProvider extends SystemProvider {
 			name: actor.name,
 			hp: {
 				value: data.attributes.hp.value,
-				max: data.attributes.hp.max
+				max: data.attributes.hp.max,
 			},
 			sp: {
 				value: data.attributes.sp.value,
-				max: data.attributes.sp.max
+				max: data.attributes.sp.max,
 			},
 			rp: {
 				value: data.attributes.sp.value,
-				max: data.attributes.sp.max
+				max: data.attributes.sp.max,
 			},
 			armor: data.attributes.eac.value ? data.attributes.eac.value : 10,
 			kac: data.attributes.kac.value ? data.attributes.kac.value : 10,
@@ -434,17 +428,17 @@ export class sfrpgProvider extends SystemProvider {
 				reflex: data.attributes.reflex.value,
 				will: data.attributes.will.value,
 			},
-			languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.SFRPG.languages[code])) : [],
+			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.SFRPG.languages[code])) : [],
 			currency: data.currency,
 
-			lore: this.getLore(actor.data.data.skills)
-		}
+			lore: this.getLore(actor.data.data.skills),
+		};
 	}
 
 	getUpdate(actors) {
 		let languages = actors
 			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-			.filter(language => language !== undefined)
+			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
 			(currency, actor) => {
@@ -464,15 +458,15 @@ export class sfrpgProvider extends SystemProvider {
 		let totalPartyUPB = actors.reduce((total, actor) => total + parseFloat(actor.currency.upb), 0);
 		let lores = actors
 			.reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
-			.filter(lore => lore !== undefined)
+			.filter((lore) => lore !== undefined)
 			.sort();
-		actors = actors.map(actor => {
+		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map(language => actor.languages && actor.languages.includes(language)),
-				lore: lores.map(lore => actor.lore && actor.lore.includes(lore)),
-			}
-		})
+				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+				lore: lores.map((lore) => actor.lore && actor.lore.includes(lore)),
+			};
+		});
 		return [
 			actors,
 			{
@@ -480,15 +474,15 @@ export class sfrpgProvider extends SystemProvider {
 				totalCurrency: totalCurrency,
 				totalPartyCredits: totalPartyCredits,
 				totalPartyUPB: totalPartyUPB,
-				lore: lores
-			}
-		]
+				lore: lores,
+			},
+		];
 	}
 }
 
 export class swadeProvider extends SystemProvider {
 	get template() {
-		return "/modules/party-overview/templates/swade.hbs"
+		return "/modules/party-overview/templates/swade.hbs";
 	}
 
 	getActorDetails(actor) {
@@ -502,8 +496,8 @@ export class swadeProvider extends SystemProvider {
 			bennies: actor.data.data.bennies.value,
 			parry: actor.data.data.stats.parry.value,
 			toughness: actor.data.data.stats.toughness.value,
-			armor: actor.data.data.stats.toughness.armor
-		}
+			armor: actor.data.data.stats.toughness.armor,
+		};
 	}
 }
 
@@ -513,9 +507,9 @@ export class wfrp4eProvider extends SystemProvider {
 	}
 
 	get template() {
-		return "/modules/party-overview/templates/wfrp4e.hbs"
+		return "/modules/party-overview/templates/wfrp4e.hbs";
 	}
-	
+
 	getActorDetails(actor) {
 		const data = actor.data.data;
 		return {
@@ -528,7 +522,7 @@ export class wfrp4eProvider extends SystemProvider {
 			advantage: data.status.advantage.value,
 			movement: data.details.move.value,
 			walk: data.details.move.walk,
-			run: data.details.move.run
-		}
+			run: data.details.move.run,
+		};
 	}
 }

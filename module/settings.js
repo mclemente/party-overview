@@ -1,4 +1,4 @@
-import { availableSystemProviders, currentSystemProvider, getDefaultSystemProvider, updateSystemProvider } from "./api.js"
+import { availableSystemProviders, currentSystemProvider, getDefaultSystemProvider, updateSystemProvider } from "./api.js";
 
 const debouncedReload = foundry.utils.debounce(() => {
 	window.location.reload();
@@ -10,7 +10,7 @@ export function registerSettings() {
 		label: "Party Overview System Settings",
 		icon: "fas fa-users",
 		type: SystemProviderSettings,
-		restricted: true
+		restricted: true,
 	});
 	game.settings.register("party-overview", "EnablePlayerAccess", {
 		name: game.i18n.localize(`party-overview.EnablePlayerAccess.Name`),
@@ -18,19 +18,18 @@ export function registerSettings() {
 		scope: "world",
 		default: true,
 		config: true,
-		type: Boolean
-	})
+		type: Boolean,
+	});
 	game.settings.register("party-overview", "systemProvider", {
 		scope: "world",
 		config: false,
 		type: String,
 		default: getDefaultSystemProvider(),
-		onChange: updateSystemProvider
-	})
+		onChange: updateSystemProvider,
+	});
 }
 
 export class SystemProviderSettings extends FormApplication {
-
 	constructor(object, options = {}) {
 		super(object, options);
 	}
@@ -40,12 +39,12 @@ export class SystemProviderSettings extends FormApplication {
 	 */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			id: 'party-overview-form',
-			title: 'Party Overview System Settings',
-			template: './modules/party-overview/templates/SystemProviderSettings.hbs',
-			classes: ['sheet'],
+			id: "party-overview-form",
+			title: "Party Overview System Settings",
+			template: "./modules/party-overview/templates/SystemProviderSettings.hbs",
+			classes: ["sheet"],
 			width: 600,
-			closeOnSubmit: true
+			closeOnSubmit: true,
 		});
 	}
 
@@ -53,31 +52,28 @@ export class SystemProviderSettings extends FormApplication {
 		const data = {};
 		const selectedProvider = currentSystemProvider.id;
 		// Insert all speed providers into the template data
-		data.providers = Object.values(availableSystemProviders).map(systemProvider => {
-			const provider = {}
-			provider.id = systemProvider.id
-			let dotPosition = provider.id.indexOf(".")
-			if (dotPosition === -1)
-				dotPosition = provider.id.length
-			const type = provider.id.substring(0, dotPosition)
-			const id = provider.id.substring(dotPosition + 1)
+		data.providers = Object.values(availableSystemProviders).map((systemProvider) => {
+			const provider = {};
+			provider.id = systemProvider.id;
+			let dotPosition = provider.id.indexOf(".");
+			if (dotPosition === -1) dotPosition = provider.id.length;
+			const type = provider.id.substring(0, dotPosition);
+			const id = provider.id.substring(dotPosition + 1);
 			if (type === "native") {
 				let title = id == game.system.id ? game.system.data.title : id;
 				provider.selectTitle = (game.i18n.localize("party-overview.SystemProvider.choices.native") + " " + title).trim();
-			}
-			else {
-				let name
+			} else {
+				let name;
 				if (type === "module") {
-					name = game.modules.get(id).data.title
+					name = game.modules.get(id).data.title;
+				} else {
+					name = game.system.data.title;
 				}
-				else {
-					name = game.system.data.title
-				}
-				provider.selectTitle = game.i18n.format(`party-overview.SystemProvider.choices.${type}`, {name})
+				provider.selectTitle = game.i18n.format(`party-overview.SystemProvider.choices.${type}`, { name });
 			}
-			provider.isSelected = provider.id === selectedProvider
-			return provider
-		})
+			provider.isSelected = provider.id === selectedProvider;
+			return provider;
+		});
 
 		data.providerSelection = {
 			id: "systemProvider",
@@ -85,22 +81,22 @@ export class SystemProviderSettings extends FormApplication {
 			hint: game.i18n.localize("party-overview.SystemProvider.Hint"),
 			type: String,
 			choices: data.providers.reduce((choices, provider) => {
-				choices[provider.id] = provider.selectTitle
-				return choices
+				choices[provider.id] = provider.selectTitle;
+				return choices;
 			}, {}),
 			value: selectedProvider,
 			isCheckbox: false,
 			isSelect: true,
 			isRange: false,
-		}
+		};
 
-		return {data};
+		return { data };
 	}
 
 	async activateListeners(html) {
 		super.activateListeners(html);
-		html.find('button').on('click', async (event) => {
-			if (event.currentTarget?.dataset?.action === 'reset') {
+		html.find("button").on("click", async (event) => {
+			if (event.currentTarget?.dataset?.action === "reset") {
 				game.settings.settings.get("party-overview.systemProvider").default = getDefaultSystemProvider();
 				debouncedReload();
 			}
