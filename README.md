@@ -8,12 +8,29 @@
 # Party Overview
 A quick overview about the players that have tokens placed on the currently active scene. At a glance, you will see
 
-- Current and maximum hitpoints
-- Armor Class
-- Passives: Perception, Investigation and Insight
-- On a second tab: All languages your players might know and which one of them can speak said language
+Vitals (hit points, wounds)
+Inspiration, Hero Points, Bennies, Advantage.
+Defenses (Armor Class, Saving Throws)
+All languages your players might know and which one of them can speak said language.
 
 Using filters, you can hide and show players to your hearts desire, to quickly get the information you need in the heat of the battle.
+
+## Examples
+
+All prints are from PF2e's implementation since it's the system where I play in.
+
+## General
+
+Hero Points, HP, AC, Perception, Fortitude, Reflex, Will
+![image](https://user-images.githubusercontent.com/5288872/132876537-72047313-8dcd-459b-8703-ff5d77aa2d8a.png)
+
+## Wealth
+
+![image](https://user-images.githubusercontent.com/5288872/132876781-f02435dd-43d9-4ce4-a6f1-98d3aa7e6ff0.png)
+
+## Languages
+
+![image](https://user-images.githubusercontent.com/5288872/132876955-651a7509-d085-4ede-88d7-7ea09a5f369d.png)
 
 ### Caveats and additional information
 
