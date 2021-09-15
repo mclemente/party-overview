@@ -1,31 +1,32 @@
-<div class='tab' data-tab='lore' data-group='party'>
-  <div class='table-row header'>
-      {{> 'modules/party-overview/templates/parts/FilterButton.html'}}
-      <div class='text'>{{localize 'party-overview.NAME'}}</div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKAr'}}"><i class='value fas fa-hand-sparkles'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKDu'}}"><i class='value fas fa-dungeon'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKEn'}}"><i class='value fas fa-cogs'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKGe'}}"><i class='value fas fa-map'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKHi'}}"><i class='value fas fa-landmark'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKLo'}}"><i class='value fas fa-address-book'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKNa'}}"><i class='value fas fa-leaf'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKNo'}}"><i class='value fas fa-crown'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKPl'}}"><i class='value fas fa-globe'></i></div>
-      <div class='num' style='flex: 1' title="{{localize 'PF1.SkillKRe'}}"><i class='value fas fa-place-of-worship'></i></div>
-  </div>
+<div class="tab" data-tab="lore" data-group="party">
+	<div class="table-row header">
+		{{> 'modules/party-overview/templates/parts/FilterButton.html'}}
+		<div class="text">{{localize 'party-overview.NAME'}}</div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKAr'}}"><i class="value fas fa-hand-sparkles"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKDu'}}"><i class="value fas fa-dungeon"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKEn'}}"><i class="value fas fa-cogs"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKGe'}}"><i class="value fas fa-map"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKHi'}}"><i class="value fas fa-landmark"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKLo'}}"><i class="value fas fa-address-book"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKNa'}}"><i class="value fas fa-leaf"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKNo'}}"><i class="value fas fa-crown"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKPl'}}"><i class="value fas fa-globe"></i></div>
+		<div class="num" style="flex: 1" title="{{localize 'PF1.SkillKRe'}}"><i class="value fas fa-place-of-worship"></i></div>
+	</div>
 
-  {{#each actors as | actor | }}
-  <div class='table-row'>
-      <div class='button'>
-          <button class='btn-toggle-visibility' data-actor='{{actor.id }}'>
-              {{#if actor.isHidden }}<i class='value fas fa-eye-slash'></i>{{else}}<i
-                  class='value fas fa-eye'></i>{{/if}}
-          </button>
-      </div>
-      <div class='text'>{{ actor.shortestName }}</div>
-      {{#each ../knowledges as | k | }}
-      <div class='num' style='flex: 1'>{{#if (lookup actor.knowledge @k)}}+{{lookup actor.knowledge @k}}{{else}}<i class='value fas fa-times' style='color: gray'></i>{{/if}}</div>
-      {{/each}}
-  </div>
-  {{/each}}
+	{{#each actors as | actor | }}
+	<div class="table-row">
+		<div class="button">
+			<button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+				{{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i class="value fas fa-eye"></i>{{/if}}
+			</button>
+		</div>
+		<div class="text">{{ actor.shortestName }}</div>
+		{{#each ../knowledges as | k | }}
+		<div class="num" style="flex: 1">
+			{{#if (lookup actor.knowledge @k)}}+{{lookup actor.knowledge @k}}{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}
+		</div>
+		{{/each}}
+	</div>
+	{{/each}}
 </div>
