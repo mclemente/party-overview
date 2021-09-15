@@ -181,21 +181,17 @@ export class pf1Provider extends SystemProvider {
 	static knowledgeKeys = ["kar", "kdu", "ken", "kge", "khi", "klo", "kna", "kno", "kpl", "kre"];
 
 	get loadTemplates() {
-		return [
-			"modules/party-overview/templates/parts/PF1e-Knowledge.html",
-			"modules/party-overview/templates/parts/PF2e-Bulk.html"
-		];
+		return ["modules/party-overview/templates/parts/PF1e-Knowledge.html"];
 	}
 
 	get template() {
-		return "/modules/party-overview/templates/pf1.hbs"
+		return "/modules/party-overview/templates/pf1.hbs";
 	}
 
 	getKnowledge(skills) {
-		return pf1Provider.knowledgeKeys.reduce((knowledge, key)  => {
-			if (skills[key].rank > 0)
-				knowledge[key] = skills[key].mod;
-			return knowledge
+		return pf1Provider.knowledgeKeys.reduce((knowledge, key) => {
+			if (skills[key].rank > 0) knowledge[key] = skills[key].mod;
+			return knowledge;
 		}, {});
 	}
 
@@ -216,7 +212,7 @@ export class pf1Provider extends SystemProvider {
 			name: actor.name,
 			hp: {
 				value: data.attributes.hp.value,
-				max: data.attributes.hp.max
+				max: data.attributes.hp.max,
 			},
 			armor: data.attributes.ac.normal.total,
 			perception: `+${data.skills.per.mod}`,
@@ -227,18 +223,18 @@ export class pf1Provider extends SystemProvider {
 				reflex: `+${data.attributes.savingThrows.ref.total}`,
 				will: `+${data.attributes.savingThrows.will.total}`,
 			},
-			languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
+			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
 			currency: currency,
 
 			knowledge: this.getKnowledge(actor.data.data.skills),
-			totalGP: this.getTotalGP(currency).toFixed(2)
-		}
+			totalGP: this.getTotalGP(currency).toFixed(2),
+		};
 	}
 
 	getUpdate(actors) {
 		let languages = actors
 			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-			.filter(language => language !== undefined)
+			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
 			(currency, actor) => {
@@ -255,11 +251,11 @@ export class pf1Provider extends SystemProvider {
 			}
 		);
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
-		actors = actors.map(actor => {
+		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map(language => actor.languages && actor.languages.includes(language))
-			}
+				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+			};
 		});
 
 		return [
@@ -269,14 +265,14 @@ export class pf1Provider extends SystemProvider {
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
 				knowledges: pf1Provider.knowledgeKeys,
-			}
-		]
+			},
+		];
 	}
 }
 
 export class pf2eProvider extends SystemProvider {
 	get loadTemplates() {
-		return ["modules/party-overview/templates/parts/PF2e-Lore.html", "modules/party-overview/templates/parts/PF2e-Bulk.html"];
+		return ["modules/party-overview/templates/parts/PF2e-Lore.html"];
 	}
 
 	get template() {
@@ -385,7 +381,7 @@ export class pf2eProvider extends SystemProvider {
 
 export class sfrpgProvider extends SystemProvider {
 	get loadTemplates() {
-		return ["modules/party-overview/templates/parts/PF2e-Lore.html", "modules/party-overview/templates/parts/PF2e-Bulk.html"];
+		return ["modules/party-overview/templates/parts/PF2e-Lore.html"];
 	}
 
 	get template() {
