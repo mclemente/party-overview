@@ -3,7 +3,7 @@
         <li class="item" data-tab="general">{{localize "party-overview.GENERAL"}}</li>
 		<li class="item" data-tab="currencies">{{localize "party-overview.WEALTH"}}</li>
 		<li class="item" data-tab="languages">{{localize "PF1.Languages"}}</li>
-		<li class="item" data-tab="lore">{{localize "PF1.SkillLor"}}</li>
+		<li class="item" data-tab="lore">{{localize "PF1.KnowledgeSkills"}}</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
@@ -14,7 +14,7 @@
                 <div class="num" title="{{localize "PF1.ArmorClass"}}"><i class="fas fa-shield-alt"></i></div>
                 <div class="num" title="{{localize "PF1.SkillPer"}}"><i class="far fa-eye"></i></div>
                 <div class="num" title="{{localize "PF1.SavingThrowFort"}}"><i class="fas fa-hard-hat"></i></div>
-                <div class=" num" title="{{localize "PF1.SavingThrowRef"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "PF1.SavingThrowRef"}}"><i class="fas fa-running"></i></div>
                 <div class="num" title="{{localize "PF1.SavingThrowWill"}}"><i class="fas fa-brain"></i></div>
             </div>
 
@@ -39,8 +39,8 @@
 		<!-- Languages -->
         {{> "modules/party-overview/templates/parts/Languages.html"}}
 
-        <!-- Lore -->
-        {{> "modules/party-overview/templates/parts/PF2e-Lore.html"}}
+        <!-- Knowledge -->
+        {{> "modules/party-overview/templates/parts/PF1e-Knowledge.html"}}
 
         <!-- Currency -->
         <div class="tab" data-tab="currencies" data-group="party">

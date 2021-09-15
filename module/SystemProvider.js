@@ -178,21 +178,25 @@ export class dnd5eProvider extends SystemProvider {
 }
 
 export class pf1Provider extends SystemProvider {
+	static knowledgeKeys = ["kar", "kdu", "ken", "kge", "khi", "klo", "kna", "kno", "kpl", "kre"];
+
 	get loadTemplates() {
-		return ["modules/party-overview/templates/parts/PF2e-Lore.html", "modules/party-overview/templates/parts/PF2e-Bulk.html"];
+		return [
+			"modules/party-overview/templates/parts/PF1e-Knowledge.html",
+			"modules/party-overview/templates/parts/PF2e-Bulk.html"
+		];
 	}
 
 	get template() {
-		return "/modules/party-overview/templates/pf1.hbs";
+		return "/modules/party-overview/templates/pf1.hbs"
 	}
 
-	getLore(data) {
-		let result = [];
-		for (let key in data) {
-			result.push(data[key].name);
-		}
-
-		return result;
+	getKnowledge(skills) {
+		return pf1Provider.knowledgeKeys.reduce((knowledge, key)  => {
+			if (skills[key].rank > 0)
+				knowledge[key] = skills[key].mod;
+			return knowledge
+		}, {});
 	}
 
 	getTotalGP(currency) {
@@ -201,35 +205,40 @@ export class pf1Provider extends SystemProvider {
 
 	getActorDetails(actor) {
 		const data = actor.data.data;
+		const currency = {
+			cp: parseInt(data.currency.cp) + parseInt(data.altCurrency.cp), // some actors have a string value instead of an integer
+			sp: parseInt(data.currency.sp) + parseInt(data.altCurrency.sp),
+			gp: parseInt(data.currency.gp) + parseInt(data.altCurrency.gp),
+			pp: parseInt(data.currency.pp) + parseInt(data.altCurrency.pp),
+		};
 		return {
 			id: actor.id,
 			name: actor.name,
 			hp: {
 				value: data.attributes.hp.value,
-				max: data.attributes.hp.max,
+				max: data.attributes.hp.max
 			},
-			armor: data.armor.total ? data.armor.total : 10,
-			shieldAC: data.shield && data.shield.total ? `(+${data.shield.total})` : "",
-			perception: data.skills.per.mod,
+			armor: data.attributes.ac.normal.total,
+			perception: `+${data.skills.per.mod}`,
 			speed: data.attributes.speed.land.total,
 
 			saves: {
-				fortitude: data.attributes.savingThrows.fort.total,
-				reflex: data.attributes.savingThrows.ref.total,
-				will: data.attributes.savingThrows.will.total,
+				fortitude: `+${data.attributes.savingThrows.fort.total}`,
+				reflex: `+${data.attributes.savingThrows.ref.total}`,
+				will: `+${data.attributes.savingThrows.will.total}`,
 			},
-			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
-			currency: data.currency,
+			languages: data.traits.languages ? data.traits.languages.value.map(code => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
+			currency: currency,
 
-			lore: this.getLore(actor.data.data.skills.lor.subSkills),
-			totalGP: this.getTotalGP(data.currency).toFixed(2),
-		};
+			knowledge: this.getKnowledge(actor.data.data.skills),
+			totalGP: this.getTotalGP(currency).toFixed(2)
+		}
 	}
 
 	getUpdate(actors) {
 		let languages = actors
 			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
-			.filter((language) => language !== undefined)
+			.filter(language => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
 			(currency, actor) => {
@@ -246,26 +255,22 @@ export class pf1Provider extends SystemProvider {
 			}
 		);
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
-		let lores = actors
-			.reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
-			.filter((lore) => lore !== undefined)
-			.sort();
-		actors = actors.map((actor) => {
+		actors = actors.map(actor => {
 			return {
 				...actor,
-				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
-				lore: lores.map((lore) => actor.lore && actor.lore.includes(lore)),
-			};
+				languages: languages.map(language => actor.languages && actor.languages.includes(language))
+			}
 		});
+
 		return [
 			actors,
 			{
 				languages: languages,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
-				lore: lores,
-			},
-		];
+				knowledges: pf1Provider.knowledgeKeys,
+			}
+		]
 	}
 }
 
