@@ -42,10 +42,6 @@ export class dnd5eProvider extends SystemProvider {
 		return "/modules/party-overview/templates/dnd5e.hbs";
 	}
 
-	get width() {
-		return 575;
-	}
-
 	getHitPoints(data) {
 		const hp = data.attributes.hp;
 		const value = parseInt(hp.value);
@@ -279,10 +275,6 @@ export class pf2eProvider extends SystemProvider {
 		return "/modules/party-overview/templates/pf2e.hbs";
 	}
 
-	get width() {
-		return 540;
-	}
-
 	getCurrency(data) {
 		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
 		const wealth = {
@@ -298,6 +290,16 @@ export class pf2eProvider extends SystemProvider {
 		return currency;
 	}
 
+	getItemsValue(data) {
+		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
+		const items = data.items.filter((a) => a.data.data.price);
+		for (const item of items) {
+			let [value, coin] = item.data.data.price.value.split(" ");
+			currency[coin] += Number(value);
+		}
+		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
+	}
+
 	getLore(data) {
 		const lore = data.items.filter((a) => a.type == "lore").map((a) => a.name);
 		return lore;
@@ -310,6 +312,9 @@ export class pf2eProvider extends SystemProvider {
 	getActorDetails(actor) {
 		const data = actor.data.data;
 		const currency = this.getCurrency(actor.data);
+		const itemsValue = this.getItemsValue(actor.data).toFixed(2);
+		const totalGP = this.getTotalGP(currency).toFixed(2);
+		const sumItemsGP = (Number(itemsValue) + Number(totalGP)).toFixed(2);
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -330,9 +335,11 @@ export class pf2eProvider extends SystemProvider {
 			},
 			languages: data.traits?.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
 			currency: currency,
+			itemsValue: itemsValue,
+			sumItemsGP: sumItemsGP,
 
 			lore: this.getLore(actor.data),
-			totalGP: this.getTotalGP(currency).toFixed(2),
+			totalGP: totalGP,
 		};
 	}
 
@@ -355,6 +362,7 @@ export class pf2eProvider extends SystemProvider {
 				pp: 0,
 			}
 		);
+		let itemsValue = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.itemsValue), 0).toFixed(2);
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
 		let lores = actors
 			.reduce((lore, actor) => [...new Set(lore.concat(actor.lore))], [])
@@ -372,7 +380,9 @@ export class pf2eProvider extends SystemProvider {
 			{
 				languages: languages,
 				totalCurrency: totalCurrency,
+				itemsValue: itemsValue,
 				totalPartyGP: totalPartyGP,
+				sumItemsGP: (Number(itemsValue) + Number(totalPartyGP)).toFixed(2),
 				lore: lores,
 			},
 		];
