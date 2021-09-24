@@ -17,7 +17,7 @@
                 <div class="num" title="{{localize "SFRPG.KineticArmorClass"}}"><i class="fas fa-bolt"></i></div>
                 <div class="num" title="{{localize "SFRPG.SkillPer"}}"><i class="far fa-eye"></i></div>
                 <div class="num" title="{{localize "SFRPG.FortitudeSave"}}"><i class="fas fa-hard-hat"></i></div>
-                <div class=" num" title="{{localize "SFRPG.ReflexSave"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "SFRPG.ReflexSave"}}"><i class="fas fa-running"></i></div>
                 <div class="num" title="{{localize "SFRPG.WillSave"}}"><i class="fas fa-brain"></i></div>
             </div>
 
@@ -53,8 +53,8 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
-                <div class="text">{{localize "SFRPG.Currencies.Credits"}}</div>
-                <div class="text">{{localize "SFRPG.Currencies.UPBs"}}</div>
+                <div class="num">{{localize "SFRPG.Currencies.Credits"}}</div>
+                <div class="num">{{localize "SFRPG.Currencies.UPBs"}}</div>
             </div>
 
             {{#each actors as | actor | }}
@@ -66,8 +66,8 @@
                     </button>
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
-                <div class="text">{{currency.credit}}</div>
-                <div class="text">{{currency.upb}}</div>
+                <div class="num">{{currency.credit}}</div>
+                <div class="num">{{currency.upb}}</div>
             </div>
             {{/each}}
             <div class="table-row">
@@ -75,8 +75,8 @@
 
                 </div>
                 <div class="text">{{localize "party-overview.TOTAL"}}</div>
-                <div class="text">{{totalPartyCredits}}</div>
-                <div class="text">{{totalPartyUPB}}</div>
+                <div class="num">{{totalPartyCredits}}</div>
+                <div class="num">{{totalPartyUPB}}</div>
             </div>
         </div>
 

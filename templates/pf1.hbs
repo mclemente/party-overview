@@ -47,11 +47,11 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
-                <div class="text">{{localize "PF1.CurrencyPP"}}</div>
-                <div class="text">{{localize "PF1.CurrencyGP"}}</div>
-                <div class="text">{{localize "PF1.CurrencySP"}}</div>
-                <div class="text">{{localize "PF1.CurrencyCP"}}</div>
-                <div class="text">{{localize "PF1.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
+                <div class="num">{{localize "PF1.CurrencyPP"}}</div>
+                <div class="num">{{localize "PF1.CurrencyGP"}}</div>
+                <div class="num">{{localize "PF1.CurrencySP"}}</div>
+                <div class="num">{{localize "PF1.CurrencyCP"}}</div>
+                <div class="num">{{localize "PF1.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
             </div>
 
             {{#each actors as | actor | }}
@@ -63,11 +63,11 @@
                     </button>
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
-                <div class="text">{{currency.pp}}</div>
-                <div class="text">{{currency.gp}}</div>
-                <div class="text">{{currency.sp}}</div>
-                <div class="text">{{currency.cp}}</div>
-                <div class="text"><b>{{actor.totalGP}}</b></div>
+                <div class="num">{{currency.pp}}</div>
+                <div class="num">{{currency.gp}}</div>
+                <div class="num">{{currency.sp}}</div>
+                <div class="num">{{currency.cp}}</div>
+                <div class="num"><b>{{actor.totalGP}}</b></div>
             </div>
             {{/each}}
             <div class="table-row">
@@ -75,11 +75,11 @@
 
                 </div>
                 <div class="text">{{localize "party-overview.TOTAL"}}</div>
-                <div class="text">{{totalCurrency.pp}}</div>
-                <div class="text">{{totalCurrency.gp}}</div>
-                <div class="text">{{totalCurrency.sp}}</div>
-                <div class="text">{{totalCurrency.cp}}</div>
-                <div class="text"><b>{{totalPartyGP}}</b></div>
+                <div class="num">{{totalCurrency.pp}}</div>
+                <div class="num">{{totalCurrency.gp}}</div>
+                <div class="num">{{totalCurrency.sp}}</div>
+                <div class="num">{{totalCurrency.cp}}</div>
+                <div class="num"><b>{{totalPartyGP}}</b></div>
             </div>
         </div>
 

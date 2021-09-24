@@ -59,12 +59,12 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">{{localize "party-overview.NAME"}}</div>
-                <div class="text icon">{{localize "DND5E.CurrencyPP"}}</div>
-                <div class="text icon">{{localize "DND5E.CurrencyGP"}}</div>
-                <div class="text icon">{{localize "DND5E.CurrencyEP"}}</div>
-                <div class="text icon">{{localize "DND5E.CurrencySP"}}</div>
-                <div class="text icon">{{localize "DND5E.CurrencyCP"}}</div>
-                <div class="text icon">{{localize "DND5E.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
+                <div class="num icon">{{localize "DND5E.CurrencyPP"}}</div>
+                <div class="num icon">{{localize "DND5E.CurrencyGP"}}</div>
+                <div class="num icon">{{localize "DND5E.CurrencyEP"}}</div>
+                <div class="num icon">{{localize "DND5E.CurrencySP"}}</div>
+                <div class="num icon">{{localize "DND5E.CurrencyCP"}}</div>
+                <div class="num icon">{{localize "DND5E.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
             </div>
 
             {{#each actors as | actor | }}
