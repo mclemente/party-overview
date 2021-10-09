@@ -75,18 +75,20 @@ export class dnd5eProvider extends SystemProvider {
 
 	getTotalGP(data) {
 		const currency = foundry.utils.deepClone(data.currency);
-		const convert = CONFIG.DND5E.currencyConversion;
-		for (let [c, t] of Object.entries(convert)) {
-			let change = Math.floor(currency[c] / t.each);
-			currency[c] -= change * t.each;
-			currency[t.into] += change;
+		const convert = CONFIG.DND5E.currencies;
+		for (let [curr, currData] of Object.entries(convert)) {
+			if (currency[curr] == 0 || !("conversion" in currData)) continue;
+			const { into, each } = currData.conversion;
+			let change = Math.floor(currency[curr] / each);
+			currency[curr] -= change * each;
+			currency[into] += change;
 		}
 		return (
-			currency["pp"] * convert["gp"].each +
-			currency["gp"] +
-			currency["ep"] / convert["ep"].each +
-			currency["sp"] / convert["sp"].each / convert["ep"].each +
-			currency["cp"] / convert["cp"].each / convert["sp"].each / convert["ep"].each
+			currency.pp * convert.gp.conversion.each +
+			currency.gp +
+			currency.ep / convert.ep.conversion.each +
+			currency.sp / convert.sp.conversion.each / convert.ep.conversion.each +
+			currency.cp / convert.cp.conversion.each / convert.sp.conversion.each / convert.ep.conversion.each
 		);
 	}
 
