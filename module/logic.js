@@ -87,7 +87,11 @@ class PartyOverviewApp extends Application {
 
 		$(".btn-filter").on("click", (event) => {
 			this.displayMode =
-				this.displayMode === DISPLAY_MODE.SHOW_ALL ? DISPLAY_MODE.SHOW_VISIBLE : this.displayMode === DISPLAY_MODE.SHOW_VISIBLE ? DISPLAY_MODE.SHOW_HIDDEN : DISPLAY_MODE.SHOW_ALL;
+				this.displayMode === DISPLAY_MODE.SHOW_ALL
+					? DISPLAY_MODE.SHOW_VISIBLE
+					: this.displayMode === DISPLAY_MODE.SHOW_VISIBLE
+					? DISPLAY_MODE.SHOW_HIDDEN
+					: DISPLAY_MODE.SHOW_ALL;
 			this.render(false);
 		});
 
