@@ -22,6 +22,7 @@ class PartyOverviewApp extends Application {
 			.map((playerActor) => playerActor.getActiveTokens())
 			.flat(1)
 			.map((token) => token.actor);
+		if (!actors.length) return;
 
 		// remove duplicates if an actors has multiple tokens on scene
 		actors = actors.reduce((actors, actor) => (actors.map((a) => a.id).includes(actor.id) ? actors : [...actors, actor]), []);
@@ -36,8 +37,13 @@ class PartyOverviewApp extends Application {
 		}
 
 		actors = actors.map((actor) => {
+			try {
+				var actorDetails = currentSystemProvider.getActorDetails(actor);
+			} catch (error) {
+				console.error(`Error: Couldn't load actor "${actor.name}" (ID: "${actor.id}")`, error);
+			}
 			return {
-				...currentSystemProvider.getActorDetails(actor),
+				...actorDetails,
 				shortName: actor.name.split(/\s/).shift(),
 				shortestName: actor.name.split(/\s/).shift().length > 10 ? actor.name.split(/\s/).shift().substr(0, 10) + "…" : actor.name.split(/\s/).shift().substr(0, 10),
 				isHidden: this.hiddenActors.includes(actor.id),
