@@ -1,0 +1,44 @@
+<div class="tab" data-tab="proficiencies" data-group="party">
+    <div class="table-row header">
+        {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+        <div class="text">{{localize "party-overview.NAME"}}</div>
+        <div class="text" style="flex: 1" title="Acrobatics">Acrobatics</div>
+        <div class="text" style="flex: 1" title="Animal Handling">Animal Handling</div>
+        <div class="text" style="flex: 1" title="Arcana">Arcana</div>
+        <div class="text" style="flex: 1" title="Athletics">Athletics</div>
+        <div class="text" style="flex: 1" title="Deception">Deception</div>
+        <div class="text" style="flex: 1" title="History">History</div>
+        <div class="text" style="flex: 1" title="Insight">Insight</div>
+        <div class="text" style="flex: 1" title="Intimidation">Intimidation</div>
+        <div class="text" style="flex: 1" title="Investigation">Investigation</div>
+        <div class="text" style="flex: 1" title="Medicine">Medicine</div>
+        <div class="text" style="flex: 1" title="Nature">Nature</div>
+        <div class="text" style="flex: 1" title="Perception">Perception</div>
+        <div class="text" style="flex: 1" title="Performance">Performance</div>
+        <div class="text" style="flex: 1" title="Persuasion">Persuasion</div>
+        <div class="text" style="flex: 1" title="Religion">Religion</div>
+        <div class="text" style="flex: 1" title="Sleight of hand">Sleight of Hand</div>
+        <div class="text" style="flex: 1" title="Stealth">Stealth</div>
+        <div class="text" style="flex: 1" title="Survival">Survival</div>
+    </div>
+
+    {{#each actors as | actor | }}
+    <div class="table-row">
+        <div class="button">
+            <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i class="value fas fa-eye"></i>{{/if}}
+            </button>
+        </div>
+        <div class="text">{{ actor.shortestName }}</div>
+        {{#each actor.skills as | skill| }}
+        <div class="text" style="flex: 1">
+            {{#ifEquals skill 0.5}}
+            {{#ifEquals skill 1}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/ifEquals}}
+            {{else}}
+            {{#if skill}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}
+            {{/ifEquals}}
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</div>

@@ -5,6 +5,7 @@
         <li class="item" data-tab="currencies">{{localize "party-overview.WEALTH"}}</li>
         <li class="item" data-tab="background">{{localize "DND5E.Background"}}</li>
         <li class="item" data-tab="saves">{{localize "DND5E.ClassSaves"}}</li>
+	    <li class="item" data-tab="proficiencies">{{localize "DND5E.Proficiency"}}</li>
     </nav>
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
@@ -97,6 +98,9 @@
                 <div class="num"><b>{{totalPartyGP}}</b></div>
             </div>
         </div>
+
+ 	<!-- Proficencies-->
+        {{> "modules/party-overview/templates/parts/Proficiencies.html"}}
 
         <!-- Background -->
         <div class="tab" data-tab="background" data-group="party">
