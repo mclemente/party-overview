@@ -320,20 +320,17 @@ export class pf2eProvider extends SystemProvider {
 		return {
 			id: actor.id,
 			name: actor.name,
-			hp: {
-				value: data.attributes.hp?.value || 0,
-				max: data.attributes.hp?.max || 0,
-			},
-			heroPoints: data.attributes.heroPoints || 0,
+			hp: data.attributes.hp || { value: 0, max: 0 },
+			heroPoints: data.attributes?.heroPoints || { rank: 0, max: 0 },
 			armor: data.attributes.ac?.value ? data.attributes.ac.value : 10,
 			shieldAC: data.attributes.shield && data.attributes.shield.ac ? `(+${data.attributes.shield.ac})` : "",
 			perception: data.attributes.perception?.value || 0,
-			speed: data.attributes.speed?.value || 0,
+			// speed: actor.type === "vehicle" ? data.details.speed : data.attributes.speed?.value || 0,
 
 			saves: {
-				fortitude: data.saves?.fortitude.value || 0,
-				reflex: data.saves?.reflex.value || 0,
-				will: data.saves?.will.value || 0,
+				fortitude: data.saves?.fortitude?.value || 0,
+				reflex: data.saves?.reflex?.value || 0,
+				will: data.saves?.will?.value || 0,
 			},
 			languages: data.traits?.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
 			currency: currency,
