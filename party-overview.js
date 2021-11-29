@@ -16,7 +16,6 @@ Hooks.once("init", () => {
 	return loadTemplates([
 		"modules/party-overview/templates/parts/FilterButton.html",
 		"modules/party-overview/templates/parts/Languages.html",
-		"modules/party-overview/templates/parts/Proficiencies.html",
 		...currentSystemProvider.loadTemplates,
 	]);
 });

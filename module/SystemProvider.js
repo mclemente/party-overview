@@ -38,6 +38,10 @@ export class SystemProvider {
 }
 
 export class dnd5eProvider extends SystemProvider {
+	get loadTemplates() {
+		return ["modules/party-overview/templates/parts/DND5E-Proficiencies.html"];
+	}
+
 	get template() {
 		return "/modules/party-overview/templates/dnd5e.hbs";
 	}
@@ -57,6 +61,19 @@ export class dnd5eProvider extends SystemProvider {
 			totalValue: value + tempValue,
 			totalMaxValue: max + tempMaxValue,
 		};
+	}
+	getSkills(data) {
+		const icons = {
+			0: "far fa-circle",
+			0.5: "fas fa-adjust",
+			1: "fas fa-check",
+			2: "fas fa-check-double",
+		};
+		const skills = {};
+		for (let skill in data.skills) {
+			skills[skill] = icons[data.skills[skill].proficient];
+		}
+		return skills;
 	}
 	getSpeed(data) {
 		const move = data.attributes.movement;
@@ -122,26 +139,7 @@ export class dnd5eProvider extends SystemProvider {
 				flaw: this.htmlDecode(data.details.flaw),
 			},
 			// Proficiencies
-			skills: {
-				acr: data.skills.acr.value,
-				ani: data.skills.ani.value,
-				arc: data.skills.arc.value,
-				ath: data.skills.ath.value,
-				dec: data.skills.dec.value,
-				his: data.skills.his.value,
-				ins: data.skills.ins.value,
-				itm: data.skills.itm.value,
-				inv: data.skills.inv.value,
-				med: data.skills.med.value,
-				nat: data.skills.nat.value,
-				prc: data.skills.prc.value,
-				prf: data.skills.prf.value,
-				per: data.skills.per.value,
-				rel: data.skills.rel.value,
-				slt: data.skills.slt.value,
-				ste: data.skills.ste.value,
-				sur: data.skills.sur.value,
-            },
+			skills: this.getSkills(data),
 			inspiration: data.attributes.inspiration,
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
 			alignment: data.details.alignment,
@@ -187,6 +185,7 @@ export class dnd5eProvider extends SystemProvider {
 		return [
 			actors,
 			{
+				skills: CONFIG.DND5E.skills,
 				saves: saves,
 				languages: languages,
 				totalCurrency: totalCurrency,
