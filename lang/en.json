@@ -1,27 +1,29 @@
 {
-  "party-overview": {
-    "EnablePlayerAccess": {
-      "Name": "Grant Players access to the overview?",
-      "Hint": "Allow players to access the Party window."
-    },
-    "SystemProvider": {
-      "Name": "System Provider",
-      "choices": {
-        "module": "Module {name}",
-        "native": "Generic",
-        "system": "System {name}"
-      }
-    },
-    "GENERAL": "General",
-    "LIMIT": "Limit",
-    "NAME": "Name",
-    "TOTAL": "Total",
-    "WEALTH": "Wealth",
-    "DND5E": {
-      "Traits": "Traits"
-    },
-    "PF2E": {
-      "EncumberedAt": "Encumbered At"
-    }
-  }
+	"party-overview": {
+		"EnablePlayerAccess": {
+			"Name": "Grant Players access to the overview?",
+			"Hint": "Allow players to access the Party window."
+		},
+		"SystemProvider": {
+			"Name": "System Provider",
+			"choices": {
+				"module": "Module {name}",
+				"native": "Generic",
+				"system": "System {name}"
+			}
+		},
+		"GENERAL": "General",
+		"LIMIT": "Limit",
+		"NAME": "Name",
+		"SKILLS": "Skills",
+		"PROFICIENCIES": "Proficiencies",
+		"TOTAL": "Total",
+		"WEALTH": "Wealth",
+		"DND5E": {
+			"Traits": "Traits"
+		},
+		"PF2E": {
+			"EncumberedAt": "Encumbered At"
+		}
+	}
 }

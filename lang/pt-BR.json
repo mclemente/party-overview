@@ -1,27 +1,29 @@
 {
-  "party-overview": {
-    "EnablePlayerAccess": {
-      "Name": "Permitir acesso do panorama aos jogadores?",
-      "Hint": "Permite aos jogadores acesso a janela de grupo."
-    },
-    "SystemProvider": {
-      "Name": "Provedor de Sistemas",
-      "choices": {
-        "module": "Módulo {name}",
-        "native": "Genérico",
-        "system": "Sistema {name}"
-      }
-    },
-    "GENERAL": "Geral",
-    "LIMIT": "Limite",
-    "NAME": "Nome",
-    "TOTAL": "Total",
-    "WEALTH": "Riqueza",
-    "DND5E": {
-      "Traits": "Traços"
-    },
-    "PF2E": {
-      "EncumberedAt": "Sobrecarregado em"
-    }
-  }
+	"party-overview": {
+		"EnablePlayerAccess": {
+			"Name": "Permitir acesso do panorama aos jogadores?",
+			"Hint": "Permite aos jogadores acesso a janela de grupo."
+		},
+		"SystemProvider": {
+			"Name": "Provedor de Sistemas",
+			"choices": {
+				"module": "Módulo {name}",
+				"native": "Genérico",
+				"system": "Sistema {name}"
+			}
+		},
+		"GENERAL": "Geral",
+		"LIMIT": "Limite",
+		"NAME": "Nome",
+		"PROFICIENCIES": "Proficiências",
+		"SKILLS": "Perícias",
+		"TOTAL": "Total",
+		"WEALTH": "Riqueza",
+		"DND5E": {
+			"Traits": "Traços"
+		},
+		"PF2E": {
+			"EncumberedAt": "Sobrecarregado em"
+		}
+	}
 }
