@@ -1,11 +1,5 @@
 <div>
-    <nav class="tabs" data-group="party">
-        <li class="item" data-tab="general">{{localize "party-overview.GENERAL"}}</li>
-		{{!-- <li class="item" data-tab="bulk">{{localize "PF2E.BulkShortLabel"}}</li> --}}
-		<li class="item" data-tab="currencies">{{localize "party-overview.WEALTH"}}</li>
-		<li class="item" data-tab="languages">{{localize "PF2E.Languages"}}</li>
-		<li class="item" data-tab="lore">{{localize "PF2E.Lore"}}</li>
-    </nav>
+    {{> "modules/party-overview/templates/parts/Tabs.html"}}
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
             <div class="table-row header">

@@ -1,0 +1,6 @@
+<nav class="tabs" data-group="party">
+	<li class="item" data-tab="general">{{localize "party-overview.GENERAL"}}</li>
+	{{#each tabs}} {{#if this.visible}}
+	<li class="item" data-tab="{{this.id}}">{{localize this.localization}}</li>
+	{{/if}} {{/each}}
+</nav>

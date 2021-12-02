@@ -1,6 +1,6 @@
 import { currentSystemProvider, initApi } from "./module/api.js";
 import PartyOverviewApp from "./module/logic.js";
-import { registerSettings } from "./module/settings.js";
+import { registerSettings, registerApiSettings } from "./module/settings.js";
 
 Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
 	return arg1 == arg2 ? options.fn(this) : options.inverse(this);
@@ -11,9 +11,11 @@ let party;
 Hooks.once("init", () => {
 	registerSettings();
 	initApi();
+	registerApiSettings();
 	party = new PartyOverviewApp();
 
 	return loadTemplates([
+		"modules/party-overview/templates/parts/Tabs.html",
 		"modules/party-overview/templates/parts/FilterButton.html",
 		"modules/party-overview/templates/parts/Languages.html",
 		...currentSystemProvider.loadTemplates,

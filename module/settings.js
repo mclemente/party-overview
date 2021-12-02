@@ -29,6 +29,16 @@ export function registerSettings() {
 	});
 }
 
+export function registerApiSettings() {
+	game.settings.register("party-overview", "tabVisibility", {
+		scope: "world",
+		config: false,
+		type: Object,
+		default: currentSystemProvider.tabs,
+		// onChange: updateSystemProvider,
+	});
+}
+
 export class SystemProviderSettings extends FormApplication {
 	constructor(object, options = {}) {
 		super(object, options);
@@ -90,6 +100,21 @@ export class SystemProviderSettings extends FormApplication {
 			isRange: false,
 		};
 
+		data.tabs = {};
+		const tabs = game.settings.get("party-overview", "tabVisibility");
+		for (let tab in tabs) {
+			data.tabs[tab] = {
+				id: `tabs.${tab}`,
+				name: game.i18n.localize(tabs[tab].localization),
+				hint: "",
+				type: Boolean,
+				value: tabs[tab],
+				isCheckbox: true,
+				isSelect: false,
+				isRange: false,
+			};
+		}
+
 		return { data };
 	}
 
@@ -98,6 +123,7 @@ export class SystemProviderSettings extends FormApplication {
 		html.find("button").on("click", async (event) => {
 			if (event.currentTarget?.dataset?.action === "reset") {
 				game.settings.settings.get("party-overview.systemProvider").default = getDefaultSystemProvider();
+				await game.settings.set("party-overview", "tabVisibility", currentSystemProvider.tabs);
 				debouncedReload();
 			}
 		});
@@ -110,6 +136,13 @@ export class SystemProviderSettings extends FormApplication {
 	 */
 	async _updateObject(ev, formData) {
 		game.settings.set("party-overview", "systemProvider", formData.systemProvider);
+		const tabs = game.settings.get("party-overview", "tabVisibility");
+		for (let element of Object.keys(formData)) {
+			if (element.startsWith("tabs.")) {
+				tabs[element.replace("tabs.", "")].visible = formData[element];
+			}
+		}
+		game.settings.set("party-overview", "tabVisibility", tabs);
 		updateSystemProvider();
 	}
 }
