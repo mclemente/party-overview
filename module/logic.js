@@ -53,11 +53,19 @@ class PartyOverviewApp extends Application {
 		let updates;
 		[actors, updates] = currentSystemProvider.getUpdate(actors);
 
+		let tabs = game.settings.get("party-overview", "tabVisibility");
+		if (game.user.isGM) {
+			Object.keys(tabs).forEach(function (key) {
+				tabs[key].visible = true;
+			});
+		}
+
 		this.state = {
 			activeTab: this.activeTab,
 			mode: this.displayMode,
 			actors: actors,
 			...updates,
+			tabs,
 		};
 	}
 

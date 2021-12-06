@@ -15,6 +15,10 @@ export class SystemProvider {
 		return [];
 	}
 
+	get tabs() {
+		return {};
+	}
+
 	get template() {
 		return "/modules/party-overview/templates/generic.hbs";
 	}
@@ -40,6 +44,16 @@ export class SystemProvider {
 export class dnd5eProvider extends SystemProvider {
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/DND5E-Proficiencies.html"];
+	}
+
+	get tabs() {
+		return {
+			languages: { id: "languages", visible: true, localization: "DND5E.Languages" },
+			currencies: { id: "currencies", visible: true, localization: "party-overview.WEALTH" },
+			background: { id: "background", visible: true, localization: "DND5E.Background" },
+			saves: { id: "saves", visible: true, localization: "DND5E.ClassSaves" },
+			proficiencies: { id: "proficiencies", visible: true, localization: "party-overview.PROFICIENCIES" },
+		};
 	}
 
 	get template() {
@@ -202,6 +216,14 @@ export class pf1Provider extends SystemProvider {
 		return ["modules/party-overview/templates/parts/PF1e-Knowledge.html"];
 	}
 
+	get tabs() {
+		return {
+			currencies: { id: "currencies", visible: true, localization: "party-overview.WEALTH" },
+			languages: { id: "languages", visible: true, localization: "PF1.Languages" },
+			lore: { id: "lore", visible: true, localization: "PF1.KnowledgeSkills" },
+		};
+	}
+
 	get template() {
 		return "/modules/party-overview/templates/pf1.hbs";
 	}
@@ -291,6 +313,15 @@ export class pf1Provider extends SystemProvider {
 export class pf2eProvider extends SystemProvider {
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/PF2e-Lore.html"];
+	}
+
+	get tabs() {
+		return {
+			currencies: { id: "currencies", visible: true, localization: "party-overview.WEALTH" },
+			// bulk: { id: "bulk", visible: true, localization: "PF2E.BulkShortLabel" },
+			languages: { id: "languages", visible: true, localization: "PF2E.Languages" },
+			lore: { id: "lore", visible: true, localization: "PF2E.Lore" },
+		};
 	}
 
 	get template() {
@@ -411,6 +442,14 @@ export class pf2eProvider extends SystemProvider {
 export class sfrpgProvider extends SystemProvider {
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/PF2e-Lore.html"];
+	}
+
+	get tabs() {
+		return {
+			currencies: { id: "currencies", visible: true, localization: "party-overview.WEALTH" },
+			languages: { id: "languages", visible: true, localization: "SFRPG.Languages" },
+			lore: { id: "lore", visible: true, localization: "SFRPG.SkillPro" },
+		};
 	}
 
 	get template() {

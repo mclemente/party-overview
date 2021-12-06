@@ -2,7 +2,7 @@
   "name": "party-overview",
   "title": "Party Overview",
   "description": "Provides an instant overview about vital stats of the players active in the current scene",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "author": "Matheus Clemente (mclemente#5524), Sebastian Will (vttassets@gmail.com), Chris Wachal (Zamrod#9326)",
   "minimumCoreVersion": "0.8.9",
   "compatibleCoreVersion": "9",

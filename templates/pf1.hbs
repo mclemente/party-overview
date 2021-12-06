@@ -1,10 +1,5 @@
 <div>
-    <nav class="tabs" data-group="party">
-        <li class="item" data-tab="general">{{localize "party-overview.GENERAL"}}</li>
-		<li class="item" data-tab="currencies">{{localize "party-overview.WEALTH"}}</li>
-		<li class="item" data-tab="languages">{{localize "PF1.Languages"}}</li>
-		<li class="item" data-tab="lore">{{localize "PF1.KnowledgeSkills"}}</li>
-    </nav>
+    {{> "modules/party-overview/templates/parts/Tabs.html"}}
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
             <div class="table-row header">
