@@ -1,0 +1,35 @@
+<div>
+    <section class="content">
+        <div class="tab" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="num" title="{{localize "DCC.HitPoints"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "DCC.ArmorClass"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize "DCC.AbilityLck"}}">🍀</div>
+                <div class="num" title="{{localize "DCC.SavesFortitude"}}"><i class="fas fa-hard-hat"></i></div>
+                <div class="num" title="{{localize "DCC.SavesReflex"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "DCC.SavesWill"}}"><i class="fas fa-brain"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.armor }}</div>
+                <div class="num">{{ actor.abilities.lck.value }}</div>
+                <div class="num">{{ actor.saves.frt.value }}</div>
+                <div class="num">{{ actor.saves.ref.value }}</div>
+                <div class="num">{{ actor.saves.wil.value }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>

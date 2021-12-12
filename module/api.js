@@ -1,4 +1,4 @@
-import { SystemProvider, dnd5eProvider, pf1Provider, pf2eProvider, sfrpgProvider, swadeProvider, wfrp4eProvider } from "./SystemProvider.js";
+import { SystemProvider, dccProvider, dnd5eProvider, pf1Provider, pf2eProvider, sfrpgProvider, swadeProvider, wfrp4eProvider } from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -41,6 +41,9 @@ export function updateSystemProvider() {
 export function initApi() {
 	const systemProviders = [];
 	switch (game.system.id) {
+		case "dcc":
+			systemProviders.push(new dccProvider("native.dcc"));
+			break;
 		case "dnd5e":
 			systemProviders.push(new dnd5eProvider("native.dnd5e"));
 			break;

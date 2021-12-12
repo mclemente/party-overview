@@ -41,6 +41,25 @@ export class SystemProvider {
 	}
 }
 
+export class dccProvider extends SystemProvider {
+	get template() {
+		return "/modules/party-overview/templates/dcc.hbs";
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.attributes.hp,
+			abilities: data.abilities,
+			saves: data.saves,
+			armor: data.attributes.ac.value,
+			skills: data.skills,
+		};
+	}
+}
+
 export class dnd5eProvider extends SystemProvider {
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/DND5E-Proficiencies.html"];
