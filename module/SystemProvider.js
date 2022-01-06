@@ -83,8 +83,8 @@ export class dnd5eProvider extends SystemProvider {
 		const hp = data.attributes.hp;
 		const value = parseInt(hp.value);
 		const max = parseInt(hp.max);
-		const tempValue = isNaN(parseInt(data.attributes.hp.temp)) ? 0 : parseInt(data.attributes.hp.temp);
-		const tempMaxValue = isNaN(parseInt(data.attributes.hp.tempmax)) ? 0 : parseInt(data.attributes.hp.tempmax);
+		const tempValue = isNaN(parseInt(hp.temp)) ? 0 : parseInt(hp.temp);
+		const tempMaxValue = isNaN(parseInt(hp.tempmax)) ? 0 : parseInt(hp.tempmax);
 
 		return {
 			value: value,
