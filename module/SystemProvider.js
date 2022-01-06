@@ -346,6 +346,10 @@ export class pf2eProvider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/pf2e.hbs";
 	}
+	
+	get width() {
+		return 600;
+	}
 
 	getCurrency(data) {
 		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
