@@ -6,13 +6,13 @@ Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
 	return arg1 == arg2 ? options.fn(this) : options.inverse(this);
 });
 
-let party;
+let partyOverview;
 
 Hooks.once("init", () => {
 	registerSettings();
 	initApi();
 	registerApiSettings();
-	party = new PartyOverviewApp();
+	partyOverview = new PartyOverviewApp();
 
 	return loadTemplates([
 		"modules/party-overview/templates/parts/Tabs.html",
@@ -23,8 +23,8 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("ready", () => {
-	if (party) party.update();
-	else party = new PartyOverviewApp();
+	if (partyOverview) partyOverview.update();
+	else partyOverview = new PartyOverviewApp();
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
@@ -32,7 +32,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 
 	let button = $(`<button class="party-overview ${currentSystemProvider.customCSS}"><i class="fas fa-users"></i> Party Overview</button>`);
 	button.on("click", (e) => {
-		party.render(true);
+		partyOverview.render(true);
 	});
 
 	$(html).find(".header-actions").prepend(button);
@@ -40,29 +40,29 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 
 Hooks.on("deleteActor", (actor, ...rest) => {
 	if (actor.hasPlayerOwner) {
-		party.update();
-		party.render(false);
+		partyOverview.update();
+		partyOverview.render(false);
 	}
 });
 
 Hooks.on("updateActor", (actor, ...rest) => {
 	if (actor.hasPlayerOwner) {
-		party.update();
-		party.render(false);
+		partyOverview.update();
+		partyOverview.render(false);
 	}
 });
 
 Hooks.on("createToken", (scene, sceneId, token, ...rest) => {
 	let actor = game.actors.contents.find((actor) => actor.id === token.actorId);
 	if (actor && actor.hasPlayerOwner) {
-		party.update();
-		party.render(false);
+		partyOverview.update();
+		partyOverview.render(false);
 	}
 });
 
 Hooks.on("deleteToken", (...rest) => {
-	party.update();
-	party.render(false);
+	partyOverview.update();
+	partyOverview.render(false);
 });
 
 Hooks.on("updateScene", (scene, changes, ...rest) => {
@@ -70,8 +70,8 @@ Hooks.on("updateScene", (scene, changes, ...rest) => {
 		// what a hack! the hook is fired when the scene switch is not yet activated, so we need
 		// to wait a tiny bit. The combat tracker is rendered last, so the scene should be available
 		Hooks.once("renderCombatTracker", (...rest) => {
-			party.update();
-			party.render(false);
+			partyOverview.update();
+			partyOverview.render(false);
 		});
 	}
 });
