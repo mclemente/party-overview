@@ -108,7 +108,7 @@ export class SystemProviderSettings extends FormApplication {
 				name: game.i18n.localize(tabs[tab].localization),
 				hint: "",
 				type: Boolean,
-				value: tabs[tab],
+				value: tabs[tab].visible,
 				isCheckbox: true,
 				isSelect: false,
 				isRange: false,
