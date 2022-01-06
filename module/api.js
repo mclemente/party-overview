@@ -1,4 +1,4 @@
-import { SystemProvider, dccProvider, dnd5eProvider, pf1Provider, pf2eProvider, sfrpgProvider, swadeProvider, wfrp4eProvider } from "./SystemProvider.js";
+import { SystemProvider, dccProvider, dnd5eProvider, pf1Provider, pf2eProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider } from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -58,6 +58,9 @@ export function initApi() {
 			break;
 		case "swade":
 			systemProviders.push(new swadeProvider("native.swade"));
+			break;
+		case "tormenta20":
+			systemProviders.push(new tormenta20Provider("native.tormenta20"));
 			break;
 		case "wfrp4e":
 			systemProviders.push(new wfrp4eProvider("native.wfrp4e"));

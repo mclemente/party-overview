@@ -589,6 +589,146 @@ export class swadeProvider extends SystemProvider {
 	}
 }
 
+export class tormenta20Provider extends SystemProvider {
+	get tabs() {
+		return {
+			// languages: { id: "idiomas", visible: true, localization: "Idiomas" },
+			currencies: { id: "dinheiro", visible: true, localization: "Dinheiro" },
+			// proficiencies: { id: "pericias", visible: true, localization: "Perícias" },
+		};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/tormenta20.hbs";
+	}
+
+	get width() {
+		return 550;
+	}
+
+	getHitPoints(data) {
+		const hp = data.attributes.pv;
+		const value = parseInt(hp.value);
+		const max = parseInt(hp.max);
+		const tempValue = isNaN(parseInt(hp.temp)) ? 0 : parseInt(hp.temp);
+		const tempMaxValue = isNaN(parseInt(hp.tempmax)) ? 0 : parseInt(hp.tempmax);
+
+		return {
+			value: value,
+			max: max,
+			tempValue: tempValue,
+			tempMaxValue: tempMaxValue,
+			totalValue: value + tempValue,
+			totalMaxValue: max + tempMaxValue,
+		};
+	}
+	getManaPoints(data) {
+		const hp = data.attributes.pm;
+		const value = parseInt(hp.value);
+		const max = parseInt(hp.max);
+		const tempValue = isNaN(parseInt(hp.temp)) ? 0 : parseInt(hp.temp);
+		const tempMaxValue = isNaN(parseInt(hp.tempmax)) ? 0 : parseInt(hp.tempmax);
+
+		return {
+			value: value,
+			max: max,
+			tempValue: tempValue,
+			tempMaxValue: tempMaxValue,
+			totalValue: value + tempValue,
+			totalMaxValue: max + tempMaxValue,
+		};
+	}
+	getPericias(data) {
+		let pericias = foundry.utils.deepClone(data.pericias);
+		delete pericias.luta;
+		delete pericias.pont;
+		delete pericias.fort;
+		delete pericias.refl;
+		delete pericias.vont;
+		return pericias;
+	}
+	getSpeed(data) {
+		const move = data.attributes.movement;
+		let extra = [];
+		if (move.fly) extra.push(`${move.fly} ${move.units} fly`);
+		if (move.hover) extra.push("hover");
+		if (move.burrow) extra.push(`${move.burrow} ${move.units} burrow`);
+		if (move.swim) extra.push(`${move.swim} ${move.units} swim`);
+		if (move.climb) extra.push(`${move.climb} ${move.units} climb`);
+
+		let str = `${move.walk} ${move.units}`;
+		if (extra.length) str += ` (${extra.join(", ")})`;
+
+		return str;
+	}
+
+	getTotalGP(data) {
+		const currency = foundry.utils.deepClone(data.dinheiro);
+		return currency.tl * 100 + currency.to * 10 + currency.tp + currency.tc / 10;
+	}
+
+	htmlDecode(input) {
+		var doc = new DOMParser().parseFromString(input, "text/html");
+		return doc.documentElement.textContent;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			pv: this.getHitPoints(data),
+			pm: this.getManaPoints(data),
+			atributos: data.atributos,
+			defesa: data.attributes.defesa.value,
+			pericias: data.pericias,
+			// languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
+			// alignment: data.details.alignment,
+			dinheiro: data.dinheiro,
+			dinheiroTotal: this.getTotalGP(data).toFixed(2),
+		};
+	}
+
+	getUpdate(actors) {
+		actors = actors.map((actor) => {
+			return {
+				...actor,
+				// languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+			};
+		});
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.dinheiro) {
+					currency[prop] += actor.dinheiro[prop];
+				}
+				return currency;
+			},
+			{
+				tc: 0,
+				tl: 0,
+				to: 0,
+				tp: 0,
+			}
+		);
+		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.dinheiroTotal), 0).toFixed(2);
+		// let pericias = foundry.utils.deepClone(CONFIG.T20.pericias);
+		// delete pericias.luta;
+		// delete pericias.pont;
+		// delete pericias.fort;
+		// delete pericias.refl;
+		// delete pericias.vont;
+		// delete pericias.ofic;
+		return [
+			actors,
+			{
+				// pericias: pericias,
+				totalCurrency: totalCurrency,
+				totalPartyGP: totalPartyGP,
+			},
+		];
+	}
+}
+
 export class wfrp4eProvider extends SystemProvider {
 	get customCSS() {
 		return "wfrp4e";
