@@ -1,8 +1,22 @@
 {
-  "party-overview": {
-    "EnablePlayerAccess": {
-      "Name": "¿Permitir a jugadores una visión general del grupo?",
-      "Hint": "Permite a los jugadores para acceder la ventana del Grupo."
-    }
-  }
+	"party-overview": {
+		"EnablePlayerAccess": {
+			"Name": "¿Permitir a jugadores una visión general del grupo?",
+			"Hint": "Permite a los jugadores para acceder la ventana del Grupo."
+		},
+		"keybinds": {
+			"open": {
+				"name": "Abrir el Party Overview",
+				"hint": "Abre la ventana de el Party Overview."
+			},
+			"close": {
+				"name": "Cierrar Party Overview",
+				"hint": "Cierra la ventana de el Party Overview."
+			},
+			"toggle": {
+				"name": "Alternar el Party Overview",
+				"hint": "Abre o cierra la ventana de el Party Overview."
+			}
+		}
+	}
 }

@@ -10,6 +10,34 @@ Hooks.once("init", () => {
 	registerApiSettings();
 	partyOverview = new PartyOverviewApp();
 
+	game.keybindings.register("party-overview", "openPartyOverview", {
+		name: game.i18n.localize("party-overview.keybinds.open.name"),
+		hint: game.i18n.localize("party-overview.keybinds.open.hint"),
+		onDown: () => {
+			partyOverview.render(true);
+		},
+		onUp: () => {},
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
+	game.keybindings.register("party-overview", "closePartyOverview", {
+		name: game.i18n.localize("party-overview.keybinds.close.name"),
+		hint: game.i18n.localize("party-overview.keybinds.close.hint"),
+		onDown: () => {
+			partyOverview.close();
+		},
+		onUp: () => {},
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
+	game.keybindings.register("party-overview", "togglePartyOverview", {
+		name: game.i18n.localize("party-overview.keybinds.toggle.name"),
+		hint: game.i18n.localize("party-overview.keybinds.toggle.hint"),
+		onDown: () => {
+			if (!partyOverview.rendering) partyOverview.render(true);
+			else partyOverview.close();
+		},
+		onUp: () => {},
+		precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
+	});
 	return loadTemplates([
 		"modules/party-overview/templates/parts/Tabs.html",
 		"modules/party-overview/templates/parts/FilterButton.html",

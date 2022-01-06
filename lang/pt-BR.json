@@ -12,6 +12,20 @@
 				"system": "Sistema {name}"
 			}
 		},
+		"keybinds": {
+			"open": {
+				"name": "Abrir o Party Overview",
+				"hint": "Abre a janela do Party Overview."
+			},
+			"close": {
+				"name": "Fechar Party Overview",
+				"hint": "Fecha a janela do Party Overview."
+			},
+			"toggle": {
+				"name": "Alternar o Party Overview",
+				"hint": "Abre ou fecha a janela do Party Overview."
+			}
+		},
 		"GENERAL": "Geral",
 		"LIMIT": "Limite",
 		"NAME": "Nome",

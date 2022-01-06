@@ -12,6 +12,20 @@
 				"system": "System {name}"
 			}
 		},
+		"keybinds": {
+			"open": {
+				"name": "Open Party Overview",
+				"hint": "Opens the Party Overview window."
+			},
+			"close": {
+				"name": "Close Party Overview",
+				"hint": "Closes the Party Overview window."
+			},
+			"toggle": {
+				"name": "Toggle Party Overview",
+				"hint": "Opens or closes the Party Overview window."
+			}
+		},
 		"GENERAL": "General",
 		"LIMIT": "Limit",
 		"NAME": "Name",

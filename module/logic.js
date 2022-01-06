@@ -14,6 +14,7 @@ class PartyOverviewApp extends Application {
 		this.state = {};
 		this.displayMode = DISPLAY_MODE.SHOW_VISIBLE;
 		this.activeTab = "general";
+		this.rendering = false;
 	}
 
 	update() {
@@ -121,6 +122,16 @@ class PartyOverviewApp extends Application {
 		);
 
 		super.activateListeners(html);
+	}
+
+	render(force, options) {
+		this.rendering = true;
+		super.render(force, options);
+	}
+
+	close() {
+		this.rendering = false;
+		super.close();
 	}
 }
 
