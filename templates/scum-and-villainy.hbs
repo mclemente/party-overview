@@ -1,7 +1,6 @@
 <div>
-    {{> "modules/party-overview/templates/parts/Tabs.html"}}
     <section class="content">
-        <div class="tab" data-tab="general" data-group="party">
+        <div class="tab" data-group="party">
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">{{localize "party-overview.NAME"}}</div>
@@ -25,13 +24,14 @@
             </div>
             {{/each}}
         </div>
-
-        <div class="tab" data-tab="ship" data-group="party">
+        {{#if shipsNotVisible}}
+        {{else}}
+        <div class="tab" data-group="party">
+            <h3 class="item">{{localize "BITD.Ship"}}</h3>
             <div class="table-row header">
-                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="button"></div>
                 <div class="text">{{localize "party-overview.NAME"}}</div>
                 <div class="text icon">{{localize "BITD.Gambits"}}</i></div>
-                <div class="text icon">{{localize "BITD.Coins"}}</i></div>
                 <div class="text icon">{{localize "BITD.SystemsCrew"}}</i></div>
             </div>
 
@@ -45,10 +45,10 @@
                 </div>
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="text icon">{{ actor.gambits.value }}/{{ actor.gambits.max }}</div>
-                <div class="text icon">{{ actor.coins }}</div>
                 <div class="text icon">{{ actor.crew.value }}/{{ actor.crew.max }}</div>
             </div>
             {{/each}}
         </div>
+        {{/if}}
     </section>
 </div>

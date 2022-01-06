@@ -346,7 +346,7 @@ export class pf2eProvider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/pf2e.hbs";
 	}
-	
+
 	get width() {
 		return 600;
 	}
@@ -474,13 +474,11 @@ export class scumAndVillainyProvider extends SystemProvider {
 	}
 
 	getHarm(data) {
-		const light = game.i18n.localize("BITD.LessEffect");
-		const medium = "-1D";
-		const heavy = game.i18n.localize("BITD.NeedHelp");
-		if (data.harm.heavy.one) return `${light}, ${medium}, ${heavy}`;
-		if (data.harm.medium.one || data.harm.medium.two) return `${light}, ${medium}`;
-		if (data.harm.light.one || data.harm.light.two) return `${light}`;
-		return "";
+		let result = [];
+		if (data.harm.light.one || data.harm.light.two) result.push(game.i18n.localize("BITD.LessEffect"));
+		if (data.harm.medium.one || data.harm.medium.two) result.push("-1D");
+		if (data.harm.heavy.one) result.push(game.i18n.localize("BITD.NeedHelp"));
+		return result.join(", ");
 	}
 
 	getActorDetails(actor) {
@@ -489,12 +487,12 @@ export class scumAndVillainyProvider extends SystemProvider {
 			id: actor.id,
 			name: actor.name,
 			type: actor.type,
-			coins: data.coins,
 		};
 		if (actor.type == "character") {
 			return {
 				...base,
-				stress: data.stress || { value: "-", max: "-" },
+				stress: data.stress,
+				coins: data.coins,
 				harm: this.getHarm(data),
 			};
 		} else if (actor.type == "ship") {
@@ -531,6 +529,7 @@ export class scumAndVillainyProvider extends SystemProvider {
 			characters,
 			{
 				ships,
+				shipsNotVisible: !Object.keys(ships).length,
 			},
 		];
 	}
