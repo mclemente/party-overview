@@ -462,6 +462,80 @@ export class pf2eProvider extends SystemProvider {
 	}
 }
 
+export class scumAndVillainyProvider extends SystemProvider {
+	get tabs() {
+		return {
+			ship: { id: "ship", visible: true, localization: "BITD.ship" },
+		};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/scum-and-villainy.hbs";
+	}
+
+	getHarm(data) {
+		const light = game.i18n.localize("BITD.LessEffect");
+		const medium = "-1D";
+		const heavy = game.i18n.localize("BITD.NeedHelp");
+		if (data.harm.heavy.one) return `${light}, ${medium}, ${heavy}`;
+		if (data.harm.medium.one || data.harm.medium.two) return `${light}, ${medium}`;
+		if (data.harm.light.one || data.harm.light.two) return `${light}`;
+		return "";
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		const base = {
+			id: actor.id,
+			name: actor.name,
+			type: actor.type,
+			coins: data.coins,
+		};
+		if (actor.type == "character") {
+			return {
+				...base,
+				stress: data.stress || { value: "-", max: "-" },
+				harm: this.getHarm(data),
+			};
+		} else if (actor.type == "ship") {
+			return {
+				...base,
+				crew: data.systems.crew,
+				gambits: data.gambits,
+			};
+		}
+	}
+
+	getUpdate(actors) {
+		let characters = actors
+			.filter((actor) => {
+				if (actor.type == "character") return true;
+				return false;
+			})
+			.map((actor) => {
+				return {
+					...actor,
+				};
+			});
+		let ships = actors
+			.filter((actor) => {
+				if (actor.type == "ship") return true;
+				return false;
+			})
+			.map((actor) => {
+				return {
+					...actor,
+				};
+			});
+		return [
+			characters,
+			{
+				ships,
+			},
+		];
+	}
+}
+
 export class sfrpgProvider extends SystemProvider {
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/PF2e-Lore.html"];

@@ -1,4 +1,6 @@
-import { SystemProvider, dccProvider, dnd5eProvider, pf1Provider, pf2eProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider } from "./SystemProvider.js";
+// prettier-ignore
+import { SystemProvider, dccProvider, dnd5eProvider, pf1Provider, pf2eProvider, scumAndVillainyProvider, sfrpgProvider, swadeProvider,tormenta20Provider,
+	wfrp4eProvider, } from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -52,6 +54,9 @@ export function initApi() {
 			break;
 		case "pf2e":
 			systemProviders.push(new pf2eProvider("native.pf2e"));
+			break;
+		case "scum-and-villainy":
+			systemProviders.push(new scumAndVillainyProvider("native.scum-and-villainy"));
 			break;
 		case "sfrpg":
 			systemProviders.push(new sfrpgProvider("native.swade"));

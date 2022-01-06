@@ -1,0 +1,54 @@
+<div>
+    {{> "modules/party-overview/templates/parts/Tabs.html"}}
+    <section class="content">
+        <div class="tab" data-tab="general" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text icon">{{localize "BITD.Stress"}}</i></div>
+                <div class="text icon">{{localize "BITD.Coins"}}</i></div>
+                <div class="text icon">{{localize "BITD.Harm"}}</i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="text icon">{{ actor.stress.value }}/{{ actor.stress.max }}</div>
+                <div class="text icon">{{ actor.coins }}</div>
+                <div class="text icon">{{ actor.harm }}</div>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="tab" data-tab="ship" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text icon">{{localize "BITD.Gambits"}}</i></div>
+                <div class="text icon">{{localize "BITD.Coins"}}</i></div>
+                <div class="text icon">{{localize "BITD.SystemsCrew"}}</i></div>
+            </div>
+
+            {{#each ships as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
+                            class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="text icon">{{ actor.gambits.value }}/{{ actor.gambits.max }}</div>
+                <div class="text icon">{{ actor.coins }}</div>
+                <div class="text icon">{{ actor.crew.value }}/{{ actor.crew.max }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>
