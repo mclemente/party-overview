@@ -7,7 +7,7 @@
                 <div class="text">{{localize "party-overview.NAME"}}</div>
                 <div class="text icon">{{localize "BITD.Stress"}}</i></div>
                 <div class="text icon">{{localize "BITD.Coins"}}</i></div>
-                <div class="text icon">{{localize "BITD.Harm"}}</i></div>
+                <div class="text">{{localize "BITD.Harm"}}</i></div>
             </div>
 
             {{#each actors as | actor | }}
@@ -21,7 +21,7 @@
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="text icon">{{ actor.stress.value }}/{{ actor.stress.max }}</div>
                 <div class="text icon">{{ actor.coins }}</div>
-                <div class="text icon">{{ actor.harm }}</div>
+                <div class="text" style="white-space: normal;">{{ actor.harm }}</div>
             </div>
             {{/each}}
         </div>
