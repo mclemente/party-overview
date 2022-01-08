@@ -1,0 +1,43 @@
+{
+	"party-overview": {
+		"EnablePlayerAccess": {
+			"Name": "PLもパーティ概要を閲覧できる",
+			"Hint": "パーティ概要のウィンドウをPLも閲覧できるようになります。"
+		},
+		"SystemProvider": {
+			"Name": "システム設定提供元",
+			"choices": {
+				"module": "Mod{name}",
+				"native": "汎用",
+				"system": "システム{name}"
+			}
+		},
+		"keybinds": {
+			"open": {
+				"name": "パーティ概要を開く",
+				"hint": "パーティ概要ウィンドウを開きます。"
+			},
+			"close": {
+				"name": "パーティ概要を閉じる",
+				"hint": "パーティ概要ウィンドウを閉じます。"
+			},
+			"toggle": {
+				"name": "パーティ概要切替",
+				"hint": "パーティ概要ウィンドウを開閉します。"
+			}
+		},
+		"GENERAL": "一般",
+		"LIMIT": "限定",
+		"NAME": "名前",
+		"SKILLS": "技能",
+		"PROFICIENCIES": "習熟",
+		"TOTAL": "合計",
+		"WEALTH": "財産",
+		"DND5E": {
+			"Traits": "特徴"
+		},
+		"PF2E": {
+			"EncumberedAt": "荷重境界"
+		}
+	}
+}
