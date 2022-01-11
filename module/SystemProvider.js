@@ -41,6 +41,31 @@ export class SystemProvider {
 	}
 }
 
+export class bitdProvider extends SystemProvider {
+	get template() {
+		return "/modules/party-overview/templates/blades-in-the-dark.hbs";
+	}
+
+	getHarm(data) {
+		let result = [];
+		if (data.harm.light.one || data.harm.light.two) result.push(game.i18n.localize("BITD.LessEffect"));
+		if (data.harm.medium.one || data.harm.medium.two) result.push("-1D");
+		if (data.harm.heavy.one) result.push(game.i18n.localize("BITD.NeedHelp"));
+		return result.join(", ");
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			stress: data.stress,
+			coins: data.coins,
+			harm: this.getHarm(data),
+		};
+	}
+}
+
 export class dccProvider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/dcc.hbs";
