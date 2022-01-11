@@ -17,13 +17,13 @@ class PartyOverviewApp extends Application {
 		this.rendering = false;
 	}
 
-	update() {
+	update(ignoreNoActors = false) {
 		let actors = game.actors.contents
 			.filter((a) => a.hasPlayerOwner)
 			.map((playerActor) => playerActor.getActiveTokens())
 			.flat(1)
 			.map((token) => token.actor);
-		if (!actors.length) return;
+		if (!actors.length && !ignoreNoActors) return;
 
 		// remove duplicates if an actors has multiple tokens on scene
 		actors = actors.reduce((actors, actor) => (actors.map((a) => a.id).includes(actor.id) ? actors : [...actors, actor]), []);
@@ -68,6 +68,9 @@ class PartyOverviewApp extends Application {
 			...updates,
 			tabs,
 		};
+		let r = document.querySelector(":root");
+		r.style.setProperty("--party-overview-min-width", `${currentSystemProvider.width - 100}px`);
+		r.style.setProperty("--party-overview-min-height", `${78 + 33 * actors.length}px`);
 	}
 
 	static get defaultOptions() {
@@ -77,7 +80,7 @@ class PartyOverviewApp extends Application {
 			resizable: true,
 			title: "Party Overview",
 			template: currentSystemProvider.template,
-			classes: ["party-overview", game.system.id],
+			classes: ["party-overview-window", game.system.id],
 			tabs: [
 				{
 					navSelector: ".tabs",

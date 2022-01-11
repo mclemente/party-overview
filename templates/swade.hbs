@@ -1,11 +1,11 @@
 <div class="table-row header">
     {{> "modules/party-overview/templates/parts/FilterButton.html"}}
     <div class="text">{{localize "party-overview.NAME"}}</div>
-    <div class="num" title="{{localize "SWADE.Bennies"}}"><i class="fas fa-bullseye"></i></div>
-    <div class="num" title="{{localize "SWADE.Wounds"}}"><i class="fas fa-skull"></i></div>
-    <div class="num" title="{{localize "SWADE.Fatigue"}}"><i class="fas fa-dizzy"></i></div>
-    <div class="num" title="{{localize "SWADE.Parry"}}"><i class="fas fa-shield-alt"></i></div>
-    <div class="text" title="{{localize "SWADE.Tough"}}"><i class="fas fa-heart"></i></div>
+    <div class="text icon" title="{{localize "SWADE.Bennies"}}"><i class="fas fa-bullseye"></i></div>
+    <div class="text icon" title="{{localize "SWADE.Wounds"}}"><i class="fas fa-skull"></i></div>
+    <div class="text icon" title="{{localize "SWADE.Fatigue"}}"><i class="fas fa-dizzy"></i></div>
+    <div class="text icon" title="{{localize "SWADE.Parry"}}"><i class="fas fa-shield-alt"></i></div>
+    <div class="text icon" title="{{localize "SWADE.Tough"}}"><i class="fas fa-heart"></i></div>
 </div>
 
 {{#each actors as | actor | }}
@@ -17,11 +17,11 @@
             </button>
         </div>
         <div class="text">{{ actor.name }}</div>
-        <div class="num">{{ actor.bennies }}</div>
-        <div class="num">{{ actor.current_wounds }}/{{ actor.max_wounds }}</div>
-        <div class="num">{{ actor.current_fatigue }}/{{ actor.max_fatigue }}</div>
-        <div class="num">{{ actor.parry }}</div>
-        <div class="text">
+        <div class="text icon">{{ actor.bennies }}</div>
+        <div class="text icon">{{ actor.current_wounds }}/{{ actor.max_wounds }}</div>
+        <div class="text icon">{{ actor.current_fatigue }}/{{ actor.max_fatigue }}</div>
+        <div class="text icon">{{ actor.parry }}</div>
+        <div class="text icon">
             {{ actor.toughness }}
             {{#if actor.armor}}({{actor.armor}}){{/if}}
         </div>
