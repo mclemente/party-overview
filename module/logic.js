@@ -18,11 +18,11 @@ class PartyOverviewApp extends Application {
 	}
 
 	update(ignoreNoActors = false) {
-		let actors = game.actors.contents
-			.filter((a) => a.hasPlayerOwner)
-			.map((playerActor) => playerActor.getActiveTokens())
-			.flat(1)
-			.map((token) => token.actor);
+		let showMoreTokens = true;
+		let actors = game.actors.contents.filter((a) => a.hasPlayerOwner);
+		if(!showMoreTokens) {
+			actors = actors.map((playerActor) => playerActor.getActiveTokens()).flat(1).map((token) => token.actor);
+		}
 		if (!actors.length && !ignoreNoActors) return;
 
 		// remove duplicates if an actors has multiple tokens on scene
