@@ -4,6 +4,7 @@ const DISPLAY_MODE = {
 	SHOW_ALL: "SHOW_ALL",
 	SHOW_HIDDEN: "SHOW_HIDDEN",
 	SHOW_VISIBLE: "SHOW_VISIBLE",
+	SHOW_MORE: "SHOW_MORE",
 };
 
 class PartyOverviewApp extends Application {
@@ -18,9 +19,9 @@ class PartyOverviewApp extends Application {
 	}
 
 	update(ignoreNoActors = false) {
-		let showMoreTokens = true;
+		let showMoreTokens = false;
 		let actors = game.actors.contents.filter((a) => a.hasPlayerOwner);
-		if(!showMoreTokens) {
+		if(this.displayMode != DISPLAY_MODE.SHOW_MORE) {
 			actors = actors.map((playerActor) => playerActor.getActiveTokens()).flat(1).map((token) => token.actor);
 		}
 		if (!actors.length && !ignoreNoActors) return;
@@ -104,12 +105,22 @@ class PartyOverviewApp extends Application {
 		});
 
 		$(".btn-filter").on("click", (event) => {
-			this.displayMode =
-				this.displayMode === DISPLAY_MODE.SHOW_ALL
-					? DISPLAY_MODE.SHOW_VISIBLE
-					: this.displayMode === DISPLAY_MODE.SHOW_VISIBLE
-					? DISPLAY_MODE.SHOW_HIDDEN
-					: DISPLAY_MODE.SHOW_ALL;
+			if(this.displayMode === DISPLAY_MODE.SHOW_ALL) {
+				this.displayMode = DISPLAY_MODE.SHOW_VISIBLE;
+			}
+			else if(this.displayMode === DISPLAY_MODE.SHOW_VISIBLE) {
+				this.displayMode = DISPLAY_MODE.SHOW_HIDDEN;
+			}
+			else if(this.displayMode === DISPLAY_MODE.SHOW_HIDDEN) {
+				this.displayMode = DISPLAY_MODE.SHOW_MORE;
+			}
+			else if(this.displayMode === DISPLAY_MODE.SHOW_MORE) {
+				this.displayMode = DISPLAY_MODE.SHOW_ALL;
+			}
+			else {
+				console.error("displayMode has a weird value", this.displayMode);
+				this.displayMode = DISPLAY_MODE.SHOW_ALL;
+			}
 			this.render(false);
 		});
 
