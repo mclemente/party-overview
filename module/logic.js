@@ -58,6 +58,17 @@ class PartyOverviewApp extends Application {
 		[actors, updates] = currentSystemProvider.getUpdate(actors);
 
 		let tabs = game.settings.get("party-overview", "tabVisibility");
+		if (Object.keys(tabs).length != Object.keys(currentSystemProvider.tabs).length) {
+			for (let tab in currentSystemProvider.tabs) {
+				if (!data.tabs[tab]) {
+					tabs[tab] = {
+						id: currentSystemProvider.tabs[tab].id,
+						localization: currentSystemProvider.tabs[tab].localization,
+						visible: formData[element],
+					};
+				}
+			}
+		}
 		if (game.user.isGM) {
 			Object.keys(tabs).forEach(function (key) {
 				tabs[key].visible = true;

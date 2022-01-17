@@ -114,6 +114,20 @@ export class SystemProviderSettings extends FormApplication {
 				isRange: false,
 			};
 		}
+		for (let tab in currentSystemProvider.tabs) {
+			if (!data.tabs[tab]) {
+				data.tabs[tab] = {
+					id: `tabs.${tab}`,
+					name: game.i18n.localize(currentSystemProvider.tabs[tab].localization),
+					hint: "",
+					type: Boolean,
+					value: true,
+					isCheckbox: true,
+					isSelect: false,
+					isRange: false,
+				};
+			}
+		}
 
 		return { data };
 	}
@@ -139,7 +153,14 @@ export class SystemProviderSettings extends FormApplication {
 		const tabs = game.settings.get("party-overview", "tabVisibility");
 		for (let element of Object.keys(formData)) {
 			if (element.startsWith("tabs.")) {
-				tabs[element.replace("tabs.", "")].visible = formData[element];
+				const name = element.replace("tabs.", "");
+				if (!tabs[name]) {
+					tabs[name] = {
+						id: currentSystemProvider.tabs[tab].id,
+						localization: currentSystemProvider.tabs[tab].localization,
+						visible: formData[element],
+					};
+				} else tabs[name].visible = formData[element];
 			}
 		}
 		game.settings.set("party-overview", "tabVisibility", tabs);
