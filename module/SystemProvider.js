@@ -279,6 +279,7 @@ export class dnd5eProvider extends SystemProvider {
 				insight: data.skills.ins.passive,
 				stealth: data.skills.ste.passive,
 			},
+			experience: { value: data.details.xp.value || 0, max: data.details.xp.max },
 			// background
 			background: {
 				trait: this.htmlDecode(data.details.trait),
@@ -338,6 +339,7 @@ export class dnd5eProvider extends SystemProvider {
 				languages: languages,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
+				disableExperienceTracking: game.settings.get("dnd5e", "disableExperienceTracking"),
 			},
 		];
 	}

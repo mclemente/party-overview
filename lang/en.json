@@ -33,6 +33,9 @@
 		"PROFICIENCIES": "Proficiencies",
 		"TOTAL": "Total",
 		"WEALTH": "Wealth",
+		"EXPERIENCE": "Experience",
+		"XP": "XP",
+
 		"DND5E": {
 			"Traits": "Traits"
 		},

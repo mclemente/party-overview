@@ -12,6 +12,7 @@
                 <div class="num" title="{{localize "DND5E.SkillInv"}}"><i class="fas fa-search"></i></div>
                 <div class="num" title="{{localize "DND5E.SkillIns"}}"><i class="fas fa-brain"></i></div>
                 <div class="num" title="{{localize "DND5E.SkillSte"}}"><i class="fas fa-user-secret"></i></div>
+                {{#unless disableExperienceTracking}}<div class="num" title="{{localize "party-overview.EXPERIENCE"}}">{{localize "party-overview.XP"}}</div>{{/unless}}
             </div>
 
             {{#each actors as | actor | }}
@@ -37,6 +38,16 @@
                 <div class="num">{{ actor.passives.investigation }}</div>
                 <div class="num">{{ actor.passives.insight }}</div>
                 <div class="num">{{ actor.passives.stealth }}</div>
+                {{#unless ../disableExperienceTracking}}
+                <div class="num">
+                    <span style="display: block; border-bottom: thin solid black">
+                        <span >{{ actor.experience.value }}</span>
+                    </span>
+                    <span style="display: block">
+                        <span>{{ actor.experience.max }}</span>
+                    </span>
+                </div>
+                {{/unless}}
             </div>
             {{/each}}
         </div>
