@@ -18,7 +18,7 @@ class PartyOverviewApp extends Application {
 		this.rendering = false;
 	}
 
-	update(ignoreNoActors = false) {
+	update() {
 		let actors = game.actors.contents.filter((a) => a.hasPlayerOwner);
 		if (this.displayMode != DISPLAY_MODE.SHOW_MORE) {
 			actors = actors
@@ -26,7 +26,7 @@ class PartyOverviewApp extends Application {
 				.flat(1)
 				.map((token) => token.actor);
 		}
-		if (!actors.length && !ignoreNoActors) return;
+		if (!actors.length && !this.ignoreNoActors) return;
 
 		// remove duplicates if an actors has multiple tokens on scene
 		actors = actors.reduce((actors, actor) => (actors.map((a) => a.id).includes(actor.id) ? actors : [...actors, actor]), []);
@@ -136,8 +136,9 @@ class PartyOverviewApp extends Application {
 		super.activateListeners(html);
 	}
 
-	render(force, options) {
+	render(force, ignoreNoActors = false, options) {
 		this.rendering = true;
+		this.ignoreNoActors = ignoreNoActors;
 		super.render(force, options);
 	}
 

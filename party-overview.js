@@ -56,8 +56,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 
 	let button = $(`<button class="party-overview-button ${currentSystemProvider.customCSS}"><i class="fas fa-users"></i> Party Overview</button>`);
 	button.on("click", (e) => {
-		partyOverview.update(true);
-		partyOverview.render(true);
+		partyOverview.render(true, true);
 	});
 
 	$(html).find(".header-actions").prepend(button);
@@ -65,36 +64,31 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 
 Hooks.on("updateActor", (actor, data, options, userId) => {
 	if (partyOverview.rendering && actor.hasPlayerOwner) {
-		partyOverview.update();
 		partyOverview.render(false);
 	}
 });
 
 Hooks.on("updateToken", (token, data, options, userId) => {
 	if (partyOverview.rendering && token.actor?.hasPlayerOwner) {
-		partyOverview.update();
 		partyOverview.render(false);
 	}
 });
 
 Hooks.on("createToken", (token, options, userId) => {
 	if (partyOverview.rendering && game.actors.contents.find((actor) => actor.id === token.actor.id).hasPlayerOwner) {
-		partyOverview.update();
 		partyOverview.render(false);
 	}
 });
 
 Hooks.on("deleteActor", (actor, options, userId) => {
 	if (partyOverview.rendering && actor.hasPlayerOwner) {
-		partyOverview.update(true);
 		partyOverview.render(false);
 	}
 });
 
 Hooks.on("deleteToken", (token, options, userId) => {
 	if (partyOverview.rendering && token.actor?.hasPlayerOwner) {
-		partyOverview.update(true);
-		partyOverview.render(false);
+		partyOverview.render(false, true);
 	}
 });
 
@@ -103,7 +97,6 @@ Hooks.on("canvasInit", (canvas) => {
 		// what a hack! the hook is fired when the scene switch is not yet activated, so we need
 		// to wait a tiny bit. The combat tracker is rendered last, so the scene should be available
 		Hooks.once("renderCombatTracker", (app, html, data) => {
-			partyOverview.update();
 			partyOverview.render(false);
 		});
 	}
