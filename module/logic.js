@@ -1,10 +1,10 @@
 import { currentSystemProvider } from "./api.js";
 
 const DISPLAY_MODE = {
-	SHOW_ALL: "SHOW_ALL",
-	SHOW_HIDDEN: "SHOW_HIDDEN",
-	SHOW_VISIBLE: "SHOW_VISIBLE",
-	SHOW_MORE: "SHOW_MORE",
+	SHOW_ALL: 0,
+	SHOW_VISIBLE: 1,
+	SHOW_HIDDEN: 2,
+	SHOW_MORE: 3,
 };
 
 class PartyOverviewApp extends Application {
@@ -107,18 +107,8 @@ class PartyOverviewApp extends Application {
 		});
 
 		$(".btn-filter").on("click", (event) => {
-			if (this.displayMode === DISPLAY_MODE.SHOW_ALL) {
-				this.displayMode = DISPLAY_MODE.SHOW_VISIBLE;
-			} else if (this.displayMode === DISPLAY_MODE.SHOW_VISIBLE) {
-				this.displayMode = DISPLAY_MODE.SHOW_HIDDEN;
-			} else if (this.displayMode === DISPLAY_MODE.SHOW_HIDDEN) {
-				this.displayMode = DISPLAY_MODE.SHOW_MORE;
-			} else if (this.displayMode === DISPLAY_MODE.SHOW_MORE) {
-				this.displayMode = DISPLAY_MODE.SHOW_ALL;
-			} else {
-				console.error(`displayMode has a weird value: ${this.displayMode}. Defaulting to ${DISPLAY_MODE.SHOW_ALL}`);
-				this.displayMode = DISPLAY_MODE.SHOW_ALL;
-			}
+			this.displayMode += 1;
+			if (this.displayMode > Object.keys(DISPLAY_MODE).length - 1) this.displayMode = 0;
 			this.render(false);
 		});
 
