@@ -1,9 +1,9 @@
-<div class="tab" data-tab="proficiencies" data-group="party">
+<div class="tab proficiencies" data-tab="proficiencies" data-group="party">
 	<div class="table-row header">
 		{{> "modules/party-overview/templates/parts/FilterButton.html"}}
 		<div class="text">{{localize "party-overview.NAME"}}</div>
 		{{#each skills as | s | }}
-		<div class="num" style="flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">{{s}}</div>
+		<div class="num party-overview-ellipsis" title="{{s}}">{{s}}</div>
 		{{/each}}
 	</div>
 

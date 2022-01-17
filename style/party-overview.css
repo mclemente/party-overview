@@ -144,3 +144,21 @@ button.party-overview-button.wfrp4e {
 button.party-overview-button:not(.wfrp4e) {
 	flex-basis: 100%;
 }
+
+.party-overview-window.dnd5e .proficiencies.tab .header .num {
+	flex: 1;
+}
+
+.party-overview-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: clip;
+}
+
+.party-overview-ellipsis {
+	border-right: 1px solid black;
+}
+
+.party-overview-ellipsis:last-child {
+	border-right: none;
+}
