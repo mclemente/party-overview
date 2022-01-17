@@ -173,6 +173,7 @@ div.party-overview-window .table-row .num.party-overview-ellipsis {
 	border-right: 1px solid black;
 }
 
+.party-overview-ellipsis-no-border,
 .party-overview-ellipsis:last-child {
 	border-right: none;
 }

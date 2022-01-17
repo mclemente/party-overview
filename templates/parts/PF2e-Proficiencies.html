@@ -5,7 +5,7 @@
 		<div class="text">{{localize "party-overview.NAME"}}</div>
 		{{#each actors as | actor | }}
 			{{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
-			<div class="num party-overview-ellipsis" title="{{ actor.shortestName }}">
+			<div class="num party-overview-ellipsis party-overview-ellipsis-no-border" title="{{ actor.shortestName }}">
 				{{ actor.shortestName }}
 			</div>
 		{{/each}}
