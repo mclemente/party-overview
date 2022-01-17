@@ -10,7 +10,7 @@
 
 {{#each actors as | actor | }}
     <div class="table-row">
-        {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+        {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
         <div class="text">{{ actor.name }}</div>
         <div class="text icon">{{ actor.bennies }}</div>
         <div class="text icon">{{ actor.current_wounds }}/{{ actor.max_wounds }}</div>

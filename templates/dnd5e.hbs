@@ -17,7 +17,7 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
 
                 <div class="num">{{#if actor.inspiration}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}</div>
@@ -69,7 +69,7 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="num">{{currency.pp}}</div>
                 <div class="num">{{currency.gp}}</div>
@@ -109,7 +109,7 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="text background">{{actor.background.trait}}</div>
                 <div class="text background">{{actor.background.ideal}}</div>
@@ -131,7 +131,7 @@
 
         {{#each actors as | actor | }}
         <div class="table-row">
-            {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+            {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
             <div class="text">{{ actor.shortestName }}</div>
             {{#each actor.abilities as | ability | }}
             <div class="text" style="flex: 1">{{numberFormat ability.save decimals=0 sign=true}}</div>

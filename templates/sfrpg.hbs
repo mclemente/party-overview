@@ -18,7 +18,7 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
                 <div class="num">{{ actor.sp.value }}/{{ actor.sp.max }}</div>
@@ -49,7 +49,7 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="num">{{currency.credit}}</div>
                 <div class="num">{{currency.upb}}</div>
