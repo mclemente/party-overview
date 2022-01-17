@@ -5,30 +5,30 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">{{localize "party-overview.NAME"}}</div>
-                <div class="text icon" title="{{localize "PF2E.HeroPointsLabel"}}">Hero</div>
-                <div class="text icon" title="{{localize "PF2E.HitPointsHeader"}}"><i class="fas fa-heart"></i></div>
-                <div class="text icon" title="{{localize "PF2E.ArmorClassLabel"}}"><i class="fas fa-shield-alt"></i></div>
-                <div class="text icon" title="{{localize "PF2E.Focus.label"}}"><i class="fas fa-hand-sparkles"></i></div>
-                <div class="text icon" title="{{localize "PF2E.PerceptionHeader"}}"><i class="far fa-eye"></i></div>
-                {{!-- <div class="text icon" title="{{localize "PF2E.Speed"}}"><i class="fas fa-tachometer-alt"></i></div> --}}
-                <div class="text icon" title="{{localize "PF2E.SavesFortitude"}}"><i class="fas fa-hard-hat"></i></div>
-                <div class="text icon" title="{{localize "PF2E.SavesReflex"}}"><i class="fas fa-running"></i></div>
-                <div class="text icon" title="{{localize "PF2E.SavesWill"}}"><i class="fas fa-brain"></i></div>
+                <div class="num" title="{{localize "PF2E.HeroPointsLabel"}}">Hero</div>
+                <div class="num" title="{{localize "PF2E.HitPointsHeader"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "PF2E.ArmorClassLabel"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize "PF2E.Focus.label"}}"><i class="fas fa-hand-sparkles"></i></div>
+                <div class="num" title="{{localize "PF2E.PerceptionHeader"}}"><i class="far fa-eye"></i></div>
+                {{!-- <div class="num" title="{{localize "PF2E.Speed"}}"><i class="fas fa-tachometer-alt"></i></div> --}}
+                <div class="num" title="{{localize "PF2E.SavesFortitude"}}"><i class="fas fa-hard-hat"></i></div>
+                <div class="num" title="{{localize "PF2E.SavesReflex"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "PF2E.SavesWill"}}"><i class="fas fa-brain"></i></div>
             </div>
 
             {{#each actors as | actor | }}
             <div class="table-row">
                 {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
-                <div class="text icon">{{ actor.heroPoints.value }}/{{ actor.heroPoints.max }}</div>
-                <div class="text icon">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
-                <div class="text icon">{{ actor.armor }} {{#if actor.shieldAC}}({{numberFormat actor.shieldAC decimals=0 sign=true}}){{/if}}</div>
-                <div class="text icon">{{ actor.focus.value }}/{{ actor.focus.max }}</div>
-                <div class="text icon">{{ actor.perception }}</div>
-                {{!-- <div class="text icon">{{ actor.speed }}</div> --}}
-                <div class="text icon">{{ actor.saves.fortitude }}</div>
-                <div class="text icon">{{ actor.saves.reflex }}</div>
-                <div class="text icon">{{ actor.saves.will }}</div>
+                <div class="num">{{ actor.heroPoints.value }}/{{ actor.heroPoints.max }}</div>
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.armor }} {{#if actor.shieldAC}}({{numberFormat actor.shieldAC decimals=0 sign=true}}){{/if}}</div>
+                <div class="num">{{ actor.focus.value }}/{{ actor.focus.max }}</div>
+                <div class="num">{{ actor.perception }}</div>
+                {{!-- <div class="num">{{ actor.speed }}</div> --}}
+                <div class="num">{{ actor.saves.fortitude }}</div>
+                <div class="num">{{ actor.saves.reflex }}</div>
+                <div class="num">{{ actor.saves.will }}</div>
             </div>
             {{/each}}
         </div>
@@ -82,5 +82,7 @@
 
         <!-- Bulk -->
         {{!-- {{> "modules/party-overview/templates/parts/PF2e-Bulk.html"}} --}}
+
+        {{> "modules/party-overview/templates/parts/PF2e-Proficiencies.html"}}
     </section>
 </div>

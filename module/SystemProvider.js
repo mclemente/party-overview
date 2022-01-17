@@ -171,6 +171,17 @@ export class dnd35eProvider extends SystemProvider {
 }
 
 export class dnd5eProvider extends SystemProvider {
+	constructor(id) {
+		super(id);
+		Handlebars.registerHelper("partyOverviewGetSkillList", function (skill, actors, opt) {
+			return actors.map((actor) => {
+				return {
+					...actor.skills[skill],
+				};
+			});
+		});
+	}
+
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/DND5E-Proficiencies.html"];
 	}
@@ -182,6 +193,7 @@ export class dnd5eProvider extends SystemProvider {
 			background: { id: "background", visible: true, localization: "DND5E.Background" },
 			saves: { id: "saves", visible: true, localization: "DND5E.ClassSaves" },
 			proficiencies: { id: "proficiencies", visible: true, localization: "party-overview.PROFICIENCIES" },
+			tools: { id: "tools", visible: true, localization: "DND5E.ItemTypeToolPl" },
 		};
 	}
 
@@ -219,7 +231,11 @@ export class dnd5eProvider extends SystemProvider {
 		};
 		const skills = {};
 		for (let skill in data.skills) {
-			skills[skill] = icons[data.skills[skill].proficient];
+			skills[skill] = {
+				icon: icons[data.skills[skill].proficient],
+				proficient: CONFIG.DND5E.proficiencyLevels[data.skills[skill].proficient],
+				value: data.skills[skill].total,
+			};
 		}
 		return skills;
 	}
@@ -236,6 +252,44 @@ export class dnd5eProvider extends SystemProvider {
 		if (extra.length) str += ` (${extra.join(", ")})`;
 
 		return str;
+	}
+	getTools(data) {
+		function getBaseItem(identifier) {
+			let pack = CONFIG.DND5E.sourcePacks.ITEMS;
+			let [scope, collection, id] = identifier.split(".");
+			if (scope && collection) pack = `${scope}.${collection}`;
+			if (!id) id = identifier;
+
+			const packObject = game.packs.get(pack);
+
+			return packObject?.index.get(id);
+		}
+		const profs = CONFIG.DND5E.toolProficiencies;
+		const type = "tool";
+		const itemTypes = CONFIG.DND5E[`${type}Ids`];
+
+		let values = [];
+		if (data.value) {
+			values = data.value instanceof Array ? data.value : [data.value];
+		}
+
+		data.selected = {};
+		for (const key of values) {
+			if (profs[key]) {
+				data.selected[key] = profs[key];
+			} else if (itemTypes && itemTypes[key]) {
+				const item = getBaseItem(itemTypes[key]);
+				if (item) data.selected[key] = item.name;
+			} else if (type === "tool" && CONFIG.DND5E.vehicleTypes[key]) {
+				data.selected[key] = CONFIG.DND5E.vehicleTypes[key];
+			}
+		}
+
+		// Add custom entries
+		if (data.custom) {
+			data.custom.split(";").forEach((c, i) => (data.selected[`custom${i + 1}`] = c.trim()));
+		}
+		return data.selected;
 	}
 
 	getTotalGP(data) {
@@ -291,7 +345,9 @@ export class dnd5eProvider extends SystemProvider {
 			skills: this.getSkills(data),
 			inspiration: data.attributes.inspiration,
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
+			tools: this.getTools(data.traits.toolProf) || {},
 			alignment: data.details.alignment,
+
 			currency: data.currency,
 			totalGP: this.getTotalGP(data).toFixed(2),
 		};
@@ -447,9 +503,22 @@ export class pf1Provider extends SystemProvider {
 }
 
 export class pf2eProvider extends SystemProvider {
+	constructor(id) {
+		super(id);
+		Handlebars.registerHelper("partyOverviewGetSkillList", function (skill, actors, opt) {
+			return actors.map((actor) => {
+				return {
+					rankLetter: actor.skills[skill].rankName[0],
+					...actor.skills[skill],
+				};
+			});
+		});
+	}
+
 	get loadTemplates() {
 		return [
 			"modules/party-overview/templates/parts/PF2e-Lore.html",
+			"modules/party-overview/templates/parts/PF2e-Proficiencies.html",
 			// "modules/party-overview/templates/parts/PF2e-Bulk.html"
 		];
 	}
@@ -460,6 +529,7 @@ export class pf2eProvider extends SystemProvider {
 			// bulk: { id: "bulk", visible: true, localization: "PF2E.BulkShortLabel" },
 			languages: { id: "languages", visible: true, localization: "PF2E.Languages" },
 			lore: { id: "lore", visible: true, localization: "PF2E.Lore" },
+			proficiencies: { id: "skills", visible: true, localization: "PF2E.SkillsLabel" },
 		};
 	}
 
@@ -501,6 +571,33 @@ export class pf2eProvider extends SystemProvider {
 		return lore;
 	}
 
+	getSkills(data) {
+		const proficiency = {
+			0: game.i18n.localize("PF2E.ProficiencyLevel0"),
+			1: game.i18n.localize("PF2E.ProficiencyLevel1"),
+			2: game.i18n.localize("PF2E.ProficiencyLevel2"),
+			3: game.i18n.localize("PF2E.ProficiencyLevel3"),
+			4: game.i18n.localize("PF2E.ProficiencyLevel4"),
+		};
+		const proficiencyColors = {
+			0: "initial",
+			1: "#171f69",
+			2: "#3c005e",
+			3: "#640",
+			4: "#5e0000",
+		};
+		const skills = {};
+		for (let skill in data.skills) {
+			skills[skill] = {
+				color: proficiencyColors[data.skills[skill].rank],
+				rank: data.skills[skill].rank,
+				rankName: proficiency[data.skills[skill].rank],
+				value: data.skills[skill].value,
+			};
+		}
+		return skills;
+	}
+
 	getTotalGP(currency) {
 		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
 	}
@@ -521,6 +618,7 @@ export class pf2eProvider extends SystemProvider {
 			shieldAC: data.attributes.shield?.ac || 0,
 			perception: data.attributes.perception?.value || 0,
 			// speed: actor.type === "vehicle" ? data.details.speed : data.attributes.speed?.value || 0,
+			skills: this.getSkills(data),
 
 			saves: {
 				fortitude: data.saves?.fortitude?.value || 0,
@@ -578,6 +676,7 @@ export class pf2eProvider extends SystemProvider {
 				totalPartyGP: totalPartyGP,
 				sumItemsGP: (Number(itemsValue) + Number(totalPartyGP)).toFixed(2),
 				lore: lores,
+				skills: CONFIG.PF2E.skills,
 			},
 		];
 	}

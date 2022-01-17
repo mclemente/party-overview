@@ -1,5 +1,5 @@
 <!-- prettier-ignore -->
-<div class="tab proficiencies" data-tab="proficiencies" data-group="party">
+<div class="tab proficiencies" data-tab="skills" data-group="party">
 	<div class="table-row header">
 		{{> "modules/party-overview/templates/parts/FilterButton.html"}}
 		<div class="text">{{localize "party-overview.NAME"}}</div>
@@ -16,8 +16,8 @@
 			<div></div>
 			<div class="text">{{localize value}}</div>
 			{{#each (partyOverviewGetSkillList key ../actors)}}
-				<div class="num" style="flex: 1;" title="{{this.proficient}}">
-					{{numberFormat this.value decimals=0 sign=true}} <i class="{{this.icon}}"></i>
+				<div class="num" style="flex: 1; {{#if this.rank}}color: white; background-color: {{this.color}}"title="{{this.rankName}}{{/if}}">
+					{{numberFormat this.value decimals=0 sign=true}}
 				</div>
 			{{/each}}
 		</div>

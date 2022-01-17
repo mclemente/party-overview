@@ -92,6 +92,10 @@ div.party-overview-window .table-row .button {
 	flex-shrink: 1;
 }
 
+div.party-overview-window .table-row.header .button:not(:first-child) {
+	flex-basis: 27px;
+}
+
 button.btn-filter,
 button.btn-toggle-visibility {
 	line-height: initial;
@@ -145,17 +149,27 @@ button.party-overview-button:not(.wfrp4e) {
 	flex-basis: 100%;
 }
 
-.party-overview-window.dnd5e .proficiencies.tab .header .num {
+.party-overview-window.dnd5e .proficiencies.tab .header .num,
+.party-overview-window.pf2e .proficiencies.tab .header .num {
 	flex: 1;
 }
 
-.party-overview-ellipsis {
-	overflow: hidden;
-	white-space: nowrap;
+.party-overview-no-ellipsis,
+div.party-overview-window .table-row .text.party-overview-no-ellipsis,
+div.party-overview-window .table-row .text.icon.party-overview-no-ellipsis,
+div.party-overview-window .table-row .num.party-overview-no-ellipsis {
+	overflow: visible;
+	white-space: normal;
 	text-overflow: clip;
 }
 
-.party-overview-ellipsis {
+.party-overview-ellipsis,
+div.party-overview-window .table-row .text.party-overview-ellipsis,
+div.party-overview-window .table-row .text.icon.party-overview-ellipsis,
+div.party-overview-window .table-row .num.party-overview-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: clip;
 	border-right: 1px solid black;
 }
 

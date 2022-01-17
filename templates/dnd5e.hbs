@@ -139,5 +139,22 @@
         </div>
         {{/each}}
         </div>
+
+        <!-- Saving Throws -->
+        <div class="tab" data-tab="tools" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text">{{localize "DND5E.TraitToolProf"}}</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="text party-overview-no-ellipsis">{{#each actor.tools as | tool | }}{{tool}}{{#unless @last}}, {{/unless}}{{/each}}</div>
+            </div>
+            {{/each}}
+        </div>
     </section>
 </div>
