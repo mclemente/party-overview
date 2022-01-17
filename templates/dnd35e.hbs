@@ -5,12 +5,14 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">{{localize "party-overview.NAME"}}</div>
-                <div class="num" title="{{localize "PF1.Health"}}"><i class="fas fa-heart"></i></div>
-                <div class="num" title="{{localize "PF1.ArmorClass"}}"><i class="fas fa-shield-alt"></i></div>
-                <div class="num" title="{{localize "PF1.SkillPer"}}"><i class="far fa-eye"></i></div>
-                <div class="num" title="{{localize "PF1.SavingThrowFort"}}"><i class="fas fa-hard-hat"></i></div>
-                <div class="num" title="{{localize "PF1.SavingThrowRef"}}"><i class="fas fa-running"></i></div>
-                <div class="num" title="{{localize "PF1.SavingThrowWill"}}"><i class="fas fa-brain"></i></div>
+                <div class="num" title="{{localize "D35E.Health"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "D35E.ArmorClass"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize "D35E.AC"}}: {{localize "D35E.ACTouch"}}"><i class="fas fa-hand-point-right"></i></div>
+                <div class="num" title="{{localize "D35E.AC"}}: {{localize "D35E.ACFlatFooted"}}"><i class="fas fa-surprise"></i></div>
+                <div class="num" title="{{localize "D35E.SkillSpt"}}"><i class="far fa-eye"></i></div>
+                <div class="num" title="{{localize "D35E.SavingThrowFort"}}"><i class="fas fa-hard-hat"></i></div>
+                <div class="num" title="{{localize "D35E.SavingThrowRef"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "D35E.SavingThrowWill"}}"><i class="fas fa-brain"></i></div>
             </div>
 
             {{#each actors as | actor | }}
@@ -18,7 +20,9 @@
                 {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
-                <div class="num">{{ actor.armor }}</div>
+                <div class="num">{{ actor.armor }} </div>
+                <div class="num">{{ actor.touch }}</div>
+                <div class="num">{{ actor.flatFooted }}</div>
                 <div class="num">{{numberFormat actor.perception decimals=0 sign=true}}</div>
                 <div class="num">{{numberFormat actor.saves.fortitude decimals=0 sign=true}}</div>
                 <div class="num">{{numberFormat actor.saves.reflex decimals=0 sign=true}}</div>
@@ -29,19 +33,16 @@
 		<!-- Languages -->
         {{> "modules/party-overview/templates/parts/Languages.html"}}
 
-        <!-- Knowledge -->
-        {{> "modules/party-overview/templates/parts/PF1e-Knowledge.html"}}
-
         <!-- Currency -->
         <div class="tab" data-tab="currencies" data-group="party">
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
-                <div class="num">{{localize "PF1.CurrencyPP"}}</div>
-                <div class="num">{{localize "PF1.CurrencyGP"}}</div>
-                <div class="num">{{localize "PF1.CurrencySP"}}</div>
-                <div class="num">{{localize "PF1.CurrencyCP"}}</div>
-                <div class="num">{{localize "PF1.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
+                <div class="num">{{localize "D35E.CurrencyPP"}}</div>
+                <div class="num">{{localize "D35E.CurrencyGP"}}</div>
+                <div class="num">{{localize "D35E.CurrencySP"}}</div>
+                <div class="num">{{localize "D35E.CurrencyCP"}}</div>
+                <div class="num">{{localize "D35E.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
             </div>
 
             {{#each actors as | actor | }}

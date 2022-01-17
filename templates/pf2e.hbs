@@ -8,6 +8,7 @@
                 <div class="text icon" title="{{localize "PF2E.HeroPointsLabel"}}">Hero</div>
                 <div class="text icon" title="{{localize "PF2E.HitPointsHeader"}}"><i class="fas fa-heart"></i></div>
                 <div class="text icon" title="{{localize "PF2E.ArmorClassLabel"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="text icon" title="{{localize "PF2E.Focus.label"}}"><i class="fas fa-hand-sparkles"></i></div>
                 <div class="text icon" title="{{localize "PF2E.PerceptionHeader"}}"><i class="far fa-eye"></i></div>
                 {{!-- <div class="text icon" title="{{localize "PF2E.Speed"}}"><i class="fas fa-tachometer-alt"></i></div> --}}
                 <div class="text icon" title="{{localize "PF2E.SavesFortitude"}}"><i class="fas fa-hard-hat"></i></div>
@@ -17,16 +18,12 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                <div class="button">
-                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                            class="value fas fa-eye"></i>{{/if}}
-                    </button>
-                </div>
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
                 <div class="text">{{ actor.shortestName }}</div>
-                <div class="text icon">{{ actor.heroPoints.rank }}/{{ actor.heroPoints.max }}</div>
+                <div class="text icon">{{ actor.heroPoints.value }}/{{ actor.heroPoints.max }}</div>
                 <div class="text icon">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
-                <div class="text icon">{{ actor.armor }} {{#if actor.shieldAC}}{{ actor.shieldAC }}{{/if}}</div>
+                <div class="text icon">{{ actor.armor }} {{#if actor.shieldAC}}({{numberFormat actor.shieldAC decimals=0 sign=true}}){{/if}}</div>
+                <div class="text icon">{{ actor.focus.value }}/{{ actor.focus.max }}</div>
                 <div class="text icon">{{ actor.perception }}</div>
                 {{!-- <div class="text icon">{{ actor.speed }}</div> --}}
                 <div class="text icon">{{ actor.saves.fortitude }}</div>
@@ -57,12 +54,7 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                <div class="button">
-                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                            class="value fas fa-eye"></i>{{/if}}
-                    </button>
-                </div>
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="text icon">{{currency.pp}}</div>
                 <div class="text icon">{{currency.gp}}</div>

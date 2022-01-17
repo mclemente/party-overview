@@ -45,8 +45,8 @@ class PartyOverviewApp extends Application {
 			}
 			return {
 				...actorDetails,
-				shortName: actor.name.split(/\s/).shift(),
-				shortestName: actor.name.split(/\s/).shift().length > 10 ? actor.name.split(/\s/).shift().substr(0, 10) + "…" : actor.name.split(/\s/).shift().substr(0, 10),
+				shortestName: actor.name.split(/\s/).shift(),
+				// shortestName: actor.name.split(/\s/).shift().length > 10 ? actor.name.split(/\s/).shift().substr(0, 10) + "…" : actor.name.split(/\s/).shift().substr(0, 10),
 				isHidden: this.hiddenActors.includes(actor.id),
 			};
 		});

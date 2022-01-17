@@ -85,6 +85,91 @@ export class dccProvider extends SystemProvider {
 	}
 }
 
+export class dnd35eProvider extends SystemProvider {
+	get tabs() {
+		return {
+			currencies: { id: "currencies", visible: true, localization: "D35E.Wealth" },
+			languages: { id: "languages", visible: true, localization: "D35E.Languages" },
+		};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/dnd35e.hbs";
+	}
+
+	get width() {
+		return 550;
+	}
+
+	getTotalGP(currency) {
+		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: {
+				value: data.attributes.hp.value,
+				max: data.attributes.hp.max,
+			},
+			armor: data.attributes.ac.normal.total,
+			flatFooted: data.attributes.ac.flatFooted.total,
+			touch: data.attributes.ac.touch.total,
+
+			perception: data.skills.spt.mod,
+			speed: data.attributes.speed.land.total,
+
+			saves: {
+				fortitude: data.attributes.savingThrows.fort.total,
+				reflex: data.attributes.savingThrows.ref.total,
+				will: data.attributes.savingThrows.will.total,
+			},
+			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.D35E.languages[code])) : [],
+			currency: data.currency,
+			totalGP: this.getTotalGP(data.currency).toFixed(2),
+		};
+	}
+
+	getUpdate(actors) {
+		let languages = actors
+			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+			.filter((language) => language !== undefined)
+			.sort();
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.currency) {
+					currency[prop] += actor.currency[prop];
+				}
+				return currency;
+			},
+			{
+				cp: 0,
+				sp: 0,
+				gp: 0,
+				pp: 0,
+			}
+		);
+		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+		actors = actors.map((actor) => {
+			return {
+				...actor,
+				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+			};
+		});
+
+		return [
+			actors,
+			{
+				languages: languages,
+				totalCurrency: totalCurrency,
+				totalPartyGP: totalPartyGP,
+			},
+		];
+	}
+}
+
 export class dnd5eProvider extends SystemProvider {
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/DND5E-Proficiencies.html"];
@@ -102,6 +187,11 @@ export class dnd5eProvider extends SystemProvider {
 
 	get template() {
 		return "/modules/party-overview/templates/dnd5e.hbs";
+	}
+
+	get width() {
+		if (game.settings.get("dnd5e", "disableExperienceTracking")) return 500;
+		return 600;
 	}
 
 	getHitPoints(data) {
@@ -299,13 +389,13 @@ export class pf1Provider extends SystemProvider {
 				max: data.attributes.hp.max,
 			},
 			armor: data.attributes.ac.normal.total,
-			perception: `+${data.skills.per.mod}`,
+			perception: data.skills.per.mod,
 			speed: data.attributes.speed.land.total,
 
 			saves: {
-				fortitude: `+${data.attributes.savingThrows.fort.total}`,
-				reflex: `+${data.attributes.savingThrows.ref.total}`,
-				will: `+${data.attributes.savingThrows.will.total}`,
+				fortitude: data.attributes.savingThrows.fort.total,
+				reflex: data.attributes.savingThrows.ref.total,
+				will: data.attributes.savingThrows.will.total,
 			},
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
 			currency: currency,
@@ -348,7 +438,7 @@ export class pf1Provider extends SystemProvider {
 				languages: languages,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
-				knowledges: pf1Provider.knowledgeKeys,
+				knowledges: this.knowledgeKeys,
 			},
 		];
 	}
@@ -356,7 +446,10 @@ export class pf1Provider extends SystemProvider {
 
 export class pf2eProvider extends SystemProvider {
 	get loadTemplates() {
-		return ["modules/party-overview/templates/parts/PF2e-Lore.html"];
+		return [
+			"modules/party-overview/templates/parts/PF2e-Lore.html",
+			// "modules/party-overview/templates/parts/PF2e-Bulk.html"
+		];
 	}
 
 	get tabs() {
@@ -420,9 +513,10 @@ export class pf2eProvider extends SystemProvider {
 			id: actor.id,
 			name: actor.name,
 			hp: data.attributes.hp || { value: 0, max: 0 },
-			heroPoints: data.attributes?.heroPoints || { rank: 0, max: 0 },
-			armor: data.attributes.ac?.value ? data.attributes.ac.value : 10,
-			shieldAC: data.attributes.shield && data.attributes.shield.ac ? `(+${data.attributes.shield.ac})` : "",
+			heroPoints: data.resources?.heroPoints || { value: 0, max: 0 },
+			focus: data.resources?.focus || { value: 0, max: 0 },
+			armor: data.attributes.ac?.value || 0,
+			shieldAC: data.attributes.shield?.ac || 0,
 			perception: data.attributes.perception?.value || 0,
 			// speed: actor.type === "vehicle" ? data.details.speed : data.attributes.speed?.value || 0,
 

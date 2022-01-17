@@ -1,25 +1,19 @@
 <div class="tab" data-tab="lore" data-group="party">
-    <div class="table-row header">
-        {{> "modules/party-overview/templates/parts/FilterButton.html"}}
-        <div class="text">{{localize "party-overview.NAME"}}</div>
-        {{#each lore as | l | }}
-        <div class="text" style="flex: 1" title="{{l}}">{{l}}</div>
-        {{/each}}
-    </div>
+	<div class="table-row header">
+		{{> "modules/party-overview/templates/parts/FilterButton.html"}}
+		<div class="text">{{localize "party-overview.NAME"}}</div>
+		{{#each lore as | l | }}
+		<div class="text" style="flex: 1" title="{{l}}">{{l}}</div>
+		{{/each}}
+	</div>
 
-    {{#each actors as | actor | }}
-    <div class="table-row">
-        <div class="button">
-            <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                    class="value fas fa-eye"></i>{{/if}}
-            </button>
-        </div>
-        <div class="text">{{ actor.shortestName }}</div>
-        {{#each actor.lore as | lore | }}
-        <div class="text" style="flex: 1">{{#if lore}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times"
-                style="color: gray"></i>{{/if}}</div>
-        {{/each}}
-    </div>
-    {{/each}}
+	{{#each actors as | actor | }}
+	<div class="table-row">
+		{{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+		<div class="text">{{ actor.shortestName }}</div>
+		{{#each actor.lore as | lore | }}
+		<div class="text" style="flex: 1">{{#if lore}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}</div>
+		{{/each}}
+	</div>
+	{{/each}}
 </div>

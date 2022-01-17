@@ -41,6 +41,7 @@ Hooks.once("init", () => {
 	return loadTemplates([
 		"modules/party-overview/templates/parts/Tabs.html",
 		"modules/party-overview/templates/parts/FilterButton.html",
+		"modules/party-overview/templates/parts/ToggleVisibilityButton.html",
 		"modules/party-overview/templates/parts/Languages.html",
 		...currentSystemProvider.loadTemplates,
 	]);

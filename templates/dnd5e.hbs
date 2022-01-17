@@ -16,15 +16,10 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                <div class="button">
-                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                            class="value fas fa-eye"></i>{{/if}}
-                    </button>
-                </div>
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
                 <div class="text">{{ actor.shortestName }}</div>
 
-                <div class="num">{{#if actor.inspiration}} <i class="fas fa-dice-d20"></i> {{/if}}</div>
+                <div class="num">{{#if actor.inspiration}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}</div>
                 <div class="num">
                     <span style="display: block; border-bottom: thin solid black">
                         <span name="hpCurrent" class="{{#if actor.hp.tempValue }}adjusted{{/if}}"
@@ -63,12 +58,7 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                <div class="button">
-                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                            class="value fas fa-eye"></i>{{/if}}
-                    </button>
-                </div>
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="num">{{currency.pp}}</div>
                 <div class="num">{{currency.gp}}</div>
@@ -108,13 +98,8 @@
 
             {{#each actors as | actor | }}
             <div class="table-row">
-                <div class="button">
-                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                            class="value fas fa-eye"></i>{{/if}}
-                    </button>
-                </div>
-                <div class="text">{{ actor.shortestName }} {{#if actor.inspiration}} <span title="Inspiration">&#x1f340;</span> {{/if}}</div>
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
+                <div class="text">{{ actor.shortestName }}</div>
                 <div class="text background">{{actor.background.trait}}</div>
                 <div class="text background">{{actor.background.ideal}}</div>
                 <div class="text background">{{actor.background.flaw}}</div>
@@ -123,7 +108,7 @@
             {{/each}}
         </div>
 
-        <!-- Background -->
+        <!-- Saving Throws -->
         <div class="tab" data-tab="saves" data-group="party">
             <div class="table-row header">
             {{> "modules/party-overview/templates/parts/FilterButton.html"}}
@@ -135,12 +120,7 @@
 
         {{#each actors as | actor | }}
         <div class="table-row">
-            <div class="button">
-                <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
-                    {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i
-                        class="value fas fa-eye"></i>{{/if}}
-                </button>
-            </div>
+            {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html"}}
             <div class="text">{{ actor.shortestName }}</div>
             {{#each actor.abilities as | ability | }}
             <div class="text" style="flex: 1">{{numberFormat ability.save decimals=0 sign=true}}</div>
