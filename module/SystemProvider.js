@@ -429,7 +429,7 @@ export class dnd5eProvider extends SystemProvider {
 			skills: this.getSkills(data),
 			inspiration: data.attributes.inspiration,
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
-			tools: this.getTools(data.traits.toolProf) || {},
+			tools: data.traits.toolProf ? this.getTools(data.traits?.toolProf) : {},
 			alignment: data.details.alignment,
 
 			currency: data.currency,
