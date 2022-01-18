@@ -1,0 +1,105 @@
+<div>
+    {{> "modules/party-overview/templates/parts/Tabs.html"}}
+    <section class="content">
+        <div class="tab" data-tab="general" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="num" title="{{localize "DND4EBETA.Health"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "DND4EBETA.armourClass"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize "DND4EBETA.HealingSurges"}}"><i class="fas fa-medkit"></i></div>
+                <div class="num" title="{{localize "DND4EBETA.PasPer"}}"><i class="far fa-eye"></i></div>
+                <div class="num" title="{{localize "DND4EBETA.PasIns"}}"><i class="far fa-lightbulb"></i></div>
+                <div class="num" title="{{localize "DND4EBETA.DefenceFort"}}"><i class="fas fa-hard-hat"></i></div>
+                <div class="num" title="{{localize "DND4EBETA.DefenceRef"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "DND4EBETA.DefenceWil"}}"><i class="fas fa-brain"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.defenses.ac.value }} </div>
+                <div class="num">{{ actor.surges.value }}/{{ actor.surges.max }} </div>
+                <div class="num">{{numberFormat actor.passive.pasprc.value decimals=0 sign=true}}</div>
+                <div class="num">{{numberFormat actor.passive.pasins.value decimals=0 sign=true}}</div>
+                <div class="num">{{numberFormat actor.defenses.fort.value decimals=0 sign=true}}</div>
+                <div class="num">{{numberFormat actor.defenses.ref.value decimals=0 sign=true}}</div>
+                <div class="num">{{numberFormat actor.defenses.wil.value decimals=0 sign=true}}</div>
+            </div>
+            {{/each}}
+        </div>
+		<!-- Languages -->
+        <div class="tab" data-tab="languages" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                {{#each spoken as | language | }}
+                <div class="num" style="flex: 1" title="{{language}}">{{language}}</div>
+                {{/each}}
+                <div style="border-right: 2px solid black;"></div>
+                {{#each script as | language | }}
+                <div class="num" style="flex: 1" title="{{language}}">{{language}}</div>
+                {{/each}}
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.shortestName }}</div>
+                {{#each actor.spoken as | language | }}
+                <div class="num" style="flex: 1">{{#if language}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}</div>
+                {{/each}}
+                <div style="border-right: 2px solid black;"></div>
+                {{#each actor.script as | language | }}
+                <div class="num" style="flex: 1">{{#if language}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}</div>
+                {{/each}}
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Currency -->
+        <div class="tab" data-tab="currencies" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="num">{{localize "DND4EBETA.CurrencyAD"}}</div>
+                <div class="num">{{localize "DND4EBETA.CurrencyPP"}}</div>
+                <div class="num">{{localize "DND4EBETA.CurrencyGP"}}</div>
+                <div class="num">{{localize "DND4EBETA.CurrencySP"}}</div>
+                <div class="num">{{localize "DND4EBETA.CurrencyCP"}}</div>
+                <div class="num">{{localize "DND4EBETA.CurrencyGP"}} ({{localize "party-overview.TOTAL"}})</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="num">{{currency.ad}}</div>
+                <div class="num">{{currency.pp}}</div>
+                <div class="num">{{currency.gp}}</div>
+                <div class="num">{{currency.sp}}</div>
+                <div class="num">{{currency.cp}}</div>
+                <div class="num"><b>{{actor.totalGP}}</b></div>
+            </div>
+            {{/each}}
+            <div class="table-row">
+                <div class="button">
+
+                </div>
+                <div class="text">{{localize "party-overview.TOTAL"}}</div>
+                <div class="num">{{totalCurrency.ad}}</div>
+                <div class="num">{{totalCurrency.pp}}</div>
+                <div class="num">{{totalCurrency.gp}}</div>
+                <div class="num">{{totalCurrency.sp}}</div>
+                <div class="num">{{totalCurrency.cp}}</div>
+                <div class="num"><b>{{totalPartyGP}}</b></div>
+            </div>
+        </div>
+    </section>
+</div>

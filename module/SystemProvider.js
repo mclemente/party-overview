@@ -170,6 +170,90 @@ export class dnd35eProvider extends SystemProvider {
 	}
 }
 
+export class dnd4eProvider extends SystemProvider {
+	get tabs() {
+		return {
+			currencies: { id: "currencies", visible: true, localization: "DND4EBETA.Currency" },
+			languages: { id: "languages", visible: true, localization: "DND4EBETA.Languages" },
+		};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/dnd4e.hbs";
+	}
+
+	get width() {
+		return 550;
+	}
+
+	getTotalGP(currency) {
+		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10 + currency.ad * 1000;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: {
+				value: data.attributes.hp.value,
+				max: data.attributes.hp.max,
+			},
+			defenses: data.defences,
+			surges: data.details.surges,
+			passive: data.passive,
+			script: data.languages.script.value,
+			spoken: data.languages.spoken.value,
+			currency: data.currency,
+			totalGP: this.getTotalGP(data.currency).toFixed(2),
+		};
+	}
+
+	getUpdate(actors) {
+		let script = actors
+			.reduce((script, actor) => [...new Set(script.concat(actor.script))], [])
+			.filter((language) => language !== undefined)
+			.sort();
+		let spoken = actors
+			.reduce((spoken, actor) => [...new Set(spoken.concat(actor.spoken))], [])
+			.filter((language) => language !== undefined)
+			.sort();
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.currency) {
+					currency[prop] += actor.currency[prop];
+				}
+				return currency;
+			},
+			{
+				cp: 0,
+				sp: 0,
+				gp: 0,
+				pp: 0,
+				ad: 0,
+			}
+		);
+		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+		actors = actors.map((actor) => {
+			return {
+				...actor,
+				script: script.map((script) => actor.script && actor.script.includes(script)),
+				spoken: spoken.map((spoken) => actor.spoken && actor.spoken.includes(spoken)),
+			};
+		});
+
+		return [
+			actors,
+			{
+				script: script,
+				spoken: spoken,
+				totalCurrency: totalCurrency,
+				totalPartyGP: totalPartyGP,
+			},
+		];
+	}
+}
+
 export class dnd5eProvider extends SystemProvider {
 	constructor(id) {
 		super(id);
