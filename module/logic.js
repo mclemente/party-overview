@@ -64,7 +64,7 @@ class PartyOverviewApp extends Application {
 					tabs[tab] = {
 						id: currentSystemProvider.tabs[tab].id,
 						localization: currentSystemProvider.tabs[tab].localization,
-						visible: formData[element],
+						visible: true,
 					};
 				}
 			}
