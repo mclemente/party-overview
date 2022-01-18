@@ -60,7 +60,7 @@ class PartyOverviewApp extends Application {
 		let tabs = game.settings.get("party-overview", "tabVisibility");
 		if (Object.keys(tabs).length != Object.keys(currentSystemProvider.tabs).length) {
 			for (let tab in currentSystemProvider.tabs) {
-				if (!data.tabs[tab]) {
+				if (!tabs[tab]) {
 					tabs[tab] = {
 						id: currentSystemProvider.tabs[tab].id,
 						localization: currentSystemProvider.tabs[tab].localization,
