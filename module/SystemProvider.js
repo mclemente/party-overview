@@ -419,12 +419,14 @@ export class dnd5eProvider extends SystemProvider {
 			},
 			experience: { value: data.details.xp.value || 0, max: data.details.xp.max },
 			// background
-			background: {
-				trait: this.htmlDecode(data.details.trait),
-				ideal: this.htmlDecode(data.details.ideal),
-				bond: this.htmlDecode(data.details.bond),
-				flaw: this.htmlDecode(data.details.flaw),
-			},
+			background: data.details.hasOwnProperty("trait")
+				? {
+						trait: this.htmlDecode(data.details.trait),
+						ideal: this.htmlDecode(data.details.ideal),
+						bond: this.htmlDecode(data.details.bond),
+						flaw: this.htmlDecode(data.details.flaw),
+				  }
+				: {},
 			// Proficiencies
 			skills: this.getSkills(data),
 			inspiration: data.attributes.inspiration,
