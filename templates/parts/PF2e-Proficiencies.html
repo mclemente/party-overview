@@ -4,10 +4,12 @@
 		{{> "modules/party-overview/templates/parts/FilterButton.html"}}
 		<div class="text">{{localize "party-overview.NAME"}}</div>
 		{{#each actors as | actor | }}
+			{{#if (or (eq actor.type "character") (eq actor.type "npc") (and (eq actor.type "familiar") (ne actor.master "") ) ) }}
 			{{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
 			<div class="num party-overview-ellipsis party-overview-ellipsis-no-border" title="{{ actor.shortestName }}">
 				{{ actor.shortestName }}
 			</div>
+			{{/if}}
 		{{/each}}
 	</div>
 

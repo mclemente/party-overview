@@ -592,12 +592,16 @@ export class pf2eProvider extends SystemProvider {
 	constructor(id) {
 		super(id);
 		Handlebars.registerHelper("partyOverviewGetSkillList", function (skill, actors, opt) {
-			return actors.map((actor) => {
-				return {
-					rankLetter: actor.skills[skill].rankName[0],
-					...actor.skills[skill],
-				};
-			});
+			return actors
+				.filter((actor) => {
+					return actor.type == "character" || actor.type == "npc" || (actor.type == "familiar" && actor.master);
+				})
+				.map((actor) => {
+					return {
+						rankLetter: actor.skills[skill].rankName[0],
+						...actor.skills[skill],
+					};
+				});
 		});
 	}
 
@@ -675,9 +679,9 @@ export class pf2eProvider extends SystemProvider {
 		const skills = {};
 		for (let skill in data.skills) {
 			skills[skill] = {
-				color: proficiencyColors[data.skills[skill].rank],
-				rank: data.skills[skill].rank,
-				rankName: proficiency[data.skills[skill].rank],
+				color: proficiencyColors[data.skills[skill].rank] || proficiencyColors[0],
+				rank: data.skills[skill].rank || 0,
+				rankName: proficiency[data.skills[skill].rank] || proficiency[0],
 				value: data.skills[skill].value,
 			};
 		}
@@ -697,6 +701,7 @@ export class pf2eProvider extends SystemProvider {
 		return {
 			id: actor.id,
 			name: actor.name,
+			type: actor.type,
 			hp: data.attributes.hp || { value: 0, max: 0 },
 			heroPoints: data.resources?.heroPoints || { value: 0, max: 0 },
 			focus: data.resources?.focus || { value: 0, max: 0 },
@@ -705,6 +710,7 @@ export class pf2eProvider extends SystemProvider {
 			perception: data.attributes.perception?.value || 0,
 			// speed: actor.type === "vehicle" ? data.details.speed : data.attributes.speed?.value || 0,
 			skills: this.getSkills(data),
+			master: data.master?.id || "",
 
 			saves: {
 				fortitude: data.saves?.fortitude?.value || 0,
