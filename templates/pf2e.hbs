@@ -17,6 +17,7 @@
             </div>
 
             {{#each actors as | actor | }}
+            {{#if actor.show.general }}
             <div class="table-row">
                 {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
@@ -30,6 +31,7 @@
                 <div class="num">{{ actor.saves.reflex }}</div>
                 <div class="num">{{ actor.saves.will }}</div>
             </div>
+            {{/if}}
             {{/each}}
         </div>
 		<!-- Languages -->
@@ -43,7 +45,7 @@
             </div>
 
             {{#each actors as | actor | }}
-            {{#if (or (eq actor.type "character") (eq actor.type "npc") ) }}
+            {{#if actor.show.languages }}
             <div class="table-row">
                 <div class="button">
                     <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
@@ -78,7 +80,7 @@
             </div>
 
             {{#each actors as | actor | }}
-            {{#unless (or (eq actor.type "familiar") (eq actor.type "hazard") ) }}
+            {{#if actor.show.currency }}
             <div class="table-row">
                 {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
@@ -90,12 +92,10 @@
                 <div class="text icon"><b>{{itemsValue}}</b></div>
                 <div class="text icon"><b>{{actor.sumItemsGP}}</b></div>
             </div>
-            {{/unless}}
+            {{/if}}
             {{/each}}
             <div class="table-row">
-                <div class="button">
-
-                </div>
+                <div class="button"></div>
                 <div class="text">{{localize "party-overview.TOTAL"}}</div>
                 <div class="text icon">{{totalCurrency.pp}}</div>
                 <div class="text icon">{{totalCurrency.gp}}</div>

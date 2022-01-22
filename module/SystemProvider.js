@@ -710,7 +710,13 @@ export class pf2eProvider extends SystemProvider {
 			perception: data.attributes.perception?.value || 0,
 			// speed: actor.type === "vehicle" ? data.details.speed : data.attributes.speed?.value || 0,
 			skills: this.getSkills(data),
-			master: data.master?.id || "",
+			show: {
+				general: ["character", "npc", "vehicle"].includes(actor.type) || (actor.type === "familiar" && data.master.id),
+				currency: ["character", "npc", "loot", "vehicle"].includes(actor.type),
+				languages: ["character", "npc"].includes(actor.type),
+				lore: ["character", "npc"].includes(actor.type),
+				skills: ["character", "npc"].includes(actor.type) || (actor.type === "familiar" && data.master.id),
+			},
 
 			saves: {
 				fortitude: data.saves?.fortitude?.value || 0,

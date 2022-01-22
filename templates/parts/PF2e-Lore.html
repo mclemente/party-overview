@@ -7,7 +7,7 @@
 		{{/each}}
 	</div>
 
-	{{#each actors as | actor | }} {{#if (or (eq actor.type "character") (eq actor.type "npc") ) }}
+	{{#each actors as | actor | }} {{#if actor.show.lore }}
 	<div class="table-row">
 		<div class="button">
 			<button class="btn-toggle-visibility" data-actor="{{actor.id }}">
