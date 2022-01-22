@@ -594,7 +594,7 @@ export class pf2eProvider extends SystemProvider {
 		Handlebars.registerHelper("partyOverviewGetSkillList", function (skill, actors, opt) {
 			return actors
 				.filter((actor) => {
-					return actor.type == "character" || actor.type == "npc" || (actor.type == "familiar" && actor.master);
+					return actor.show.skills;
 				})
 				.map((actor) => {
 					return {
@@ -711,11 +711,11 @@ export class pf2eProvider extends SystemProvider {
 			// speed: actor.type === "vehicle" ? data.details.speed : data.attributes.speed?.value || 0,
 			skills: this.getSkills(data),
 			show: {
-				general: ["character", "npc", "vehicle"].includes(actor.type) || (actor.type === "familiar" && data.master.id),
+				general: ["character", "npc", "vehicle"].includes(actor.type) || (actor.type === "familiar" && data.master.id != ""),
 				currency: ["character", "npc", "loot", "vehicle"].includes(actor.type),
 				languages: ["character", "npc"].includes(actor.type),
 				lore: ["character", "npc"].includes(actor.type),
-				skills: ["character", "npc"].includes(actor.type) || (actor.type === "familiar" && data.master.id),
+				skills: ["character", "npc"].includes(actor.type) || (actor.type === "familiar" && data.master.id != ""),
 			},
 
 			saves: {
