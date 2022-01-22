@@ -44,7 +44,7 @@ class PartyOverviewApp extends Application {
 			try {
 				var actorDetails = currentSystemProvider.getActorDetails(actor);
 			} catch (error) {
-				console.error(`Error: Couldn't load actor "${actor.name}" (ID: "${actor.id}")`, error);
+				console.error(`Error: Couldn't load actor %o (ID: %o)`, actor.name, actor.id, error);
 			}
 			return {
 				...actorDetails,
