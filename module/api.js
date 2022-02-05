@@ -1,5 +1,5 @@
 // prettier-ignore
-import { SystemProvider, bitdProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider,
+import { SystemProvider, archmageProvider, bitdProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider,
 	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider, } from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
@@ -43,6 +43,9 @@ export function updateSystemProvider() {
 export function initApi() {
 	const systemProviders = [];
 	switch (game.system.id) {
+		case "archmage":
+			systemProviders.push(new archmageProvider("native.archmage"));
+			break;
 		case "blades-in-the-dark":
 			systemProviders.push(new bitdProvider("native.blades-in-the-dark"));
 			break;

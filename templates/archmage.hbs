@@ -1,0 +1,63 @@
+<div>
+    {{> "modules/party-overview/templates/parts/Tabs.html"}}
+    <section class="content">
+        <div class="tab" data-tab="general" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="num" title="{{localize "ARCHMAGE.health"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "ARCHMAGE.ac.label"}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize "ARCHMAGE.pd.label"}}"><i class="fas fa-hard-hat"></i></div>
+                <div class="num" title="{{localize "ARCHMAGE.md.label"}}"><i class="fas fa-brain"></i></div>
+                <div class="num" title="{{localize "ARCHMAGE.recoveries"}}"><i class="fas fa-medkit"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.ac.value }}</div>
+                <div class="num">{{ actor.pd.value }}</div>
+                <div class="num">{{ actor.md.value }}</div>
+                <div class="num">{{ actor.recoveries.value }}/{{ actor.recoveries.max }}</div>
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Currency -->
+        <div class="tab" data-tab="coins" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="text icon">{{localize "ARCHMAGE.COINS.platinum"}}</div>
+                <div class="text icon">{{localize "ARCHMAGE.COINS.gold"}}</div>
+                <div class="text icon">{{localize "ARCHMAGE.COINS.silver"}}</div>
+                <div class="text icon">{{localize "ARCHMAGE.COINS.copper"}}</div>
+                <div class="text icon" style="white-space: initial;">{{localize "party-overview.TOTAL"}} ({{localize "ARCHMAGE.COINS.gold"}})</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="text icon">{{coins.platinum}}</div>
+                <div class="text icon">{{coins.gold}}</div>
+                <div class="text icon">{{coins.silver}}</div>
+                <div class="text icon">{{coins.copper}}</div>
+                <div class="text icon"><b>{{actor.totalGP}}</b></div>
+            </div>
+            {{/each}}
+            <div class="table-row">
+                <div class="button"></div>
+                <div class="text">{{localize "party-overview.TOTAL"}}</div>
+                <div class="text icon">{{totalCurrency.platinum}}</div>
+                <div class="text icon">{{totalCurrency.gold}}</div>
+                <div class="text icon">{{totalCurrency.silver}}</div>
+                <div class="text icon">{{totalCurrency.copper}}</div>
+                <div class="text icon"><b>{{totalPartyGP}}</b></div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -41,6 +41,68 @@ export class SystemProvider {
 	}
 }
 
+export class archmageProvider extends SystemProvider {
+	get tabs() {
+		return {
+			coins: { id: "coins", visible: true, localization: "party-overview.WEALTH" },
+		};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/archmage.hbs";
+	}
+
+	getTotalGP(coins) {
+		return coins.copper.value ?? 0 / 100 + coins.silver.value ?? 0 / 10 + coins.gold.value ?? 0 + coins.platinum.value ?? 0 * 10;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.attributes.hp,
+			ac: data.attributes.ac,
+			pd: data.attributes.pd,
+			md: data.attributes.md,
+			recoveries: data.attributes.recoveries,
+
+			coins: {
+				copper: data.coins.copper.value ?? 0,
+				silver: data.coins.silver.value ?? 0,
+				gold: data.coins.gold.value ?? 0,
+				platinum: data.coins.platinum.value ?? 0,
+			},
+			totalGP: this.getTotalGP(data.coins).toFixed(2),
+		};
+	}
+
+	getUpdate(actors) {
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.coins) {
+					currency[prop] += actor.coins[prop];
+				}
+				return currency;
+			},
+			{
+				copper: 0,
+				silver: 0,
+				gold: 0,
+				platinum: 0,
+			}
+		);
+		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+		return [
+			actors,
+			{
+				totalCurrency: totalCurrency,
+				totalPartyGP: totalPartyGP,
+			},
+		];
+	}
+}
+
 export class bitdProvider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/blades-in-the-dark.hbs";
