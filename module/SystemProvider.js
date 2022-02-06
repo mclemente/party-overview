@@ -42,9 +42,22 @@ export class SystemProvider {
 }
 
 export class archmageProvider extends SystemProvider {
+	constructor(id) {
+		super(id);
+		Handlebars.registerHelper("partyOverviewGetSkillList", function (skill, actors, opt) {
+			return actors.map((actor) => {
+				return {
+					...(actor.icons[skill] || { bonus: 0, relationship: "" }),
+				};
+			});
+		});
+	}
+
 	get tabs() {
 		return {
+			backgrounds: { id: "backgrounds", visible: true, localization: "ARCHMAGE.backgrounds" },
 			coins: { id: "coins", visible: true, localization: "party-overview.WEALTH" },
+			icons: { id: "icons", visible: true, localization: "ARCHMAGE.iconRelationships" },
 		};
 	}
 
@@ -52,12 +65,43 @@ export class archmageProvider extends SystemProvider {
 		return "/modules/party-overview/templates/archmage.hbs";
 	}
 
+	getBackgrounds(backgrounds) {
+		const bg = [];
+		for (const [key, value] of Object.entries(backgrounds)) {
+			if (value.name.value) bg.push(`${value.name.value} (${value.bonus.value > -1 ? "+" : ""}${value.bonus.value})`);
+		}
+		return bg.join(", ");
+	}
+
+	getIcons(icons) {
+		const relationships = {
+			Positive: "+",
+			Negative: "-",
+			Conflicted: "~",
+		};
+		const iconFilter = {};
+		Object.keys(icons)
+			.filter((icon) => icons[icon].relationship.value.length > 0)
+			.map((icon) => {
+				iconFilter[icons[icon].name.value] = {
+					bonus: icons[icon].bonus.value,
+					relationship: relationships[icons[icon].relationship.value],
+					results: icons[icon].results,
+				};
+			});
+		return iconFilter;
+	}
+
 	getTotalGP(coins) {
-		return coins.copper.value ?? 0 / 100 + coins.silver.value ?? 0 / 10 + coins.gold.value ?? 0 + coins.platinum.value ?? 0 * 10;
+		return coins.copper / 100 + coins.silver / 10 + coins.gold + coins.platinum * 10;
 	}
 
 	getActorDetails(actor) {
 		const data = actor.data.data;
+		const coins = {};
+		Object.keys(data.coins).forEach((coin) => {
+			coins[coin] = data.coins[coin].value ?? 0;
+		});
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -67,13 +111,11 @@ export class archmageProvider extends SystemProvider {
 			md: data.attributes.md,
 			recoveries: data.attributes.recoveries,
 
-			coins: {
-				copper: data.coins.copper.value ?? 0,
-				silver: data.coins.silver.value ?? 0,
-				gold: data.coins.gold.value ?? 0,
-				platinum: data.coins.platinum.value ?? 0,
-			},
-			totalGP: this.getTotalGP(data.coins).toFixed(2),
+			backgrounds: this.getBackgrounds(data.backgrounds),
+			icons: this.getIcons(data.icons),
+
+			coins: coins,
+			totalGP: this.getTotalGP(coins).toFixed(2),
 		};
 	}
 
@@ -93,11 +135,29 @@ export class archmageProvider extends SystemProvider {
 			}
 		);
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.totalGP), 0).toFixed(2);
+		let icons = new Set();
+		actors.forEach((actor) => {
+			Object.keys(actor.icons).forEach((icon) => {
+				icons.add(icon);
+			});
+		});
+		icons = Array.from(icons).sort();
+
+		// .filter((lore) => lore !== undefined)
+		// .map((icon) => icon.property)
+		// .sort();
+		// actors = actors.map((actor) => {
+		// 	return {
+		// 		...actor,
+		// 		lore: lores.map((lore) => actor.lore && actor.lore.includes(lore)),
+		// 	};
+		// });
 		return [
 			actors,
 			{
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
+				icons,
 			},
 		];
 	}

@@ -6,10 +6,10 @@
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
                 <div class="num" title="{{localize "ARCHMAGE.health"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "ARCHMAGE.recoveries"}}"><i class="fas fa-medkit"></i></div>
                 <div class="num" title="{{localize "ARCHMAGE.ac.label"}}"><i class="fas fa-shield-alt"></i></div>
                 <div class="num" title="{{localize "ARCHMAGE.pd.label"}}"><i class="fas fa-hard-hat"></i></div>
                 <div class="num" title="{{localize "ARCHMAGE.md.label"}}"><i class="fas fa-brain"></i></div>
-                <div class="num" title="{{localize "ARCHMAGE.recoveries"}}"><i class="fas fa-medkit"></i></div>
             </div>
 
             {{#each actors as | actor | }}
@@ -18,11 +18,62 @@
                 <div class="text">{{ actor.shortestName }}</div>
 
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.recoveries.value }}/{{ actor.recoveries.max }}</div>
                 <div class="num">{{ actor.ac.value }}</div>
                 <div class="num">{{ actor.pd.value }}</div>
                 <div class="num">{{ actor.md.value }}</div>
-                <div class="num">{{ actor.recoveries.value }}/{{ actor.recoveries.max }}</div>
             </div>
+            {{/each}}
+        </div>
+
+        <!-- Backgrounds -->
+        <div class="tab" data-tab="backgrounds" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="text">{{localize "ARCHMAGE.backgrounds"}}</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+
+                <div class="text">{{ actor.backgrounds }}</div>
+            </div>
+            {{/each}}
+        </div>
+        
+        <!-- Icons -->
+        <div class="tab proficiencies" data-tab="icons" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                {{#each actors as | actor | }}
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="num party-overview-ellipsis party-overview-ellipsis-no-border" title="{{ actor.shortestName }}">
+                        {{ actor.shortestName }}
+                    </div>
+                {{/each}}
+            </div>
+
+            {{#each icons as | key | }}
+                <div class="table-row">
+                    <div></div>
+                    <div class="text">{{key}}</div>
+                    {{#each (partyOverviewGetSkillList key ../actors)}}
+                        <div class="num flexrow" style="flex: 1;">
+                            <span style="flex: 0 0 24px;">{{#if this.relationship}}{{this.relationship}}{{this.bonus}}{{/if}}</span>
+                            {{#if this.results}}
+                                <ul class="flexrow" style="align-content: center; margin: 0; padding: 0;">
+                                {{#each this.results as | result | }}
+                                {{#if (gt result 0)}}<li class="po-archmage-icon">{{result}}</li>{{/if}}
+                                {{/each}}
+                                </ul>
+                            {{/if}}
+                        </div>
+                    {{/each}}
+                </div>
             {{/each}}
         </div>
 
@@ -59,5 +110,6 @@
                 <div class="text icon"><b>{{totalPartyGP}}</b></div>
             </div>
         </div>
+
     </section>
 </div>
