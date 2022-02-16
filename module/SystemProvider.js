@@ -610,7 +610,7 @@ export class dnd5eProvider extends SystemProvider {
 }
 
 export class pf1Provider extends SystemProvider {
-	static knowledgeKeys = ["kar", "kdu", "ken", "kge", "khi", "klo", "kna", "kno", "kpl", "kre"];
+	knowledgeKeys = ["kar", "kdu", "ken", "kge", "khi", "klo", "kna", "kno", "kpl", "kre"];
 
 	get loadTemplates() {
 		return ["modules/party-overview/templates/parts/PF1e-Knowledge.html"];
@@ -629,7 +629,7 @@ export class pf1Provider extends SystemProvider {
 	}
 
 	getKnowledge(skills) {
-		return pf1Provider.knowledgeKeys.reduce((knowledge, key) => {
+		return this.knowledgeKeys.reduce((knowledge, key) => {
 			if (skills[key].rank > 0) knowledge[key] = skills[key].mod;
 			return knowledge;
 		}, {});
