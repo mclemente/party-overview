@@ -26,7 +26,6 @@ class PartyOverviewApp extends Application {
 				.flat(1)
 				.map((token) => token.actor);
 		}
-		if (!actors.length && !this.ignoreNoActors) return;
 
 		// remove duplicates if an actors has multiple tokens on scene
 		actors = actors.reduce((actors, actor) => (actors.map((a) => a.id).includes(actor.id) ? actors : [...actors, actor]), []);
@@ -137,9 +136,8 @@ class PartyOverviewApp extends Application {
 		super.activateListeners(html);
 	}
 
-	render(force, ignoreNoActors = false, options) {
+	render(force, options) {
 		this.rendering = true;
-		this.ignoreNoActors = ignoreNoActors;
 		super.render(force, options);
 	}
 

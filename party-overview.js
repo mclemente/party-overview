@@ -56,7 +56,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 
 	let button = $(`<button class="party-overview-button ${currentSystemProvider.customCSS}"><i class="fas fa-users"></i> Party Overview</button>`);
 	button.on("click", (e) => {
-		partyOverview.render(true, true);
+		partyOverview.render(true);
 	});
 
 	$(html).find(".header-actions").prepend(button);
@@ -88,7 +88,7 @@ Hooks.on("deleteActor", (actor, options, userId) => {
 
 Hooks.on("deleteToken", (token, options, userId) => {
 	if (partyOverview.rendering && token.actor?.hasPlayerOwner) {
-		partyOverview.render(false, true);
+		partyOverview.render(false);
 	}
 });
 
