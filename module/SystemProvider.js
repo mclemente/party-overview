@@ -1107,11 +1107,24 @@ export class swadeProvider extends SystemProvider {
 }
 
 export class tormenta20Provider extends SystemProvider {
+	constructor(id) {
+		super(id);
+		Handlebars.registerHelper("partyOverviewGetSkillList", function (skill, actors, opt) {
+			return actors.map((actor) => {
+				if (!isNaN(actor.pericias[skill]?.value))
+					return {
+						...actor.pericias[skill],
+					};
+				return {};
+			});
+		});
+	}
+
 	get tabs() {
 		return {
 			// languages: { id: "idiomas", visible: true, localization: "Idiomas" },
 			currencies: { id: "dinheiro", visible: true, localization: "Dinheiro" },
-			// proficiencies: { id: "pericias", visible: true, localization: "Perícias" },
+			proficiencies: { id: "pericias", visible: true, localization: "Perícias" },
 		};
 	}
 
@@ -1162,6 +1175,12 @@ export class tormenta20Provider extends SystemProvider {
 		delete pericias.fort;
 		delete pericias.refl;
 		delete pericias.vont;
+		delete pericias.defe;
+		for (let pericia in pericias) {
+			pericias[pericia] = {
+				value: data.pericias[pericia].value,
+			};
+		}
 		return pericias;
 	}
 	getSpeed(data) {
@@ -1198,7 +1217,8 @@ export class tormenta20Provider extends SystemProvider {
 			pm: this.getManaPoints(data),
 			atributos: data.atributos,
 			defesa: data.attributes.defesa.value,
-			pericias: data.pericias,
+			// pericias: data.pericias,
+			pericias: this.getPericias(data),
 			// languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
 			// alignment: data.details.alignment,
 			dinheiro: data.dinheiro,
@@ -1228,17 +1248,19 @@ export class tormenta20Provider extends SystemProvider {
 			}
 		);
 		let totalPartyGP = actors.reduce((totalGP, actor) => totalGP + parseFloat(actor.dinheiroTotal), 0).toFixed(2);
-		// let pericias = foundry.utils.deepClone(CONFIG.T20.pericias);
-		// delete pericias.luta;
-		// delete pericias.pont;
-		// delete pericias.fort;
-		// delete pericias.refl;
-		// delete pericias.vont;
-		// delete pericias.ofic;
+		let pericias = foundry.utils.deepClone(CONFIG.T20.pericias);
+		delete pericias.luta;
+		delete pericias.pont;
+		delete pericias.fort;
+		delete pericias.refl;
+		delete pericias.vont;
+		delete pericias.ofic;
+		delete pericias.defe;
+		delete pericias.ocul;
 		return [
 			actors,
 			{
-				// pericias: pericias,
+				pericias: pericias,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
 			},

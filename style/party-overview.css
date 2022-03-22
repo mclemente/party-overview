@@ -151,7 +151,8 @@ button.party-overview-button:not(.wfrp4e) {
 
 .party-overview-window.archmage .proficiencies.tab .header .num,
 .party-overview-window.dnd5e .proficiencies.tab .header .num,
-.party-overview-window.pf2e .proficiencies.tab .header .num {
+.party-overview-window.pf2e .proficiencies.tab .header .num,
+.party-overview-window.tormenta20 .proficiencies.tab .header .num {
 	flex: 1;
 }
 

@@ -69,27 +69,31 @@
         </div>
 
     <!-- Proficencies-->
-    <!--
-    <div class="tab" data-tab="pericias" data-group="party">
+    <div class="tab proficiencies" data-tab="pericias" data-group="party">
         <div class="table-row header">
             {{> "modules/party-overview/templates/parts/FilterButton.html"}}
             <div class="text">{{localize "party-overview.NAME"}}</div>
-            {{#each pericias as | s | }}
-            <div class="num" style="flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis">{{s}}</div>
+            {{#each actors as | actor | }}
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="num party-overview-ellipsis party-overview-ellipsis-no-border" title="{{ actor.shortestName }}">
+                    {{ actor.shortestName }}
+                </div>
             {{/each}}
         </div>
 
-        {{#each actors as | actor | }}
+        
+        {{#each pericias as | value key | }}
         <div class="table-row">
-            {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
-            <div class="text">{{ actor.shortestName }}</div>
-            {{#each actor.pericias as | skill| }}
-            <div class="num" style="flex: 1">{{skill.value}}</div>
-            {{/each}}
-        </div>
+			<div></div>
+			<div class="text">{{localize value}}</div>
+			{{#each (partyOverviewGetSkillList key ../actors)}}
+				<div class="num" style="flex: 1;">
+					{{numberFormat this.value decimals=0 sign=true}}
+				</div>
+			{{/each}}
+		</div>
         {{/each}}
     </div>
-    -->
 
     </section>
 </div>
