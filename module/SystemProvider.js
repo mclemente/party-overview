@@ -1170,12 +1170,6 @@ export class tormenta20Provider extends SystemProvider {
 	}
 	getPericias(data) {
 		let pericias = foundry.utils.deepClone(data.pericias);
-		delete pericias.luta;
-		delete pericias.pont;
-		delete pericias.fort;
-		delete pericias.refl;
-		delete pericias.vont;
-		delete pericias.defe;
 		for (let pericia in pericias) {
 			pericias[pericia] = {
 				value: data.pericias[pericia].value,
