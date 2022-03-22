@@ -49,6 +49,7 @@ Hooks.once("init", () => {
 
 Hooks.on("ready", () => {
 	if (!partyOverview) partyOverview = new PartyOverviewApp();
+	if (game.modules.get('stream-view')?.active) partyOverview.render(true);
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
