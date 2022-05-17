@@ -772,8 +772,10 @@ export class pf2eProvider extends SystemProvider {
 		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
 		const items = data.items.filter((a) => a.data.data.price);
 		for (const item of items) {
-			let [value, coin] = item.data.data.price.value.split(" ");
-			currency[coin] += Number(value) * (item.data.data.quantity?.value ?? item.data.data.quantity); //Fix for PF2e 3.7.2.10819 and later
+			let value = item.data.data.price.value;
+			for (let coin in value) {
+				currency[coin] += Number(value[coin]) * (item.data.data.quantity?.value ?? item.data.data.quantity);
+			}
 		}
 		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
 	}
