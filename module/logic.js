@@ -1,10 +1,11 @@
 import { currentSystemProvider } from "./api.js";
 
 const DISPLAY_MODE = {
-	SHOW_ALL: 0,
-	SHOW_VISIBLE: 1,
-	SHOW_HIDDEN: 2,
-	SHOW_MORE: 3,
+	SHOW_ALL: 0, //Scene, Ulfiltered
+	SHOW_VISIBLE: 1, //Scene, Filtered
+	SHOW_HIDDEN: 2, //Scene, Hidden
+	SHOW_MORE: 3, //Player Controlled
+	SHOW_PC_ONLY: 4, //Selected PCs
 };
 
 class PartyOverviewApp extends Application {
@@ -13,14 +14,17 @@ class PartyOverviewApp extends Application {
 
 		this.hiddenActors = [];
 		this.state = {};
-		this.displayMode = DISPLAY_MODE.SHOW_VISIBLE;
+		this.displayMode = DISPLAY_MODE.SHOW_PC_ONLY;
 		this.activeTab = "general";
 		this.rendering = false;
 	}
 
 	update() {
 		let actors = game.actors.contents.filter((a) => a.hasPlayerOwner);
-		if (this.displayMode != DISPLAY_MODE.SHOW_MORE) {
+		if (this.displayMode == DISPLAY_MODE.SHOW_PC_ONLY) {
+			let users = game.users.filter((u) => u.data.character).map((u) => u.data.character);
+			actors = actors.filter((playerActor) => users.includes(playerActor.data._id));
+		} else if (this.displayMode != DISPLAY_MODE.SHOW_MORE) {
 			actors = actors
 				.map((playerActor) => playerActor.getActiveTokens())
 				.flat(1)
@@ -115,10 +119,20 @@ class PartyOverviewApp extends Application {
 			this.hiddenActors = this.hiddenActors.includes(actorId) ? this.hiddenActors.filter((id) => id !== actorId) : [...this.hiddenActors, actorId];
 			this.render(false);
 		});
+		$(".btn-toggle-visibility").on("contextmenu", (event) => {
+			const actorId = event.currentTarget.dataset.actor;
+			this.hiddenActors = this.hiddenActors.includes(actorId) ? this.hiddenActors.filter((id) => id !== actorId) : [...this.hiddenActors, actorId];
+			this.render(false);
+		});
 
 		$(".btn-filter").on("click", (event) => {
 			this.displayMode += 1;
 			if (this.displayMode > Object.keys(DISPLAY_MODE).length - 1) this.displayMode = 0;
+			this.render(false);
+		});
+		$(".btn-filter").on("contextmenu", (event) => {
+			this.displayMode -= 1;
+			if (this.displayMode < 0) this.displayMode = Object.keys(DISPLAY_MODE).length - 1;
 			this.render(false);
 		});
 

@@ -12,6 +12,13 @@
 				"system": "System {name}"
 			}
 		},
+		"filter": {
+			"0": "All (Scene, Unfilted)",
+			"1": "All (Scene)",
+			"2": "Hidden (Scene)",
+			"3": "All Owned",
+			"4": "All Selected"
+		},
 		"keybinds": {
 			"open": {
 				"name": "Open Party Overview",
@@ -38,9 +45,6 @@
 
 		"DND5E": {
 			"Traits": "Traits"
-		},
-		"PF2E": {
-			"EncumberedAt": "Encumbered At"
 		}
 	}
 }
