@@ -1,20 +1,11 @@
 {
-	"id": "party-overview",
+	"name": "party-overview",
 	"title": "Party Overview",
 	"description": "Provides an instant overview about vital stats of the players active in the current scene",
-	"version": "2.12.6",
-	"authors": [
-		{
-			"name": "Matheus Clemente",
-			"discord": "mclemente#5524"
-		},
-		{
-			"name": "Sebastian Will"
-		},
-		{
-			"name": "Chris Wachal"
-		}
-	],
+	"version": "2.6.0",
+	"author": "Matheus Clemente (mclemente#5524), Sebastian Will (vttassets@gmail.com), Chris Wachal (Zamrod#9326)",
+	"minimumCoreVersion": "0.8.9",
+	"compatibleCoreVersion": "9",
 	"languages": [
 		{
 			"lang": "en",
@@ -42,14 +33,11 @@
 			"path": "lang/ja.json"
 		}
 	],
-	"esmodules": ["party-overview.js"],
-	"styles": ["style/party-overview.css"],
+	"esmodules": ["./party-overview.js"],
+	"styles": ["./style/party-overview.css"],
+	"packs": [],
 	"url": "http://github.com/mclemente/party-overview",
 	"bugs": "http://github.com/mclemente/party-overview/issues",
-	"manifest": "https://github.com/mclemente/party-overview/releases/latest/download/module.json",
-	"download": "https://github.com/mclemente/party-overview/releases/latest/download/module.zip",
-	"compatibility": {
-		"minimum": "0.8.9",
-		"verified": "10.270"
-	}
+	"manifest": "http://github.com/mclemente/party-overview/releases/latest/download/module.json",
+	"download": "http://github.com/mclemente/party-overview/releases/latest/download/module.zip"
 }
