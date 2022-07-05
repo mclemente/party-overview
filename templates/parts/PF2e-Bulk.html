@@ -2,9 +2,9 @@
 	<div class="table-row header">
 		{{> "modules/party-overview/templates/parts/FilterButton.html"}}
 		<div class="text">{{localize "party-overview.NAME"}}</div>
-		<div class="text icon" style="flex: 1">{{localize "PF2E.BulkShortLabel"}}</div>
-		<div class="text icon" style="flex: 2">{{localize "party-overview.PF2E.EncumberedAt"}}</div>
-		<div class="text icon" style="flex: 1">{{localize "party-overview.LIMIT"}}</div>
+		<div class="num" style="flex: 1">{{localize "PF2E.BulkLabel"}}</div>
+		<div class="num" style="flex: 2">{{localize "PF2E.ConditionTypeEncumbered"}}</div>
+		<div class="num" style="flex: 1">{{localize "PF2E.BulkMaxLabel"}}</div>
 	</div>
 
 	{{#each actors as | actor | }}
@@ -15,10 +15,10 @@
 			</button>
 		</div>
 		<div class="text">{{ actor.shortestName }}</div>
-		{{#with actor.encumbrance}}
-		<div class="text icon" style="flex: 1">{{combinedBulk.normal}} {{#if combinedBulk.light}}({{combinedBulk.light}} L){{/if}}</div>
-		<div class="text icon" style="flex: 2">{{encumberedAt}}</div>
-		<div class="text icon" style="flex: 1">{{limit}}</div>
+		{{#with actor.bulk}}
+		<div class="num" style="flex: 1">{{value.normal}} {{#if value.light}}({{value.light}} L){{/if}}</div>
+		<div class="num" style="flex: 2">{{encumberedAt}}</div>
+		<div class="num" style="flex: 1">{{max}}</div>
 		{{/with}}
 	</div>
 	{{/each}}

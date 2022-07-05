@@ -731,14 +731,14 @@ export class pf2eProvider extends SystemProvider {
 		return [
 			"modules/party-overview/templates/parts/PF2e-Lore.html",
 			"modules/party-overview/templates/parts/PF2e-Proficiencies.html",
-			// "modules/party-overview/templates/parts/PF2e-Bulk.html"
+			"modules/party-overview/templates/parts/PF2e-Bulk.html",
 		];
 	}
 
 	get tabs() {
 		return {
 			currencies: { id: "currencies", visible: true, localization: "party-overview.WEALTH" },
-			// bulk: { id: "bulk", visible: true, localization: "PF2E.BulkShortLabel" },
+			bulk: { id: "bulk", visible: true, localization: "PF2E.BulkShortLabel" },
 			languages: { id: "languages", visible: true, localization: "PF2E.Languages" },
 			lore: { id: "lore", visible: true, localization: "PF2E.Lore" },
 			proficiencies: { id: "skills", visible: true, localization: "PF2E.SkillsLabel" },
@@ -827,6 +827,7 @@ export class pf2eProvider extends SystemProvider {
 			id: actor.id,
 			name: actor.name,
 			type: actor.type,
+			bulk: actor.inventory.bulk,
 			hp: data.attributes.hp || { value: 0, max: 0 },
 			heroPoints: data.resources?.heroPoints || { value: 0, max: 0 },
 			focus: data.resources?.focus || { value: 0, max: 0 },
