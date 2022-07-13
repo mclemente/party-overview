@@ -4,13 +4,17 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
-                <div class="widenum">{{localize 'CYPHERSYSTEM.Might'}}</div>
-                <div class="widenum">{{localize 'CYPHERSYSTEM.Speed'}}</div>
-                <div class="widenum">{{localize 'CYPHERSYSTEM.Intellect'}}</div>
-                <div class="num">{{localize 'CYPHERSYSTEM.Tier'}}</div>
-                <div class="num">{{localize 'CYPHERSYSTEM.Effort'}}</div>
-                <div class="num">{{localize 'CYPHERSYSTEM.XP'}}</div>
-                <div class="num">{{localize 'CYPHERSYSTEM.Armor'}}</div>
+                <div class="widenum" title="{{localize 'CYPHERSYSTEM.Might'}}"><i class="fas fa-fist-raised"></i></div>
+                <div class="widenum" title="{{localize 'CYPHERSYSTEM.Speed'}}"><i class="fas fa-running"></i></div>
+                <div class="widenum" title="{{localize 'CYPHERSYSTEM.Intellect'}}"><i class="fas fa-graduation-cap"></i></div>
+                {{#if showAdditional}}
+                    <div class="widenum" title="{{localize 'CYPHERSYSTEM.AdditionalPoolSetting'}}"><i class="fas fa-question"></i></div>
+                {{/if}}
+                <div class="num" title="{{localize 'CYPHERSYSTEM.Armor'}}"><i class="fas fa-shield-alt"></i></div>
+                <div class="num" title="{{localize 'CYPHERSYSTEM.Tier'}}">{{localize 'CYPHERSYSTEM.Tier'}}</div>
+                <div class="num" title="{{localize 'CYPHERSYSTEM.Effort'}}">{{localize 'CYPHERSYSTEM.Effort'}}</div>
+                <div class="num" title="{{localize 'CYPHERSYSTEM.XP'}}">{{localize 'CYPHERSYSTEM.XP'}}</div>
+                <div class="widenum" title="{{localize 'CYPHERSYSTEM.Damage'}}">{{localize 'CYPHERSYSTEM.Damage'}}</div>
             </div>
 
             {{#each actors as | actor | }}
@@ -21,10 +25,22 @@
                 <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.might.value }}/{{ actor.might.max }} ({{actor.mightEdge}})</div>
                 <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.speed.value }}/{{ actor.speed.max }} ({{actor.intellectEdge}})</div>
                 <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.intellect.value }}/{{ actor.intellect.max }} ({{actor.intellectEdge}})</div>
+                {{#if ../showAdditional}}
+                    {{#if actor.additionalPool.active}}
+                        {{#if (eq actor.additionalPool.additionalPoolName "")}}
+                            <div class="widenum" title="{{localize 'CYPHERSYSTEM.AdditionalPool'}} (Current/Maximum)">{{ actor.additional.value }}/{{ actor.additional.max }}</div>
+                        {{else}}
+                            <div class="widenum" title="{{actor.additionalPool.additionalPoolName}} (Current/Maximum)">{{ actor.additional.value }}/{{ actor.additional.max }}</div>
+                        {{/if}}
+                    {{else}}
+                        <div class="widenum">-</div>
+                    {{/if}}
+                {{/if}}
+                <div class="num">{{ actor.armorValueTotal }}</div>
                 <div class="num">{{ actor.tier }}</div>
                 <div class="num">{{ actor.effort }}</div>
                 <div class="num">{{ actor.xp }}</div>
-                <div class="num">{{ actor.armorValueTotal }}</div>
+                <div class="widenum">{{ actor.damageTrack }}</div>
             </div>
             {{/each}}
         </div>

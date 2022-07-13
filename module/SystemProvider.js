@@ -1302,7 +1302,7 @@ export class cyphersystemProvider extends SystemProvider {
 	}
 
 	get width() {
-		return 600;
+		return 700;
 	}
 	
 	getActorDetails(actor) {
@@ -1313,6 +1313,8 @@ export class cyphersystemProvider extends SystemProvider {
 			might : data.pools.might,
 			speed : data.pools.speed,
 			intellect : data.pools.intellect,
+			additional : data.pools.additional,
+			additionalPool : data.additionalPool,
 			mightEdge : data.pools.mightEdge,
 			speedEdge : data.pools.speedEdge,
 			intellectEdge : data.pools.intellectEdge,
@@ -1321,6 +1323,25 @@ export class cyphersystemProvider extends SystemProvider {
 			xp     : data.basic.xp,
 			armorValueTotal : data.armor.armorValueTotal,
 			speedCostTotal  : data.armor.speedCostTotal,
+			damageTrack : data.damage.damageTrack,
 		};
+	}
+
+	getUpdate(actors) {
+		let showAdditional = false;
+		for (let actor of actors)
+		{
+			if (actor.additionalPool.active)
+			{
+				showAdditional = true;
+				break;
+			}
+		}
+		return [
+			actors, 
+			{
+				showAdditional : showAdditional
+			}
+		];
 	}
 }
