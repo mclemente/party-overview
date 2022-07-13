@@ -1,6 +1,6 @@
 // prettier-ignore
 import { SystemProvider, archmageProvider, bitdProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider,
-	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider, } from "./SystemProvider.js";
+	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider, cyphersystemProvider} from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -81,6 +81,9 @@ export function initApi() {
 			break;
 		case "wfrp4e":
 			systemProviders.push(new wfrp4eProvider("native.wfrp4e"));
+			break;
+		case 'cyphersystem':
+			systemProviders.push(new cyphersystemProvider("native.cyphersystem"));
 			break;
 		default:
 			systemProviders.push(new SystemProvider("native"));

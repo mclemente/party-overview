@@ -1,0 +1,32 @@
+<div>
+    <section class="content">
+        <div class="tab" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="widenum">{{localize 'CYPHERSYSTEM.Might'}}</div>
+                <div class="widenum">{{localize 'CYPHERSYSTEM.Speed'}}</div>
+                <div class="widenum">{{localize 'CYPHERSYSTEM.Intellect'}}</div>
+                <div class="num">{{localize 'CYPHERSYSTEM.Tier'}}</div>
+                <div class="num">{{localize 'CYPHERSYSTEM.Effort'}}</div>
+                <div class="num">{{localize 'CYPHERSYSTEM.XP'}}</div>
+                <div class="num">{{localize 'CYPHERSYSTEM.Armor'}}</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+
+                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.might.value }}/{{ actor.might.max }} ({{actor.mightEdge}})</div>
+                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.speed.value }}/{{ actor.speed.max }} ({{actor.intellectEdge}})</div>
+                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.intellect.value }}/{{ actor.intellect.max }} ({{actor.intellectEdge}})</div>
+                <div class="num">{{ actor.tier }}</div>
+                <div class="num">{{ actor.effort }}</div>
+                <div class="num">{{ actor.xp }}</div>
+                <div class="num">{{ actor.armorValueTotal }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>
