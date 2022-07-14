@@ -84,6 +84,14 @@ div.party-overview-window .table-row .num {
 	flex-shrink: 1;
 }
 
+div.party-overview-window .table-row .widenum {
+	margin: auto;
+	text-align: center;
+	flex-basis: 75px;
+	flex-grow: 0;
+	flex-shrink: 1;
+}
+
 div.party-overview-window .table-row .button {
 	margin: auto;
 	text-align: center;
