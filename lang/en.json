@@ -13,7 +13,7 @@
 			}
 		},
 		"filter": {
-			"0": "All (Scene, Unfilted)",
+			"0": "All (Scene, Unfiltered)",
 			"1": "All (Scene)",
 			"2": "Hidden (Scene)",
 			"3": "All Owned",
