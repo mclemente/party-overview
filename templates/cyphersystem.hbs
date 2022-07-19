@@ -18,6 +18,7 @@
             </div>
 
             {{#each actors as | actor | }}
+            {{#if (eq actor.type 'PC')}}
             <div class="table-row">
                 {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
@@ -42,6 +43,7 @@
                 <div class="num">{{ actor.xp }}</div>
                 <div class="widenum">{{ actor.damageTrack }}</div>
             </div>
+            {{/if}}
             {{/each}}
         </div>
     </section>
