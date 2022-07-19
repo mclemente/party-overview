@@ -1310,20 +1310,21 @@ export class cyphersystemProvider extends SystemProvider {
 		return {
 			id: actor.id,
 			name: actor.name,
-			might : data.pools.might,
-			speed : data.pools.speed,
-			intellect : data.pools.intellect,
-			additional : data.pools.additional,
+			type: actor.type,
+			might : data.pools?.might,
+			speed : data.pools?.speed,
+			intellect : data.pools?.intellect,
+			additional : data.pools?.additional,
 			additionalPool : data.additionalPool,
-			mightEdge : data.pools.mightEdge,
-			speedEdge : data.pools.speedEdge,
-			intellectEdge : data.pools.intellectEdge,
-			tier   : data.basic.tier,
-			effort : data.basic.effort,
-			xp     : data.basic.xp,
-			armorValueTotal : data.armor.armorValueTotal,
-			speedCostTotal  : data.armor.speedCostTotal,
-			damageTrack : data.damage.damageTrack,
+			mightEdge : data.pools?.mightEdge,
+			speedEdge : data.pools?.speedEdge,
+			intellectEdge : data.pools?.intellectEdge,
+			tier   : data.basic?.tier,
+			effort : data.basic?.effort,
+			xp     : data.basic?.xp,
+			armorValueTotal : data.armor?.armorValueTotal,
+			speedCostTotal  : data.armor?.speedCostTotal,
+			damageTrack : data.damage?.damageTrack,
 		};
 	}
 
@@ -1331,7 +1332,7 @@ export class cyphersystemProvider extends SystemProvider {
 		let showAdditional = false;
 		for (let actor of actors)
 		{
-			if (actor.additionalPool.active)
+			if (actor.additionalPool?.active)
 			{
 				showAdditional = true;
 				break;
