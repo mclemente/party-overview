@@ -771,7 +771,9 @@ export class pf2eProvider extends SystemProvider {
 	getItemsValue(data) {
 		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
 		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
-		const items = data.items.filter((a) => a.data.data.price && !(coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name)));
+		const items = data.items.filter(
+			(a) => a.data.data.price && a.data.data.identification.status == "identified" && !(coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name))
+		);
 		for (const item of items) {
 			let value = item.data.data.price.value;
 			for (let coin in value) {
@@ -1304,7 +1306,7 @@ export class cyphersystemProvider extends SystemProvider {
 	get width() {
 		return 700;
 	}
-	
+
 	getActorDetails(actor) {
 		const data = actor.data.data;
 		return {
