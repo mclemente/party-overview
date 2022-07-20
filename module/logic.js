@@ -22,7 +22,7 @@ class PartyOverviewApp extends Application {
 	update() {
 		let actors = game.actors.contents.filter((a) => a.hasPlayerOwner);
 		if (this.displayMode == DISPLAY_MODE.SHOW_PC_ONLY) {
-			let users = game.users.filter((u) => u.data.character).map((u) => u.data.character.id);
+			let users = game.users.filter((u) => u.data.character).map((u) => u.data.character);
 			actors = actors.filter((playerActor) => users.includes(playerActor.data._id));
 		} else if (this.displayMode != DISPLAY_MODE.SHOW_MORE) {
 			actors = actors
