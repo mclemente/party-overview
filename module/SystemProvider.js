@@ -1033,9 +1033,9 @@ export class sfrpgProvider extends SystemProvider {
 			speed: data.attributes.speed.land.value,
 
 			saves: {
-				fortitude: data.attributes.fort.value,
-				reflex: data.attributes.reflex.value,
-				will: data.attributes.will.value,
+				fortitude: data.attributes.fort.bonus,
+				reflex: data.attributes.reflex.bonus,
+				will: data.attributes.will.bonus,
 			},
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.SFRPG.languages[code])) : [],
 			currency: data.currency,
