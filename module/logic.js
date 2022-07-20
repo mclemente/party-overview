@@ -22,7 +22,12 @@ class PartyOverviewApp extends Application {
 	update() {
 		let actors = game.actors.contents.filter((a) => a.hasPlayerOwner);
 		if (this.displayMode == DISPLAY_MODE.SHOW_PC_ONLY) {
-			let users = game.users.filter((u) => u.data.character).map((u) => u.data.character);
+			let users = game.users
+				.filter((u) => u.data.character)
+				.map((u) => {
+					if (game.version < 10) return u.data.character;
+					return u.data.character.id;
+				});
 			actors = actors.filter((playerActor) => users.includes(playerActor.data._id));
 		} else if (this.displayMode != DISPLAY_MODE.SHOW_MORE) {
 			actors = actors
