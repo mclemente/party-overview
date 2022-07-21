@@ -28,7 +28,7 @@ export class SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -97,7 +97,7 @@ export class archmageProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		const coins = {};
 		Object.keys(data.coins).forEach((coin) => {
 			coins[coin] = data.coins[coin].value ?? 0;
@@ -177,7 +177,7 @@ export class bitdProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -194,7 +194,7 @@ export class dccProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -228,7 +228,7 @@ export class dnd35eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -313,7 +313,7 @@ export class dnd4eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -523,7 +523,7 @@ export class dnd5eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -640,7 +640,7 @@ export class pf1Provider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		const currency = {
 			cp: parseInt(data.currency.cp) + parseInt(data.altCurrency.cp), // some actors have a string value instead of an integer
 			sp: parseInt(data.currency.sp) + parseInt(data.altCurrency.sp),
@@ -666,7 +666,7 @@ export class pf1Provider extends SystemProvider {
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
 			currency: currency,
 
-			knowledge: this.getKnowledge(actor.data.data.skills),
+			knowledge: this.getKnowledge(actor.system.skills),
 			totalGP: this.getTotalGP(currency).toFixed(2),
 		};
 	}
@@ -763,8 +763,8 @@ export class pf2eProvider extends SystemProvider {
 		};
 		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
 		data.items
-			.filter((a) => coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name))
-			.map((a) => (currency[wealth[a.data?.flags?.babele?.originalName || a.name]] += a.quantity));
+			.filter((a) => coins.includes(a.flags?.babele?.originalName) || coins.includes(a.name))
+			.map((a) => (currency[wealth[a.flags?.babele?.originalName || a.name]] += a.quantity));
 		return currency;
 	}
 
@@ -772,12 +772,12 @@ export class pf2eProvider extends SystemProvider {
 		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
 		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
 		const items = data.items.filter(
-			(a) => a.data.data.price && a.data.data.identification.status == "identified" && !(coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name))
+			(a) => a.system.price && a.system.identification.status == "identified" && !(coins.includes(a.flags?.babele?.originalName) || coins.includes(a.name))
 		);
 		for (const item of items) {
-			let value = item.data.data.price.value;
+			let value = item.system.price.value;
 			for (let coin in value) {
-				currency[coin] += Number(value[coin]) * (item.data.data.quantity?.value ?? item.data.data.quantity);
+				currency[coin] += Number(value[coin]) * (item.system.quantity?.value ?? item.system.quantity);
 			}
 		}
 		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
@@ -820,16 +820,16 @@ export class pf2eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
-		const currency = this.getCurrency(actor.data);
-		const itemsValue = this.getItemsValue(actor.data).toFixed(2);
+		const data = actor.system;
+		const currency = this.getCurrency(actor);
+		const itemsValue = this.getItemsValue(actor).toFixed(2);
 		const totalGP = this.getTotalGP(currency).toFixed(2);
 		const sumItemsGP = (Number(itemsValue) + Number(totalGP)).toFixed(2);
 		return {
 			id: actor.id,
 			name: actor.name,
 			type: actor.type,
-			bulk: actor.inventory.bulk,
+			bulk: actor.inventory?.bulk || { value: { normal: 0, light: 0 }, encumberedAt: 0, max: 0 },
 			hp: data.attributes.hp || { value: 0, max: 0 },
 			heroPoints: data.resources?.heroPoints || { value: 0, max: 0 },
 			focus: data.resources?.focus || { value: 0, max: 0 },
@@ -856,7 +856,7 @@ export class pf2eProvider extends SystemProvider {
 			itemsValue: itemsValue,
 			sumItemsGP: sumItemsGP,
 
-			lore: this.getLore(actor.data),
+			lore: this.getLore(actor),
 			totalGP: totalGP,
 		};
 	}
@@ -902,7 +902,7 @@ export class pf2eProvider extends SystemProvider {
 				totalPartyGP: totalPartyGP,
 				sumItemsGP: (Number(itemsValue) + Number(totalPartyGP)).toFixed(2),
 				lore: lores,
-				skills: CONFIG.PF2E.skills,
+				skills: CONFIG.PF2E.skills || {},
 			},
 		];
 	}
@@ -928,7 +928,7 @@ export class scumAndVillainyProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		const base = {
 			id: actor.id,
 			name: actor.name,
@@ -1013,7 +1013,7 @@ export class sfrpgProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1042,7 +1042,7 @@ export class sfrpgProvider extends SystemProvider {
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.SFRPG.languages[code])) : [],
 			currency: data.currency,
 
-			lore: this.getLore(actor.data.data.skills),
+			lore: this.getLore(actor.system.skills),
 		};
 	}
 
@@ -1097,17 +1097,18 @@ export class swadeProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
-			current_wounds: actor.data.data.wounds.value,
-			max_wounds: actor.data.data.wounds.max,
-			current_fatigue: actor.data.data.fatigue.value,
-			max_fatigue: actor.data.data.fatigue.max,
-			bennies: actor.data.data.bennies.value,
-			parry: actor.data.data.stats.parry.value,
-			toughness: actor.data.data.stats.toughness.value,
-			armor: actor.data.data.stats.toughness.armor,
+			current_wounds: data.wounds.value,
+			max_wounds: data.wounds.max,
+			current_fatigue: data.fatigue.value,
+			max_fatigue: data.fatigue.max,
+			bennies: data.bennies.value,
+			parry: data.stats.parry.value,
+			toughness: data.stats.toughness.value,
+			armor: data.stats.toughness.armor,
 		};
 	}
 }
@@ -1209,7 +1210,7 @@ export class tormenta20Provider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1278,7 +1279,7 @@ export class wfrp4eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1308,7 +1309,7 @@ export class cyphersystemProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
