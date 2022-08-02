@@ -1386,7 +1386,7 @@ export class CoC7Provider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
