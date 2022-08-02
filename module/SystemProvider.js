@@ -1346,3 +1346,58 @@ export class cyphersystemProvider extends SystemProvider {
 		];
 	}
 }
+
+export class CoC7Provider {
+	constructor(id) {
+		this.id = id;
+	}
+
+	get customCSS() {
+		return "";
+	}
+
+	get loadTemplates() {
+		return [];
+	}
+
+	get tabs() {
+		return {};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/coc7.hbs";
+	}
+
+	get width() {
+		return 500;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.attribs.hp,
+			luck: data.attribs.lck,
+			move: data.attribs.mov,
+			mp: data.attribs.mp,
+			san: data.attribs.san,
+			armor: data.attribs.armor,
+			build: data.attribs.build,
+			db: data.attribs.db,
+			app: data.characteristics.app,
+			con: data.characteristics.con,
+			dex: data.characteristics.dex,
+			edu: data.characteristics.edu,
+			int: data.characteristics.int,
+			pow: data.characteristics.pow,
+			siz: data.characteristics.siz,
+			str: data.characteristics.str,
+		};
+	}
+
+	getUpdate(actors) {
+		return [actors, {}];
+	}
+}
+
