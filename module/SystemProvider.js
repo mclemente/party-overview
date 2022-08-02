@@ -1348,28 +1348,8 @@ export class cyphersystemProvider extends SystemProvider {
 }
 
 export class CoC7Provider {
-	constructor(id) {
-		this.id = id;
-	}
-
-	get customCSS() {
-		return "";
-	}
-
-	get loadTemplates() {
-		return [];
-	}
-
-	get tabs() {
-		return {};
-	}
-
 	get template() {
 		return "/modules/party-overview/templates/coc7.hbs";
-	}
-
-	get width() {
-		return 500;
 	}
 
 	getActorDetails(actor) {
@@ -1395,9 +1375,4 @@ export class CoC7Provider {
 			str: data.characteristics.str,
 		};
 	}
-
-	getUpdate(actors) {
-		return [actors, {}];
-	}
 }
-
