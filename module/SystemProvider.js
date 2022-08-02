@@ -3,30 +3,57 @@ function isNumeric(n) {
 }
 
 export class SystemProvider {
+	/**
+	 * The provider's ID. You can also use this function for setting Handlebars helpers.
+	 * @param {String} id
+	 */
 	constructor(id) {
 		this.id = id;
 	}
 
+	/**
+	 * In case the system uses a styling different from vanilla Foundry (e.g. WFRP4e).
+	 */
 	get customCSS() {
 		return "";
 	}
 
+	/**
+	 * If the system provider has parts to be loaded during the startup.
+	 */
 	get loadTemplates() {
 		return [];
 	}
 
+	/**
+	 * Tabs to be toggled by the GM for users to see.
+	 * Example:
+	 * {
+	 * 	saves: { id: "saves", visible: true, localization: "Saving Throws" },
+	 * }
+	 */
 	get tabs() {
 		return {};
 	}
 
+	/**
+	 * The template with the actual data.
+	 */
 	get template() {
 		return "/modules/party-overview/templates/generic.hbs";
 	}
 
+	/**
+	 * Default width for the system's overview.
+	 */
 	get width() {
 		return 500;
 	}
 
+	/**
+	 * Handles calculation of a single actor's data (e.g. actor's total wealth).
+	 * @param {Document} actor
+	 */
 	getActorDetails(actor) {
 		const data = actor.system;
 		return {
@@ -36,6 +63,11 @@ export class SystemProvider {
 		};
 	}
 
+	/**
+	 * Handles calculations of all the actors' data (e.g. party's total wealth).
+	 * @param {Array} actors
+	 * @returns [Array, Object]
+	 */
 	getUpdate(actors) {
 		return [actors, {}];
 	}
@@ -1345,5 +1377,35 @@ export class cyphersystemProvider extends SystemProvider {
 				showAdditional: showAdditional,
 			},
 		];
+	}
+}
+
+export class CoC7Provider {
+	get template() {
+		return "/modules/party-overview/templates/coc7.hbs";
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.attribs.hp,
+			luck: data.attribs.lck,
+			move: data.attribs.mov,
+			mp: data.attribs.mp,
+			san: data.attribs.san,
+			armor: data.attribs.armor,
+			build: data.attribs.build,
+			db: data.attribs.db,
+			app: data.characteristics.app,
+			con: data.characteristics.con,
+			dex: data.characteristics.dex,
+			edu: data.characteristics.edu,
+			int: data.characteristics.int,
+			pow: data.characteristics.pow,
+			siz: data.characteristics.siz,
+			str: data.characteristics.str,
+		};
 	}
 }

@@ -1,0 +1,41 @@
+<div>
+    <section class="content">
+        <div class="tab" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                
+                <div class="num" title="{{localize "CHARAC.Strength"}}">{{localize "CHARAC.STR"}}</div>
+                <div class="num" title="{{localize "CHARAC.Constitution"}}">{{localize "CHARAC.CON"}}</div>
+                <div class="num" title="{{localize "CHARAC.Size"}}">{{localize "CHARAC.SIZ"}}</div>
+                <div class="num" title="{{localize "CHARAC.Dexterity"}}">{{localize "CHARAC.Dex"}}</div>
+
+                <div class="num" title="{{localize "CHARAC.Appearance"}}">{{localize "CHARAC.APP"}}</div>
+                <div class="num" title="{{localize "CHARAC.Intelligence"}}">{{localize "CHARAC.INT"}}</div>
+                <div class="num" title="{{localize "CHARAC.Power"}}">{{localize "CHARAC.POW"}}</div>
+                <div class="num" title="{{localize "CHARAC.Education"}}">{{localize "CHARAC.EDU"}}</div>
+
+                <div class="num" title="{{localize "CoC7.HitPoints"}}"><i class="fas fa-heart"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+
+                <div class="num">{{ actor.str.value }}</div>
+                <div class="num">{{ actor.con.value }}</div>
+                <div class="num">{{ actor.siz.value }}</div>
+                <div class="num">{{ actor.dex.value }}</div>
+
+                <div class="num">{{ actor.app.value }}</div>
+                <div class="num">{{ actor.int.value }}</div>
+                <div class="num">{{ actor.pow.value }}</div>
+                <div class="num">{{ actor.edu.value }}</div>
+
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>
