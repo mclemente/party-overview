@@ -1379,7 +1379,7 @@ export class cyphersystemProvider extends SystemProvider {
 	}
 }
 
-export class CoC7Provider {
+export class CoC7Provider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/coc7.hbs";
 	}
@@ -1407,4 +1407,40 @@ export class CoC7Provider {
 			str: data.characteristics.str,
 		};
 	}
+}
+export class GURPSProvider extends SystemProvider {
+	get template() {
+		return "/modules/party-overview/templates/gurps.hbs";
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.HP,
+			fp: data.FP,
+			dx: data.attributes.DX,
+			ht: data.attributes.HT,
+			iq: data.attributes.IQ,
+			st: data.attributes.ST,
+			per: data.attributes.PER,
+			will: data.attributes.WILL,
+			move: data.currentmove,
+			dodge: data.currentdodge,
+			parry: data.equippedparry,
+			hearing: data.hearing,
+			touch: data.touch,
+			vision: data.vision,
+			tastesmell: data.tastesmell,
+		};
+	}
+
+	/**
+	 * Default width for the system's overview.
+	 */
+	 get width() {
+		return 750;
+	}
+
 }
