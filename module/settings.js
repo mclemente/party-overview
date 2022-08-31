@@ -1,9 +1,5 @@
 import { availableSystemProviders, currentSystemProvider, getDefaultSystemProvider, updateSystemProvider } from "./api.js";
 
-const debouncedReload = foundry.utils.debounce(() => {
-	window.location.reload();
-}, 100);
-
 export function registerSettings() {
 	game.settings.registerMenu("party-overview", "PartyOverviewSystemSettings", {
 		name: "Party Overview System Settings",
@@ -70,14 +66,13 @@ export class SystemProviderSettings extends FormApplication {
 			const type = provider.id.substring(0, dotPosition);
 			const id = provider.id.substring(dotPosition + 1);
 			if (type === "native") {
-				let title = id == game.system.id ? game.system.data.title : id;
+				let title = id == game.system.id ? game.system.title : id;
 				provider.selectTitle = (game.i18n.localize("party-overview.SystemProvider.choices.native") + " " + title).trim();
 			} else {
-				let name;
 				if (type === "module") {
-					name = game.modules.get(id).data.title;
+					var name = game.modules.get(id).title;
 				} else {
-					name = game.system.data.title;
+					name = game.system.title;
 				}
 				provider.selectTitle = game.i18n.format(`party-overview.SystemProvider.choices.${type}`, { name });
 			}
@@ -138,7 +133,8 @@ export class SystemProviderSettings extends FormApplication {
 			if (event.currentTarget?.dataset?.action === "reset") {
 				game.settings.settings.get("party-overview.systemProvider").default = getDefaultSystemProvider();
 				await game.settings.set("party-overview", "tabVisibility", currentSystemProvider.tabs);
-				debouncedReload();
+				this.close();
+				SettingsConfig.reloadConfirm({ world: true });
 			}
 		});
 	}
