@@ -1346,3 +1346,133 @@ export class cyphersystemProvider extends SystemProvider {
 		];
 	}
 }
+
+export class cof extends SystemProvider {
+
+	get width() {
+		return 600;
+	}
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		const profile = actor.data.items.find(item => item.type === "profile");
+		let profileName;
+		if (profile) {
+			profileName = profile.name;
+		}
+		const species = actor.data.items.find(item => item.type === "species");
+		let speciesName;
+		if (species) {
+			speciesName = species.name;
+		}
+		let toReturn = {
+			id: actor.id??"not found",
+
+			// general
+			//name_label : game.i18n.localize("COF.details.name"),
+			name: actor.name??"not found",
+			profileName  : profileName,
+			speciesName   : speciesName,
+			size         : data.details.size,
+			level        : data.level?.value??"not found",
+
+			//xp           : data.xp.value??"not found",
+			//xp_label     : game.i18n.localize("COF.attributes.xp.label"),
+			//xp_abbrev    : game.i18n.localize("COF.attributes.xp.abbrev"),
+
+
+			// tab "stats			
+			hp: data.attributes?.hp??"not found",
+			hp_abbrev : game.i18n.localize(data.attributes.hp.abbrev).substring(0,3),
+			hp_label  : game.i18n.localize(data.attributes.hp.label),
+			
+			hd        : data.attributes?.hd??"not found", // dè de vie
+			hd_abbrev : game.i18n.localize(data.attributes.hd.abbrev).substring(0,3),
+			hd_label  : game.i18n.localize(data.attributes.hd.label),
+			
+			str        : data.stats?.str??"not found",
+			str_abbrev : game.i18n.localize(data.stats.str.abbrev).substring(0,3),
+			str_label  : game.i18n.localize(data.stats.str.label),
+			
+			dex        : data.stats?.dex??"not found",
+			dex_abbrev : game.i18n.localize(data.stats.dex.abbrev).substring(0,3),
+			dex_label  : game.i18n.localize(data.stats.dex.label),
+			con        : data.stats?.con??"not found",
+			con_abbrev : game.i18n.localize(data.stats.con.abbrev).substring(0,3),
+			con_label  : game.i18n.localize(data.stats.con.label),
+			int        : data.stats?.int??"not found",
+			int_abbrev : game.i18n.localize(data.stats.int.abbrev).substring(0,3),
+			int_label  : game.i18n.localize(data.stats.int.label),
+			wis        : data.stats?.wis??"not found",
+			wis_abbrev : game.i18n.localize(data.stats.wis.abbrev).substring(0,3),
+			wis_label  : game.i18n.localize(data.stats.wis.label),
+			cha        : data.stats?.cha??"not found",
+			cha_abbrev : game.i18n.localize(data.stats.cha.abbrev).substring(0,3),
+			cha_label  : game.i18n.localize(data.stats.cha.label),
+			
+			// tab Attack
+			melee         : data.attacks?.melee??"not found",
+			melee_abbrev  : game.i18n.localize(data.attacks.melee.abbrev).substring(0,3),
+			melee_label   : game.i18n.localize(data.attacks.melee.label),
+			ranged        : data.attacks?.ranged??"not found",
+			ranged_abbrev : game.i18n.localize(data.attacks.ranged.abbrev).substring(0,3),
+			ranged_label  : game.i18n.localize(data.attacks.ranged.label),
+			magic         : data.attacks?.magic??"not found",
+			magic_abbrev  : game.i18n.localize(data.attacks.magic.abbrev).substring(0,3),
+			magic_label   : game.i18n.localize(data.attacks.magic.label),
+			init          : data.attributes?.init??"not found",
+			init_abbrev   : game.i18n.localize(data.attributes.init.abbrev).substring(0,3),
+			init_label    : game.i18n.localize(data.attributes.init.label),
+			def           : data.attributes?.def??"not found",
+			def_abbrev    : game.i18n.localize(data.attributes.def.abbrev).substring(0,3),
+			def_label     : game.i18n.localize(data.attributes.def.label),
+			dr            : data.attributes?.dr??"not found", // dommage reduce
+			dr_abbrev     : game.i18n.localize(data.attributes.dr.abbrev).substring(0,3),
+			dr_label      : game.i18n.localize(data.attributes.dr.label),
+			rp            : data.attributes?.rp??"not found",
+			rp_abbrev     : game.i18n.localize(data.attributes.rp.abbrev).substring(0,3),
+			rp_label      : game.i18n.localize(data.attributes.rp.label),
+			fp            : data.attributes?.fp??"not found", // points de chance
+			fp_abbrev     : game.i18n.localize(data.attributes.fp.abbrev).substring(0,3),
+			fp_label      : game.i18n.localize(data.attributes.fp.label),
+			mp            : data.attributes?.mp??"not found", // points de mana
+			mp_abbrev     : game.i18n.localize(data.attributes.mp.abbrev).substring(0,3),
+			mp_label      : game.i18n.localize(data.attributes.mp.label),
+
+			// tab currency
+			pp        : data.currency?.pp??"not found",
+			pp_abbrev : game.i18n.localize("COF.currency.pp.abbrev"),
+			pp_label  : game.i18n.localize("COF.currency.pp.label"),
+			gp        : data.currency?.gp??"not found",
+			gp_abbrev : game.i18n.localize("COF.currency.gp.abbrev"),
+			gp_label  : game.i18n.localize("COF.currency.gp.label"),
+			sp        : data.currency?.sp??"not found",
+			sp_abbrev : game.i18n.localize("COF.currency.sp.abbrev"),
+			sp_label  : game.i18n.localize("COF.currency.sp.label"),
+			cp        : data.currency?.cp??"not found",
+			cp_abbrev : game.i18n.localize("COF.currency.cp.abbrev"),
+			cp_label  : game.i18n.localize("COF.currency.cp.label"),
+
+			xpLevel        : actor.xp?.level?.value??"not found",
+			xpLevel_abbrev : game.i18n.localize(data.currency.cp.abbrev).substring(0,3),
+			xpLevel_label  : game.i18n.localize("COF.attributes.xp.abbrev")		
+		};
+		return toReturn;
+	}
+
+	get tabs() {
+		return {
+			stats    : { id: "stats", visible: true, localization: "COF.tabs.stats"},
+			attacks  : { id: "attack", visible: true, localization: "COF.tabs.combat" },
+			currency : { id: "currency", visible: true, localization: "COF.category.currency" },
+		};
+	}
+
+	getUpdate(actors) {
+		return [actors, {}];
+	}
+	
+	get template() {
+		return "/modules/party-overview/templates/cof.hbs";
+	}
+
+}

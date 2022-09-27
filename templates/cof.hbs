@@ -1,0 +1,126 @@
+<div>
+    {{> "modules/party-overview/templates/parts/Tabs.html"}}
+    <section class="content">
+        <!-- GENERAL : ======================================= -->
+        <div class="tab" data-tab="general" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{ localize "COF.details.name" }}</div>
+                <div class="text">{{ localize "ITEM.TypeProfile"}}</div>
+                <div class="text">{{ localize "ITEM.TypeSpecies"}}</div>
+                <div class="text">{{ localize "COF.details.size"}}</div>
+                <div class="text">{{ localize "COF.attributes.level.label"}}</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.name }}</div>
+                <div class="text">{{ actor.profileName }}</div>
+                <div class="text">{{ actor.speciesName }}</div>
+                <div class="text">{{ actor.size }}</div>
+                <div class="text">{{ level }}</div>
+            </div>
+            {{/each}}
+        </div>
+        <!-- stat ======================================= -->
+        <div class="tab" data-tab="stats" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{ localize "COF.details.name" }}</div>
+                <div class="num" title="{{ localize "COF.attributes.hp.label"}}" style="background-color:#44a12b; color:white;"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{ localize "COF.stats.str.label" }}" style="background-color:#003c1e; color:white;">{{ localize "COF.stats.str.abbrev" }}</div>
+                <div class="num" title="{{ localize "COF.stats.dex.label" }}" style="background-color:#003c1e; color:white;">{{ localize "COF.stats.dex.abbrev" }}</div>
+                <div class="num" title="{{ localize "COF.stats.con.label" }}" style="background-color:#003c1e; color:white;">{{ localize "COF.stats.con.abbrev" }}</div>
+                <div class="num" title="{{ localize "COF.stats.int.label" }}" style="background-color:#003c1e; color:white;">{{ localize "COF.stats.int.abbrev" }}</div>
+                <div class="num" title="{{ localize "COF.stats.wis.label" }}" style="background-color:#003c1e; color:white;">{{ localize "COF.stats.wis.abbrev" }}</div>
+                <div class="num" title="{{ localize "COF.stats.cha.label" }}" style="background-color:#003c1e; color:white;">{{ localize "COF.stats.cha.abbrev" }}</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.name }}</div>
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.str.value }}</div>
+                <div class="num">{{ actor.dex.value }}</div>
+                <div class="num">{{ actor.con.value }}</div>
+                <div class="num">{{ actor.int.value }}</div>
+                <div class="num">{{ actor.wis.value }}</div>
+                <div class="num">{{ actor.cha.value }}</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+            </div>
+            {{/each}}
+        </div>
+        <!-- ATTACK ======================================= -->
+        <div class="tab" data-tab="attack" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{ localize "COF.details.name" }}</div>
+                <div class="num" title="{{ localize "COF.attacks.melee.label"  }}" style="background-color:#cd071e; color:white;">{{ localize "party-overview.cof.attributes.melee.abbrev"  }}</div>
+                <div class="num" title="{{ localize "COF.attacks.ranged.label" }}" style="background-color:#cd071e; color:white;">{{ localize "party-overview.cof.attributes.ranged.abbrev" }}</div>
+                <div class="num" title="{{ localize "COF.attacks.magic.label"  }}" style="background-color:#cd071e; color:white;">{{ localize "party-overview.cof.attributes.magic.abbrev"  }}</div>
+                <div class="num" title="{{ localize "COF.attributes.init.label"}}" style="background-color:#cd071e; color:white;">{{ localize "COF.attributes.init.abbrev"}}</div>
+                <div class="num" title="{{ localize "COF.attributes.def.label" }}" style="background-color:#009ee0; color:white;">{{ localize "COF.attributes.def.abbrev" }}</div>
+                <div class="num" title="{{ localize "COF.attributes.dr.label"  }}" style="background-color:#009ee0; color:white;">{{ localize "COF.attributes.dr.abbrev"  }}</div>
+                <div class="num" title="{{ localize "COF.attributes.rp.label"  }}" style="background-color:#44a12b; color:white;">{{ localize "COF.attributes.rp.abbrev"  }}</div>
+                <div class="num" title="{{ localize "COF.attributes.mp.label"  }}" style="background-color:darkslategray; color:white;">{{ localize "COF.attributes.mp.abbrev"  }}</div>
+                <div class="num" title="{{ localize "COF.attributes.fp.label"  }}" style="background-color:darkslategray; color:white;">{{ localize "COF.attributes.fp.abbrev"  }}</div>
+
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.name }}</div>
+                <div class="num">{{ actor.melee.mod }}</div>
+                <div class="num">{{ actor.ranged.mod }}</div>
+                <div class="num">{{ actor.magic.mod }}</div>
+                <div class="num">{{ actor.init.value }}</div>
+                <div class="num">{{ actor.def.value }}</div>
+                <div class="num">{{ actor.dr.value }}</div>
+                <div class="num">{{ actor.rp.value }}</div>
+                <div class="num">{{ actor.mp.value }}</div>
+                <div class="num">{{ actor.fp.value }}</div>
+            </div>
+            {{/each}}
+        </div>
+ 
+        <!-- Argent ======================================= -->
+        <div class="tab" data-tab="currency" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{ localize "COF.details.name" }}</div>
+                <div class="num" title="{{ actors.0.pp_label}}"><i class="fas fa-coins" style="color:dimgray"></i></div>
+                <div class="num" title="{{ actors.0.gp_label}}"><i class="fas fa-coins" style="color:goldenrod"></i></div>
+                <div class="num" title="{{ actors.0.sp_label}}"><i class="fas fa-coins" style="color:silver"></i></div>
+                <div class="num" title="{{ actors.0.cp_label}}"><i class="fas fa-coins" style="color:saddlebrown"></i></div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.name }}</div>
+                <div class="num">{{ actor.pp.qty }}</div>
+                <div class="num">{{ actor.gp.qty }}</div>
+                <div class="num">{{ actor.sp.qty }}</div>
+                <div class="num">{{ actor.cp.qty }}</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+                <div class="num" >&nbsp;</div>
+
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>
