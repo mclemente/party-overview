@@ -47,24 +47,24 @@
 			"Traits": "Traits"
 		},
 
-		"cof" : {
-			"attributes" : {
-				"melee" : {
-					"abbrev" : "Cont"					
+		"cof": {
+			"attributes": {
+				"melee": {
+					"abbrev": "Cont"
 				},
-				"ranged" : {
-					"abbrev" : "Rang"
+				"ranged": {
+					"abbrev": "Rang"
 				},
-				"magic" : {
-					"abbrev" : "Mag"
+				"magic": {
+					"abbrev": "Mag"
 				},
-				"size" : {
-					"label"  : "Size",
-					"abbrev" : "Size"
+				"size": {
+					"label": "Size",
+					"abbrev": "Size"
 				},
-				"level" : {
-					"label"  : "Level",
-					"abbrev" : "NLvl"
+				"level": {
+					"label": "Level",
+					"abbrev": "NLvl"
 				}
 			}
 		}

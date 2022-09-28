@@ -1,10 +1,8 @@
 {
 	"id": "party-overview",
-	"name": "party-overview",
 	"title": "Party Overview",
 	"description": "Provides an instant overview about vital stats of the players active in the current scene",
 	"version": "2.14",
-	"minimumCoreVersion": "0.8.9",
 	"languages": [
 		{
 			"lang": "en",
@@ -58,7 +56,7 @@
 		}
 	],
 	"compatibility": {
-		"minimum": "0.8.9",
-		"verified": "10.273"
+		"minimum": "10",
+		"verified": "10"
 	}
 }

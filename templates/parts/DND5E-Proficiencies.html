@@ -14,7 +14,7 @@
 	{{#each skills as | value key | }}
 		<div class="table-row">
 			<div></div>
-			<div class="text">{{localize value}}</div>
+			<div class="text">{{localize value.label}}</div>
 			{{#each (partyOverviewGetSkillList key ../actors)}}
 				<div class="num" style="flex: 1;" title="{{this.proficient}}">
 					{{numberFormat this.value decimals=0 sign=true}} <i class="{{this.icon}}"></i>

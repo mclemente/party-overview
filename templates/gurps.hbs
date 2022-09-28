@@ -1,0 +1,49 @@
+<div>
+    <section class="content">
+        <div class="tab" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                
+                <div class="num" title="{{localize "GURPS.attributesSTNAME"}}">{{localize "GURPS.attributesST"}}</div>
+                <div class="num" title="{{localize "GURPS.attributesDXNAME"}}">{{localize "GURPS.attributesDX"}}</div>
+
+                <div class="num" title="{{localize "GURPS.attributesHTNAME"}}">{{localize "GURPS.attributesHT"}}</div>
+                <div class="num" title="{{localize "GURPS.attributesIQNAME"}}">{{localize "GURPS.attributesIQ"}}</div>
+
+                <div class="num" title="{{localize "GURPS.attributesHPNAME"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "GURPS.attributesFPNAME"}}">{{localize "GURPS.attributesFP"}}</div>
+
+                <div class="num">{{localize "GURPS.move"}}</div>
+                <div class="num">{{localize "GURPS.dodge"}}</div>
+                <div class="num">{{localize "GURPS.parry"}}</div>
+                <div class="num" title="{{localize "GURPS.attributesWILLNAME"}}">{{localize "GURPS.attributesWILL"}}</div>
+                <div class="num" title="{{localize "GURPS.attributesPERNAME"}}">{{localize "GURPS.attributesPER"}}</div>
+
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.name }}</div>
+
+                <div class="num">{{ actor.st.value }}</div>
+                <div class="num">{{ actor.dx.value }}</div>
+                <div class="num">{{ actor.iq.value }}</div>
+                <div class="num">{{ actor.ht.value }}</div>
+
+
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.fp.value }}/{{ actor.fp.max }}</div>
+
+                <div class="num">{{ actor.move }}</div>
+                <div class="num">{{ actor.dodge }}</div>
+                <div class="num">{{ actor.parry }}</div>
+                <div class="num">{{ actor.will.value }}</div>
+                <div class="num">{{ actor.per.value }}</div>
+
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>

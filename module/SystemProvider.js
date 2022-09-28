@@ -3,32 +3,59 @@ function isNumeric(n) {
 }
 
 export class SystemProvider {
+	/**
+	 * The provider's ID. You can also use this function for setting Handlebars helpers.
+	 * @param {String} id
+	 */
 	constructor(id) {
 		this.id = id;
 	}
 
+	/**
+	 * In case the system uses a styling different from vanilla Foundry (e.g. WFRP4e).
+	 */
 	get customCSS() {
 		return "";
 	}
 
+	/**
+	 * If the system provider has parts to be loaded during the startup.
+	 */
 	get loadTemplates() {
 		return [];
 	}
 
+	/**
+	 * Tabs to be toggled by the GM for users to see.
+	 * Example:
+	 * {
+	 * 	saves: { id: "saves", visible: true, localization: "Saving Throws" },
+	 * }
+	 */
 	get tabs() {
 		return {};
 	}
 
+	/**
+	 * The template with the actual data.
+	 */
 	get template() {
 		return "/modules/party-overview/templates/generic.hbs";
 	}
 
+	/**
+	 * Default width for the system's overview.
+	 */
 	get width() {
 		return 500;
 	}
 
+	/**
+	 * Handles calculation of a single actor's data (e.g. actor's total wealth).
+	 * @param {Document} actor
+	 */
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -36,6 +63,11 @@ export class SystemProvider {
 		};
 	}
 
+	/**
+	 * Handles calculations of all the actors' data (e.g. party's total wealth).
+	 * @param {Array} actors
+	 * @returns [Array, Object]
+	 */
 	getUpdate(actors) {
 		return [actors, {}];
 	}
@@ -97,7 +129,7 @@ export class archmageProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		const coins = {};
 		Object.keys(data.coins).forEach((coin) => {
 			coins[coin] = data.coins[coin].value ?? 0;
@@ -177,7 +209,7 @@ export class bitdProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -194,7 +226,7 @@ export class dccProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -228,7 +260,7 @@ export class dnd35eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -313,7 +345,7 @@ export class dnd4eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -523,13 +555,13 @@ export class dnd5eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
 			hp: this.getHitPoints(data),
 			abilities: data.abilities,
-			armor: data.attributes.ac.value ? data.attributes.ac.value : 10, //TODO: replace "ac" for "armor" on .hbs
+			armor: data.attributes.ac.value ? data.attributes.ac.value : 10, // TODO: replace "ac" for "armor" on .hbs
 			speed: this.getSpeed(data),
 			spellDC: data.attributes.spelldc,
 			// passive stuff
@@ -541,7 +573,7 @@ export class dnd5eProvider extends SystemProvider {
 			},
 			experience: { value: data.details.xp.value || 0, max: data.details.xp.max },
 			// background
-			background: data.details.hasOwnProperty("trait")
+			background: Object.prototype.hasOwnProperty.call(data.details, "trait")(obj, "trait")
 				? {
 						trait: this.htmlDecode(data.details.trait),
 						ideal: this.htmlDecode(data.details.ideal),
@@ -640,7 +672,7 @@ export class pf1Provider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		const currency = {
 			cp: parseInt(data.currency.cp) + parseInt(data.altCurrency.cp), // some actors have a string value instead of an integer
 			sp: parseInt(data.currency.sp) + parseInt(data.altCurrency.sp),
@@ -666,7 +698,7 @@ export class pf1Provider extends SystemProvider {
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
 			currency: currency,
 
-			knowledge: this.getKnowledge(actor.data.data.skills),
+			knowledge: this.getKnowledge(actor.system.skills),
 			totalGP: this.getTotalGP(currency).toFixed(2),
 		};
 	}
@@ -763,8 +795,8 @@ export class pf2eProvider extends SystemProvider {
 		};
 		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
 		data.items
-			.filter((a) => coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name))
-			.map((a) => (currency[wealth[a.data?.flags?.babele?.originalName || a.name]] += a.quantity));
+			.filter((a) => coins.includes(a.flags?.babele?.originalName) || coins.includes(a.name))
+			.map((a) => (currency[wealth[a.flags?.babele?.originalName || a.name]] += a.quantity));
 		return currency;
 	}
 
@@ -772,12 +804,12 @@ export class pf2eProvider extends SystemProvider {
 		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
 		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
 		const items = data.items.filter(
-			(a) => a.data.data.price && a.data.data.identification.status == "identified" && !(coins.includes(a.data?.flags?.babele?.originalName) || coins.includes(a.name))
+			(a) => a.system.price && a.system.identification.status == "identified" && !(coins.includes(a.flags?.babele?.originalName) || coins.includes(a.name))
 		);
 		for (const item of items) {
-			let value = item.data.data.price.value;
+			let value = item.system.price.value;
 			for (let coin in value) {
-				currency[coin] += Number(value[coin]) * (item.data.data.quantity?.value ?? item.data.data.quantity);
+				currency[coin] += Number(value[coin]) * (item.system.quantity?.value ?? item.system.quantity);
 			}
 		}
 		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
@@ -820,16 +852,16 @@ export class pf2eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
-		const currency = this.getCurrency(actor.data);
-		const itemsValue = this.getItemsValue(actor.data).toFixed(2);
+		const data = actor.system;
+		const currency = this.getCurrency(actor);
+		const itemsValue = this.getItemsValue(actor).toFixed(2);
 		const totalGP = this.getTotalGP(currency).toFixed(2);
 		const sumItemsGP = (Number(itemsValue) + Number(totalGP)).toFixed(2);
 		return {
 			id: actor.id,
 			name: actor.name,
 			type: actor.type,
-			bulk: actor.inventory.bulk,
+			bulk: actor.inventory?.bulk || { value: { normal: 0, light: 0 }, encumberedAt: 0, max: 0 },
 			hp: data.attributes.hp || { value: 0, max: 0 },
 			heroPoints: data.resources?.heroPoints || { value: 0, max: 0 },
 			focus: data.resources?.focus || { value: 0, max: 0 },
@@ -856,7 +888,7 @@ export class pf2eProvider extends SystemProvider {
 			itemsValue: itemsValue,
 			sumItemsGP: sumItemsGP,
 
-			lore: this.getLore(actor.data),
+			lore: this.getLore(actor),
 			totalGP: totalGP,
 		};
 	}
@@ -902,7 +934,7 @@ export class pf2eProvider extends SystemProvider {
 				totalPartyGP: totalPartyGP,
 				sumItemsGP: (Number(itemsValue) + Number(totalPartyGP)).toFixed(2),
 				lore: lores,
-				skills: CONFIG.PF2E.skills,
+				skills: CONFIG.PF2E.skills || {},
 			},
 		];
 	}
@@ -928,7 +960,7 @@ export class scumAndVillainyProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		const base = {
 			id: actor.id,
 			name: actor.name,
@@ -1013,7 +1045,7 @@ export class sfrpgProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1042,7 +1074,7 @@ export class sfrpgProvider extends SystemProvider {
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.SFRPG.languages[code])) : [],
 			currency: data.currency,
 
-			lore: this.getLore(actor.data.data.skills),
+			lore: this.getLore(actor.system.skills),
 		};
 	}
 
@@ -1097,17 +1129,18 @@ export class swadeProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
-			current_wounds: actor.data.data.wounds.value,
-			max_wounds: actor.data.data.wounds.max,
-			current_fatigue: actor.data.data.fatigue.value,
-			max_fatigue: actor.data.data.fatigue.max,
-			bennies: actor.data.data.bennies.value,
-			parry: actor.data.data.stats.parry.value,
-			toughness: actor.data.data.stats.toughness.value,
-			armor: actor.data.data.stats.toughness.armor,
+			current_wounds: data.wounds.value,
+			max_wounds: data.wounds.max,
+			current_fatigue: data.fatigue.value,
+			max_fatigue: data.fatigue.max,
+			bennies: data.bennies.value,
+			parry: data.stats.parry.value,
+			toughness: data.stats.toughness.value,
+			armor: data.stats.toughness.armor,
 		};
 	}
 }
@@ -1209,7 +1242,7 @@ export class tormenta20Provider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1278,7 +1311,7 @@ export class wfrp4eProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1308,7 +1341,7 @@ export class cyphersystemProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1347,132 +1380,133 @@ export class cyphersystemProvider extends SystemProvider {
 	}
 }
 
-export class cof extends SystemProvider {
+export class CoC7Provider extends SystemProvider {
+	get template() {
+		return "/modules/party-overview/templates/coc7.hbs";
+	}
 
+	getActorDetails(actor) {
+		const data = actor.system;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.attribs.hp,
+			luck: data.attribs.lck,
+			move: data.attribs.mov,
+			mp: data.attribs.mp,
+			san: data.attribs.san,
+			armor: data.attribs.armor,
+			build: data.attribs.build,
+			db: data.attribs.db,
+			app: data.characteristics.app,
+			con: data.characteristics.con,
+			dex: data.characteristics.dex,
+			edu: data.characteristics.edu,
+			int: data.characteristics.int,
+			pow: data.characteristics.pow,
+			siz: data.characteristics.siz,
+			str: data.characteristics.str,
+		};
+	}
+}
+
+export class GURPSProvider extends SystemProvider {
+	get template() {
+		return "/modules/party-overview/templates/gurps.hbs";
+	}
+
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: data.HP,
+			fp: data.FP,
+			dx: data.attributes.DX,
+			ht: data.attributes.HT,
+			iq: data.attributes.IQ,
+			st: data.attributes.ST,
+			per: data.attributes.PER,
+			will: data.attributes.WILL,
+			move: data.currentmove,
+			dodge: data.currentdodge,
+			parry: data.equippedparry,
+			hearing: data.hearing,
+			touch: data.touch,
+			vision: data.vision,
+			tastesmell: data.tastesmell,
+		};
+	}
+
+	/**
+	 * Default width for the system's overview.
+	 */
+	get width() {
+		return 750;
+	}
+}
+
+export class cofSystemProvider extends SystemProvider {
 	get width() {
 		return 600;
 	}
 	getActorDetails(actor) {
 		const data = actor.data.data;
-		const profile = actor.data.items.find(item => item.type === "profile");
-		let profileName;
-		if (profile) {
-			profileName = profile.name;
-		}
-		const species = actor.data.items.find(item => item.type === "species");
-		let speciesName;
-		if (species) {
-			speciesName = species.name;
-		}
-		let toReturn = {
-			id: actor.id??"not found",
+		return {
+			id: actor.id ?? "not found",
 
 			// general
-			//name_label : game.i18n.localize("COF.details.name"),
-			name: actor.name??"not found",
-			profileName  : profileName,
-			speciesName   : speciesName,
-			size         : data.details.size,
-			level        : data.level?.value??"not found",
+			// name_label : game.i18n.localize("COF.details.name"),
+			name: actor.name ?? "not found",
+			profileName: actor.data.items.find((item) => item.type === "profile")?.name,
+			speciesName: actor.data.items.find((item) => item.type === "species")?.name,
+			size: data.details.size,
+			level: data.level?.value ?? "not found",
 
-			//xp           : data.xp.value??"not found",
-			//xp_label     : game.i18n.localize("COF.attributes.xp.label"),
-			//xp_abbrev    : game.i18n.localize("COF.attributes.xp.abbrev"),
+			// xp           : data.xp.value??"not found",
+			// xp_label     : game.i18n.localize("COF.attributes.xp.label"),
+			// xp_abbrev    : game.i18n.localize("COF.attributes.xp.abbrev"),
 
+			// tab "stats
+			hp: data.attributes?.hp ?? "not found",
+			hd: data.attributes?.hd ?? "not found", // dè de vie
+			str: data.stats?.str ?? "not found",
+			dex: data.stats?.dex ?? "not found",
+			con: data.stats?.con ?? "not found",
+			int: data.stats?.int ?? "not found",
+			wis: data.stats?.wis ?? "not found",
+			cha: data.stats?.cha ?? "not found",
 
-			// tab "stats			
-			hp: data.attributes?.hp??"not found",
-			hp_abbrev : game.i18n.localize(data.attributes.hp.abbrev).substring(0,3),
-			hp_label  : game.i18n.localize(data.attributes.hp.label),
-			
-			hd        : data.attributes?.hd??"not found", // dè de vie
-			hd_abbrev : game.i18n.localize(data.attributes.hd.abbrev).substring(0,3),
-			hd_label  : game.i18n.localize(data.attributes.hd.label),
-			
-			str        : data.stats?.str??"not found",
-			str_abbrev : game.i18n.localize(data.stats.str.abbrev).substring(0,3),
-			str_label  : game.i18n.localize(data.stats.str.label),
-			
-			dex        : data.stats?.dex??"not found",
-			dex_abbrev : game.i18n.localize(data.stats.dex.abbrev).substring(0,3),
-			dex_label  : game.i18n.localize(data.stats.dex.label),
-			con        : data.stats?.con??"not found",
-			con_abbrev : game.i18n.localize(data.stats.con.abbrev).substring(0,3),
-			con_label  : game.i18n.localize(data.stats.con.label),
-			int        : data.stats?.int??"not found",
-			int_abbrev : game.i18n.localize(data.stats.int.abbrev).substring(0,3),
-			int_label  : game.i18n.localize(data.stats.int.label),
-			wis        : data.stats?.wis??"not found",
-			wis_abbrev : game.i18n.localize(data.stats.wis.abbrev).substring(0,3),
-			wis_label  : game.i18n.localize(data.stats.wis.label),
-			cha        : data.stats?.cha??"not found",
-			cha_abbrev : game.i18n.localize(data.stats.cha.abbrev).substring(0,3),
-			cha_label  : game.i18n.localize(data.stats.cha.label),
-			
 			// tab Attack
-			melee         : data.attacks?.melee??"not found",
-			melee_abbrev  : game.i18n.localize(data.attacks.melee.abbrev).substring(0,3),
-			melee_label   : game.i18n.localize(data.attacks.melee.label),
-			ranged        : data.attacks?.ranged??"not found",
-			ranged_abbrev : game.i18n.localize(data.attacks.ranged.abbrev).substring(0,3),
-			ranged_label  : game.i18n.localize(data.attacks.ranged.label),
-			magic         : data.attacks?.magic??"not found",
-			magic_abbrev  : game.i18n.localize(data.attacks.magic.abbrev).substring(0,3),
-			magic_label   : game.i18n.localize(data.attacks.magic.label),
-			init          : data.attributes?.init??"not found",
-			init_abbrev   : game.i18n.localize(data.attributes.init.abbrev).substring(0,3),
-			init_label    : game.i18n.localize(data.attributes.init.label),
-			def           : data.attributes?.def??"not found",
-			def_abbrev    : game.i18n.localize(data.attributes.def.abbrev).substring(0,3),
-			def_label     : game.i18n.localize(data.attributes.def.label),
-			dr            : data.attributes?.dr??"not found", // dommage reduce
-			dr_abbrev     : game.i18n.localize(data.attributes.dr.abbrev).substring(0,3),
-			dr_label      : game.i18n.localize(data.attributes.dr.label),
-			rp            : data.attributes?.rp??"not found",
-			rp_abbrev     : game.i18n.localize(data.attributes.rp.abbrev).substring(0,3),
-			rp_label      : game.i18n.localize(data.attributes.rp.label),
-			fp            : data.attributes?.fp??"not found", // points de chance
-			fp_abbrev     : game.i18n.localize(data.attributes.fp.abbrev).substring(0,3),
-			fp_label      : game.i18n.localize(data.attributes.fp.label),
-			mp            : data.attributes?.mp??"not found", // points de mana
-			mp_abbrev     : game.i18n.localize(data.attributes.mp.abbrev).substring(0,3),
-			mp_label      : game.i18n.localize(data.attributes.mp.label),
+			melee: data.attacks?.melee ?? "not found",
+			ranged: data.attacks?.ranged ?? "not found",
+			magic: data.attacks?.magic ?? "not found",
+			init: data.attributes?.init ?? "not found",
+			def: data.attributes?.def ?? "not found",
+			dr: data.attributes?.dr ?? "not found", // dommage reduce
+			rp: data.attributes?.rp ?? "not found",
+			fp: data.attributes?.fp ?? "not found", // points de chance
+			mp: data.attributes?.mp ?? "not found", // points de mana
 
 			// tab currency
-			pp        : data.currency?.pp??"not found",
-			pp_abbrev : game.i18n.localize("COF.currency.pp.abbrev"),
-			pp_label  : game.i18n.localize("COF.currency.pp.label"),
-			gp        : data.currency?.gp??"not found",
-			gp_abbrev : game.i18n.localize("COF.currency.gp.abbrev"),
-			gp_label  : game.i18n.localize("COF.currency.gp.label"),
-			sp        : data.currency?.sp??"not found",
-			sp_abbrev : game.i18n.localize("COF.currency.sp.abbrev"),
-			sp_label  : game.i18n.localize("COF.currency.sp.label"),
-			cp        : data.currency?.cp??"not found",
-			cp_abbrev : game.i18n.localize("COF.currency.cp.abbrev"),
-			cp_label  : game.i18n.localize("COF.currency.cp.label"),
+			pp: data.currency?.pp ?? "not found",
+			gp: data.currency?.gp ?? "not found",
+			sp: data.currency?.sp ?? "not found",
+			cp: data.currency?.cp ?? "not found",
 
-			xpLevel        : actor.xp?.level?.value??"not found",
-			xpLevel_abbrev : game.i18n.localize(data.currency.cp.abbrev).substring(0,3),
-			xpLevel_label  : game.i18n.localize("COF.attributes.xp.abbrev")		
+			xpLevel: actor.xp?.level?.value ?? "not found",
 		};
-		return toReturn;
 	}
 
 	get tabs() {
 		return {
-			stats    : { id: "stats", visible: true, localization: "COF.tabs.stats"},
-			attacks  : { id: "attack", visible: true, localization: "COF.tabs.combat" },
-			currency : { id: "currency", visible: true, localization: "COF.category.currency" },
+			stats: { id: "stats", visible: true, localization: "COF.tabs.stats" },
+			attacks: { id: "attack", visible: true, localization: "COF.tabs.combat" },
+			currency: { id: "currency", visible: true, localization: "COF.category.currency" },
 		};
 	}
 
-	getUpdate(actors) {
-		return [actors, {}];
-	}
-	
 	get template() {
 		return "/modules/party-overview/templates/cof.hbs";
 	}
-
 }
