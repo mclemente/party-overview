@@ -1409,6 +1409,7 @@ export class CoC7Provider extends SystemProvider {
 		};
 	}
 }
+
 export class GURPSProvider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/gurps.hbs";
@@ -1442,5 +1443,70 @@ export class GURPSProvider extends SystemProvider {
 	 */
 	get width() {
 		return 750;
+	}
+}
+
+export class cofSystemProvider extends SystemProvider {
+	get width() {
+		return 600;
+	}
+	getActorDetails(actor) {
+		const data = actor.data.data;
+		return {
+			id: actor.id ?? "not found",
+
+			// general
+			// name_label : game.i18n.localize("COF.details.name"),
+			name: actor.name ?? "not found",
+			profileName: actor.data.items.find((item) => item.type === "profile")?.name,
+			speciesName: actor.data.items.find((item) => item.type === "species")?.name,
+			size: data.details.size,
+			level: data.level?.value ?? "not found",
+
+			// xp           : data.xp.value??"not found",
+			// xp_label     : game.i18n.localize("COF.attributes.xp.label"),
+			// xp_abbrev    : game.i18n.localize("COF.attributes.xp.abbrev"),
+
+			// tab "stats
+			hp: data.attributes?.hp ?? "not found",
+			hd: data.attributes?.hd ?? "not found", // dè de vie
+			str: data.stats?.str ?? "not found",
+			dex: data.stats?.dex ?? "not found",
+			con: data.stats?.con ?? "not found",
+			int: data.stats?.int ?? "not found",
+			wis: data.stats?.wis ?? "not found",
+			cha: data.stats?.cha ?? "not found",
+
+			// tab Attack
+			melee: data.attacks?.melee ?? "not found",
+			ranged: data.attacks?.ranged ?? "not found",
+			magic: data.attacks?.magic ?? "not found",
+			init: data.attributes?.init ?? "not found",
+			def: data.attributes?.def ?? "not found",
+			dr: data.attributes?.dr ?? "not found", // dommage reduce
+			rp: data.attributes?.rp ?? "not found",
+			fp: data.attributes?.fp ?? "not found", // points de chance
+			mp: data.attributes?.mp ?? "not found", // points de mana
+
+			// tab currency
+			pp: data.currency?.pp ?? "not found",
+			gp: data.currency?.gp ?? "not found",
+			sp: data.currency?.sp ?? "not found",
+			cp: data.currency?.cp ?? "not found",
+
+			xpLevel: actor.xp?.level?.value ?? "not found",
+		};
+	}
+
+	get tabs() {
+		return {
+			stats: { id: "stats", visible: true, localization: "COF.tabs.stats" },
+			attacks: { id: "attack", visible: true, localization: "COF.tabs.combat" },
+			currency: { id: "currency", visible: true, localization: "COF.category.currency" },
+		};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/cof.hbs";
 	}
 }

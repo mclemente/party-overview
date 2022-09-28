@@ -1,6 +1,7 @@
 // prettier-ignore
 import { SystemProvider, archmageProvider, bitdProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider,
-	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider, cyphersystemProvider, CoC7Provider, GURPSProvider} from "./SystemProvider.js";
+	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider, cyphersystemProvider, CoC7Provider, GURPSProvider, 
+	cofsystemProvider} from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -90,6 +91,9 @@ export function initApi() {
 			break;
 		case "gurps":
 			systemProviders.push(new GURPSProvider("native.gurps"));
+			break;
+		case "cof":
+			systemProviders.push(new cofSystemProvider("native.cof"));
 			break;
 		default:
 			systemProviders.push(new SystemProvider("native"));

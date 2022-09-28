@@ -45,6 +45,28 @@
 
 		"DND5E": {
 			"Traits": "Traits"
+		},
+
+		"cof": {
+			"attributes": {
+				"melee": {
+					"abbrev": "Cont"
+				},
+				"ranged": {
+					"abbrev": "Rang"
+				},
+				"magic": {
+					"abbrev": "Mag"
+				},
+				"size": {
+					"label": "Size",
+					"abbrev": "Size"
+				},
+				"level": {
+					"label": "Level",
+					"abbrev": "NLvl"
+				}
+			}
 		}
 	}
 }
