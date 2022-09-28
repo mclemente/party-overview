@@ -1,11 +1,11 @@
 import { currentSystemProvider } from "./api.js";
 
 const DISPLAY_MODE = {
-	SHOW_ALL: 0, //Scene, Ulfiltered
-	SHOW_VISIBLE: 1, //Scene, Filtered
-	SHOW_HIDDEN: 2, //Scene, Hidden
-	SHOW_MORE: 3, //Player Controlled
-	SHOW_PC_ONLY: 4, //Selected PCs
+	SHOW_ALL: 0, // Scene, Ulfiltered
+	SHOW_VISIBLE: 1, // Scene, Filtered
+	SHOW_HIDDEN: 2, // Scene, Hidden
+	SHOW_MORE: 3, // Player Controlled
+	SHOW_PC_ONLY: 4, // Selected PCs
 };
 
 class PartyOverviewApp extends Application {

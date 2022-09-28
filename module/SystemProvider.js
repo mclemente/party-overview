@@ -561,7 +561,7 @@ export class dnd5eProvider extends SystemProvider {
 			name: actor.name,
 			hp: this.getHitPoints(data),
 			abilities: data.abilities,
-			armor: data.attributes.ac.value ? data.attributes.ac.value : 10, //TODO: replace "ac" for "armor" on .hbs
+			armor: data.attributes.ac.value ? data.attributes.ac.value : 10, // TODO: replace "ac" for "armor" on .hbs
 			speed: this.getSpeed(data),
 			spellDC: data.attributes.spelldc,
 			// passive stuff
@@ -573,7 +573,7 @@ export class dnd5eProvider extends SystemProvider {
 			},
 			experience: { value: data.details.xp.value || 0, max: data.details.xp.max },
 			// background
-			background: data.details.hasOwnProperty("trait")
+			background: Object.prototype.hasOwnProperty.call(data.details, "trait")(obj, "trait")
 				? {
 						trait: this.htmlDecode(data.details.trait),
 						ideal: this.htmlDecode(data.details.ideal),
@@ -1440,8 +1440,7 @@ export class GURPSProvider extends SystemProvider {
 	/**
 	 * Default width for the system's overview.
 	 */
-	 get width() {
+	get width() {
 		return 750;
 	}
-
 }

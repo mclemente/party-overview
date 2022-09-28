@@ -82,7 +82,7 @@ export function initApi() {
 		case "wfrp4e":
 			systemProviders.push(new wfrp4eProvider("native.wfrp4e"));
 			break;
-		case 'cyphersystem':
+		case "cyphersystem":
 			systemProviders.push(new cyphersystemProvider("native.cyphersystem"));
 			break;
 		case "CoC7":

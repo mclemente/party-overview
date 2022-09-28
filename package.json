@@ -1,0 +1,27 @@
+{
+	"name": "party-overview",
+	"version": "2.15.1",
+	"description": "Provides an instant overview about vital stats of the players active in the current scene.",
+	"main": "party-overview.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint ./ --ext .js && eslint ./module --ext .js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mclemente/party-overview.git"
+	},
+	"author": "Matheus Clemente",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/mclemente/party-overview/issues"
+	},
+	"homepage": "https://github.com/mclemente/party-overview#readme",
+	"devDependencies": {
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.2.1"
+	},
+	"dependencies": {
+		"handlebars": "^4.7.7"
+	}
+}
