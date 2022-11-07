@@ -18,20 +18,20 @@
             </div>
 
             {{#each actors as | actor | }}
-            {{#if (eq actor.type 'PC')}}
+            {{#if (eq actor.type 'pc')}}
             <div class="table-row">
                 {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
 
-                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.might.value }}/{{ actor.might.max }} ({{actor.mightEdge}})</div>
-                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.speed.value }}/{{ actor.speed.max }} ({{actor.speedEdge}})</div>
-                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.intellect.value }}/{{ actor.intellect.max }} ({{actor.intellectEdge}})</div>
+                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.might.value }}/{{ actor.might.max }} ({{actor.might.edge}})</div>
+                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.speed.value }}/{{ actor.speed.max }} ({{actor.speed.edge}})</div>
+                <div class="widenum" title="Current/Maximum ({{localize 'CYPHERSYSTEM.Edge'}})">{{ actor.intellect.value }}/{{ actor.intellect.max }} ({{actor.intellect.edge}})</div>
                 {{#if ../showAdditional}}
                     {{#if actor.additionalPool.active}}
-                        {{#if (eq actor.additionalPool.additionalPoolName "")}}
+                        {{#if (eq actor.additionalPool.name "")}}
                             <div class="widenum" title="{{localize 'CYPHERSYSTEM.AdditionalPool'}} (Current/Maximum)">{{ actor.additional.value }}/{{ actor.additional.max }}</div>
                         {{else}}
-                            <div class="widenum" title="{{actor.additionalPool.additionalPoolName}} (Current/Maximum)">{{ actor.additional.value }}/{{ actor.additional.max }}</div>
+                            <div class="widenum" title="{{actor.additionalPool.name}} (Current/Maximum)">{{ actor.additional.value }}/{{ actor.additional.max }}</div>
                         {{/if}}
                     {{else}}
                         <div class="widenum">-</div>
