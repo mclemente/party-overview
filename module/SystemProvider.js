@@ -573,7 +573,7 @@ export class dnd5eProvider extends SystemProvider {
 			},
 			experience: { value: data.details.xp.value || 0, max: data.details.xp.max },
 			// background
-			background: Object.prototype.hasOwnProperty.call(data.details, "trait")(obj, "trait")
+			background: Object.prototype.hasOwnProperty.call(data.details, "trait")
 				? {
 						trait: this.htmlDecode(data.details.trait),
 						ideal: this.htmlDecode(data.details.ideal),
@@ -1352,8 +1352,8 @@ export class cyphersystemProvider extends SystemProvider {
 			additional: data.pools.additional,
 			additionalPool: {
 				active: data.settings.general.additionalPool.active,
-				name:   data.settings.general.additionalPool.label,
-				pool:   data.pools.additionalPool,
+				name: data.settings.general.additionalPool.label,
+				pool: data.pools.additionalPool,
 			},
 			tier: data.basic.tier,
 			effort: data.basic.effort,
@@ -1368,7 +1368,7 @@ export class cyphersystemProvider extends SystemProvider {
 		return [
 			actors,
 			{
-				showAdditional: actors.some(actor => actor.additionalPool.active),
+				showAdditional: actors.some((actor) => actor.additionalPool.active),
 			},
 		];
 	}
