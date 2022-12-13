@@ -8,12 +8,15 @@
                 <div class="num" title="{{localize "CHARAC.Strength"}}">{{localize "CHARAC.STR"}}</div>
                 <div class="num" title="{{localize "CHARAC.Constitution"}}">{{localize "CHARAC.CON"}}</div>
                 <div class="num" title="{{localize "CHARAC.Size"}}">{{localize "CHARAC.SIZ"}}</div>
-                <div class="num" title="{{localize "CHARAC.Dexterity"}}">{{localize "CHARAC.Dex"}}</div>
+                <div class="num" title="{{localize "CHARAC.Dexterity"}}">{{localize "CHARAC.DEX"}}</div>
 
                 <div class="num" title="{{localize "CHARAC.Appearance"}}">{{localize "CHARAC.APP"}}</div>
                 <div class="num" title="{{localize "CHARAC.Intelligence"}}">{{localize "CHARAC.INT"}}</div>
                 <div class="num" title="{{localize "CHARAC.Power"}}">{{localize "CHARAC.POW"}}</div>
                 <div class="num" title="{{localize "CHARAC.Education"}}">{{localize "CHARAC.EDU"}}</div>
+
+                <div class="num" title="{{localize "CoC7.Luck"}}">{{localize "CoC7.Luck"}}</div>
+                <div class="num" title="{{localize "CoC7.Sanity"}}">{{localize "CoC7.SAN"}}</div>
 
                 <div class="num" title="{{localize "CoC7.HitPoints"}}"><i class="fas fa-heart"></i></div>
             </div>
@@ -33,6 +36,9 @@
                 <div class="num">{{ actor.pow.value }}</div>
                 <div class="num">{{ actor.edu.value }}</div>
 
+                <div class="num">{{ actor.luck.value }}</div>
+                <div class="num">{{ actor.san.value }}</div>
+                
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
             </div>
             {{/each}}
