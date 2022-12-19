@@ -1504,3 +1504,39 @@ export class cofSystemProvider extends SystemProvider {
 		return "/modules/party-overview/templates/cof.hbs";
 	}
 }
+
+export class shinobigamiProvider extends SystemProvider {
+	get width() {
+		return 700;
+	}
+	getActorDetails(actor) {
+		const data = actor.system;
+		let health = JSON.parse(JSON.stringify(data.health.state));
+		let dirty = JSON.parse(JSON.stringify(data.health.dirty));
+
+		for (let a = 0; a < Object.keys(dirty).length; ++a) {
+			let i = Object.keys(dirty)[a];
+			health[i] = dirty[i] ? dirty[i] : health[i];
+		}
+
+
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: {
+				value: data.health.value,
+				max: data.health.max,
+			},
+			state0: health[0],
+			state1: health[1],
+			state2: health[2],
+			state3: health[3],
+			state4: health[4],
+			state5: health[5],
+		};
+	}
+
+	get template() {
+		return "/modules/party-overview/templates/shinobigami.hbs";
+	}
+}
