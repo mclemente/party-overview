@@ -1,7 +1,7 @@
 // prettier-ignore
 import { SystemProvider, archmageProvider, bitdProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider,
 	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider, cyphersystemProvider, CoC7Provider, GURPSProvider, 
-	cofSystemProvider} from "./SystemProvider.js";
+	cofSystemProvider, shinobigamiProvider} from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -94,6 +94,9 @@ export function initApi() {
 			break;
 		case "cof":
 			systemProviders.push(new cofSystemProvider("native.cof"));
+			break;
+		case "shinobigami":
+			systemProviders.push(new shinobigamiProvider("native.shinobigami"));
 			break;
 		default:
 			systemProviders.push(new SystemProvider("native"));
