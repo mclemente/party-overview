@@ -12,9 +12,9 @@ class PartyOverviewApp extends Application {
 	constructor(options) {
 		super(options);
 
-		this.hiddenActors = [];
+		this.hiddenActors = game.settings.get("party-overview", "hiddenActors");
 		this.state = {};
-		this.displayMode = DISPLAY_MODE.SHOW_PC_ONLY;
+		this.displayMode = game.settings.get("party-overview", "displayMode");
 		this.activeTab = "general";
 		this.rendering = false;
 	}
@@ -117,22 +117,26 @@ class PartyOverviewApp extends Application {
 		$(".btn-toggle-visibility").on("click", (event) => {
 			const actorId = event.currentTarget.dataset.actor;
 			this.hiddenActors = this.hiddenActors.includes(actorId) ? this.hiddenActors.filter((id) => id !== actorId) : [...this.hiddenActors, actorId];
+			game.settings.set("party-overview", "hiddenActors", this.hiddenActors);
 			this.render(false);
 		});
 		$(".btn-toggle-visibility").on("contextmenu", (event) => {
 			const actorId = event.currentTarget.dataset.actor;
 			this.hiddenActors = this.hiddenActors.includes(actorId) ? this.hiddenActors.filter((id) => id !== actorId) : [...this.hiddenActors, actorId];
+			game.settings.set("party-overview", "hiddenActors", this.hiddenActors);
 			this.render(false);
 		});
 
 		$(".btn-filter").on("click", (event) => {
 			this.displayMode += 1;
 			if (this.displayMode > Object.keys(DISPLAY_MODE).length - 1) this.displayMode = 0;
+			game.settings.set("party-overview", "displayMode", this.displayMode);
 			this.render(false);
 		});
 		$(".btn-filter").on("contextmenu", (event) => {
 			this.displayMode -= 1;
 			if (this.displayMode < 0) this.displayMode = Object.keys(DISPLAY_MODE).length - 1;
+			game.settings.set("party-overview", "displayMode", this.displayMode);
 			this.render(false);
 		});
 
