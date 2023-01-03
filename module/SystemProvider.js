@@ -815,6 +815,16 @@ export class pf2eProvider extends SystemProvider {
 		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
 	}
 
+	getLanguages(data) {
+		let langs = data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code]));
+		if (data.traits.languages.custom) {
+			for (let lang of data.traits.languages.custom.split(/[,;]/g)) {
+				langs.push(lang.trim());
+			}
+		}
+		return langs;
+	}
+
 	getLore(data) {
 		const lore = data.items.filter((a) => a.type == "lore").map((a) => a.name);
 		return lore;
@@ -883,7 +893,7 @@ export class pf2eProvider extends SystemProvider {
 				reflex: data.saves?.reflex?.value || 0,
 				will: data.saves?.will?.value || 0,
 			},
-			languages: data.traits?.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code])) : [],
+			languages: data.traits?.languages ? this.getLanguages(data) : [],
 			currency: currency,
 			itemsValue: itemsValue,
 			sumItemsGP: sumItemsGP,
@@ -1518,7 +1528,6 @@ export class shinobigamiProvider extends SystemProvider {
 			let i = Object.keys(dirty)[a];
 			health[i] = dirty[i] ? dirty[i] : health[i];
 		}
-
 
 		return {
 			id: actor.id,
