@@ -431,7 +431,7 @@ export class dnd5eProvider extends SystemProvider {
 			background: { id: "background", visible: true, localization: "DND5E.Background" },
 			saves: { id: "saves", visible: true, localization: "DND5E.ClassSaves" },
 			proficiencies: { id: "proficiencies", visible: true, localization: "party-overview.PROFICIENCIES" },
-			tools: { id: "tools", visible: true, localization: "DND5E.ItemTypeToolPl" },
+			tools: { id: "tools", visible: true, localization: "ITEM.TypeToolPl" },
 		};
 	}
 
@@ -506,10 +506,7 @@ export class dnd5eProvider extends SystemProvider {
 		const type = "tool";
 		const itemTypes = CONFIG.DND5E[`${type}Ids`];
 
-		let values = [];
-		if (data.value) {
-			values = data.value instanceof Array ? data.value : [data.value];
-		}
+		let values = Array.from(data.value);
 
 		data.selected = {};
 		for (const key of values) {
@@ -595,13 +592,13 @@ export class dnd5eProvider extends SystemProvider {
 
 	getUpdate(actors) {
 		let languages = actors
-			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+			.reduce((languages, actor) => [...new Set(languages.concat(Array.from(actor.languages)))], [])
 			.filter((language) => language !== undefined)
 			.sort();
 		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+				languages: languages.map((language) => actor.languages && actor.languages.has(language)),
 			};
 		});
 		let totalCurrency = actors.reduce(
