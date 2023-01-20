@@ -528,22 +528,18 @@ export class dnd5eProvider extends SystemProvider {
 	}
 
 	getTotalGP(data) {
+		// Adapted from dnd5e's convertCurrency() @ 2023-01-20
 		const currency = foundry.utils.deepClone(data.currency);
-		const convert = CONFIG.DND5E.currencies;
-		for (let [curr, currData] of Object.entries(convert)) {
-			if (currency[curr] == 0 || !("conversion" in currData)) continue;
-			const { into, each } = currData.conversion;
-			let change = Math.floor(currency[curr] / each);
-			currency[curr] -= change * each;
-			currency[into] += change;
+		const currencies = Object.entries(CONFIG.DND5E.currencies);
+		currencies.sort((a, b) => a[1].conversion - b[1].conversion);
+		// Convert base units into the highest denomination possible
+		let amount = 0;
+		for (const [denomination, config] of currencies) {
+			if (!config.conversion) continue;
+			if (config.conversion == 1) amount += currency[denomination];
+			else amount += currency[denomination] / config.conversion;
 		}
-		return (
-			currency.pp * convert.gp.conversion.each +
-			currency.gp +
-			currency.ep / convert.ep.conversion.each +
-			currency.sp / convert.sp.conversion.each / convert.ep.conversion.each +
-			currency.cp / convert.cp.conversion.each / convert.sp.conversion.each / convert.ep.conversion.each
-		);
+		return amount;
 	}
 
 	htmlDecode(input) {
