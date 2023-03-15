@@ -90,6 +90,10 @@ class PartyOverviewApp extends Application {
 		r.style.setProperty("--party-overview-min-height", `${78 + 33 * actors.length}px`);
 	}
 
+	get CurrentSystemProvider() {
+		return currentSystemProvider;
+	}
+
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			width: currentSystemProvider.width,
