@@ -130,10 +130,17 @@ export class archmageProvider extends SystemProvider {
 
 	getActorDetails(actor) {
 		const data = actor.system;
-		const coins = {};
-		Object.keys(data.coins).forEach((coin) => {
-			coins[coin] = data.coins[coin].value ?? 0;
-		});
+		const coins = {
+			copper: 0,
+			gold: 0,
+			platinum: 0,
+			silver: 0,
+		};
+		if (data.coins) {
+			Object.keys(data.coins).forEach((coin) => {
+				coins[coin] = data.coins[coin].value ?? 0;
+			});
+		}
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -141,10 +148,10 @@ export class archmageProvider extends SystemProvider {
 			ac: data.attributes.ac,
 			pd: data.attributes.pd,
 			md: data.attributes.md,
-			recoveries: data.attributes.recoveries,
+			recoveries: data.attributes?.recoveries ?? { value: 0, max: 0 },
 
-			backgrounds: this.getBackgrounds(data.backgrounds),
-			icons: this.getIcons(data.icons),
+			backgrounds: data.backgrounds ? this.getBackgrounds(data.backgrounds) : "",
+			icons: data.icons ? this.getIcons(data.icons) : {},
 
 			coins: coins,
 			totalGP: this.getTotalGP(coins).toFixed(2),
