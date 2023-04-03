@@ -40,9 +40,9 @@
 		"TOTAL": "Total",
 		"WEALTH": "Richesse",
 		"EXPERIENCE": "Expérience",
-		"XP": "XP",
+		"XP": "EXP",
 		"DND5E": {
-			"Traits": "Traitx"
+			"Traits": "Caractéristiques"
 		},
 		"cof": {
 			"attributes": {
