@@ -43,7 +43,7 @@
 			"4": "Todos Selecionados"
 		},
 		"EXPERIENCE": "Experiência",
-		"XP": "XP",
+		"XP": "EXP",
 		"cof": {
 			"attributes": {
 				"melee": {
@@ -61,7 +61,7 @@
 				},
 				"level": {
 					"label": "Nível",
-					"abbrev": "Nvl"
+					"abbrev": "Niv"
 				}
 			}
 		}
