@@ -42,11 +42,9 @@
 		"WEALTH": "Wealth",
 		"EXPERIENCE": "Experience",
 		"XP": "XP",
-
 		"DND5E": {
 			"Traits": "Traits"
 		},
-
 		"cof": {
 			"attributes": {
 				"melee": {
@@ -64,7 +62,7 @@
 				},
 				"level": {
 					"label": "Level",
-					"abbrev": "NLvl"
+					"abbrev": "Lvl"
 				}
 			}
 		}
