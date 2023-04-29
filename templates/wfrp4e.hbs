@@ -8,20 +8,22 @@
                 <div class="num" title="{{localize "Wounds"}}"><i class="fas fa-heart"></i></div>
                 <div class="num" title="{{localize "Advantage"}}"><i class="fas fa-plus-circle"></i></div>
                 <div class="num" title="{{localize "Movement"}}"><i class="fas fa-shoe-prints"></i></div>
-                <div class="num" title="{{localize "Fortune"}}/{{localize "Fate"}}"><i class="fas fa-clover"></i></div>
+                <div class="num" title="{{localize "Corruption"}}"><i class="fas fa-gear"></i></div>
+                <div class="num" title="{{localize "Fortune"}}/{{localize "Fate"}}"><i class="fas fa-dice"></i></div>
                 <div class="num" title="{{localize "Resolve"}}/{{localize "Resilience"}}"><i class="fas fa-hand-fist"></i></div>
             </div>
 
             {{#each actors as | actor | }}
-            <div class="table-row">
-                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
-                <div class="text">{{ actor.shortestName }}</div>
-                <div class="num">{{ actor.wounds.value }}/{{ actor.wounds.max }}</div>
-                <div class="num">{{ actor.advantage }}</div>
-                <div class="num">{{ actor.movement }}</div>
-                <div class="num">{{ actor.fortune }}/{{ actor.fate }}</div>
-                <div class="num">{{ actor.resolve }}/{{ actor.resilience }}</div>
-            </div>
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{ actor.shortestName }}</div>
+                    <div class="num">{{ actor.wounds.value }}/{{ actor.wounds.max }}</div>
+                    <div class="num">{{ actor.advantage }}</div>
+                    <div class="num">{{ actor.movement }}</div>
+                    <div class="num">{{ actor.corruption.value }}/{{ actor.corruption.max }}</div>
+                    <div class="num">{{ actor.fortune }}/{{ actor.fate }}</div>
+                    <div class="num">{{ actor.resolve }}/{{ actor.resilience }}</div>
+                </div>
             {{/each}}
         </div>
 
@@ -30,6 +32,7 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text">{{localize "Status"}}</div>
                 <div class="num icon">BP</div>
                 <div class="num icon">SS</div>
                 <div class="num icon">GC</div>
@@ -40,16 +43,15 @@
                 <div class="table-row">
                     {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                     <div class="text">{{ actor.shortestName }}</div>
-                    <div class="num">{{currency.bp}}</div>
-                    <div class="num">{{currency.ss}}</div>
-                    <div class="num">{{currency.gc}}</div>
-                    <div class="num"><b>{{currency.total}}</b></div>
+                    <div class="text">{{actor.status}}</div>
+                    <div class="num">{{actor.currency.bp}}</div>
+                    <div class="num">{{actor.currency.ss}}</div>
+                    <div class="num">{{actor.currency.gc}}</div>
+                    <div class="num"><b>{{actor.currency.total}}</b></div>
                 </div>
             {{/each}}
             <div class="table-row">
-                <div class="button">
-
-                </div>
+                <div class="button"></div>
                 <div class="text">Total</div>
                 <div class="num">{{totalCurrency.bp}}</div>
                 <div class="num">{{totalCurrency.ss}}</div>
@@ -58,5 +60,55 @@
             </div>
         </div>
 
+        <!-- Skills -->
+        <div class="tab" data-tab="skills" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text" style="flex-grow: 1;flex-basis: 80px">Melee & Ranged</div>
+                <div class="text" style="flex-grow: 1">Languages</div>
+                <div class="text" style="flex-grow: 1">Lore</div>
+                <div class="text" style="flex-grow: 1">Trade</div>
+                <div class="text">Other Basic</div>
+                <div class="text">Other Advanced</div>
+            </div>
+
+            {{#each actors as | actor | }}
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{ actor.shortestName }}</div>
+                    <div class="text small" style="flex-grow: 1;flex-basis: 80px">
+                        {{#each actor.skills.meleeRanged as | skill | }}
+                            {{skill.nameSpec}} {{skill.total}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text small" style="flex-grow: 1">
+                        {{#each actor.skills.languages as | skill | }}
+                            {{skill.nameSpec}} {{skill.total}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text small" style="flex-grow: 1">
+                        {{#each actor.skills.lore as | skill | }}
+                            {{skill.nameSpec}} {{skill.total}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text small" style="flex-grow: 1">
+                        {{#each actor.skills.trade as | skill | }}
+                            {{skill.nameSpec}} {{skill.total}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text small">
+                        {{#each actor.skills.otherBasic as | skill | }}
+                            {{skill.name}} {{skill.total}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text small">
+                        {{#each actor.skills.otherAdvanced as | skill | }}
+                            {{skill.name}} {{skill.total}}<br>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
     </section>
 </div>

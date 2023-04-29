@@ -125,6 +125,10 @@ div.party-overview-window .table-row.header {
 	font-weight: bold;
 }
 
+div.party-overview-window.wfrp4e .table-row .text.small {
+	font-size: 10px;
+}
+
 div.party-overview-window.wfrp4e .table-row .button {
 	margin-right: 6px;
 }
