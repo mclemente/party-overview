@@ -1,7 +1,8 @@
 // prettier-ignore
 import { SystemProvider, archmageProvider, bitdProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider,
-	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, wfrp4eProvider, cyphersystemProvider, CoC7Provider, GURPSProvider, 
+	scumAndVillainyProvider, sfrpgProvider, swadeProvider, tormenta20Provider, cyphersystemProvider, CoC7Provider, GURPSProvider,
 	cofSystemProvider, shinobigamiProvider} from "./SystemProvider.js";
+import {wfrp4eProvider} from "./systemProviders/wfrp4eProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;

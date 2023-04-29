@@ -1,4 +1,4 @@
-<div style="background: url(systems/wfrp4e/ui/frames/parchment-texture.png);">
+<div style="background: url(/systems/wfrp4e/ui/frames/parchment-texture.webp);">
     {{> "modules/party-overview/templates/parts/Tabs.html"}}
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
@@ -8,8 +8,8 @@
                 <div class="num" title="{{localize "Wounds"}}"><i class="fas fa-heart"></i></div>
                 <div class="num" title="{{localize "Advantage"}}"><i class="fas fa-plus-circle"></i></div>
                 <div class="num" title="{{localize "Movement"}}"><i class="fas fa-shoe-prints"></i></div>
-                <div class="num" title="{{localize "Walk"}}"><i class="fas fa-walking"></i></div>
-                <div class="num" title="{{localize "Run"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "Fortune"}}/{{localize "Fate"}}"><i class="fas fa-clover"></i></div>
+                <div class="num" title="{{localize "Resolve"}}/{{localize "Resilience"}}"><i class="fas fa-hand-fist"></i></div>
             </div>
 
             {{#each actors as | actor | }}
@@ -19,10 +19,44 @@
                 <div class="num">{{ actor.wounds.value }}/{{ actor.wounds.max }}</div>
                 <div class="num">{{ actor.advantage }}</div>
                 <div class="num">{{ actor.movement }}</div>
-                <div class="num">{{ actor.walk }} {{localize "yds"}}</div>
-                <div class="num">{{ actor.run }} {{localize "yds"}}</div>
+                <div class="num">{{ actor.fortune }}/{{ actor.fate }}</div>
+                <div class="num">{{ actor.resolve }}/{{ actor.resilience }}</div>
             </div>
             {{/each}}
         </div>
+
+        <!-- Currency -->
+        <div class="tab" data-tab="currencies" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="num icon">BP</div>
+                <div class="num icon">SS</div>
+                <div class="num icon">GC</div>
+                <div class="num icon">GC ({{localize "party-overview.TOTAL"}})</div>
+            </div>
+
+            {{#each actors as | actor | }}
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{ actor.shortestName }}</div>
+                    <div class="num">{{currency.bp}}</div>
+                    <div class="num">{{currency.ss}}</div>
+                    <div class="num">{{currency.gc}}</div>
+                    <div class="num"><b>{{currency.total}}</b></div>
+                </div>
+            {{/each}}
+            <div class="table-row">
+                <div class="button">
+
+                </div>
+                <div class="text">Total</div>
+                <div class="num">{{totalCurrency.bp}}</div>
+                <div class="num">{{totalCurrency.ss}}</div>
+                <div class="num">{{totalCurrency.gc}}</div>
+                <div class="num"><b>{{totalCurrency.total}}</b></div>
+            </div>
+        </div>
+
     </section>
 </div>
