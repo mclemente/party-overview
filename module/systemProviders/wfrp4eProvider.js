@@ -9,12 +9,17 @@ export class wfrp4eProvider extends SystemProvider {
     return {
       currencies: { id: "currencies", visible: true, localization: "Money" },
       skills: { id: "skills", visible: true, localization: "Skills" },
-      talents: { id: "talents", visible: true, localization: "Talents" },
+      talents: { id: "talents", visible: true, localization: "Talents"},
+      equipment: { id: "equipment", visible: true, localization: "Trappings" },
     };
   }
 
   get template() {
     return "/modules/party-overview/templates/wfrp4e.hbs";
+  }
+
+  get width() {
+    return 700;
   }
 
   getCurrency(actor) {
@@ -85,6 +90,16 @@ export class wfrp4eProvider extends SystemProvider {
       otherAdvanced: otherAdvanced
     }
   }
+  getWeapons(actor) {
+    let weapons = actor.getItemTypes("weapon")
+      .map(weapon => ({
+        name: weapon.name,
+        category: WFRP4E.weaponGroups[weapon.system.weaponGroup.value]
+      }))
+    weapons.sort((a,b) => a.name.localeCompare(b.name))
+
+    return weapons
+  }
 
   getActorDetails(actor) {
     const data = actor.system;
@@ -106,8 +121,17 @@ export class wfrp4eProvider extends SystemProvider {
         max: data.status.corruption.max,
       },
       status: data.details.status.value,
+      encumbrance: {
+        value: data.status.encumbrance.current,
+        max: data.status.encumbrance.max,
+      },
+      exp: {
+        value: data.details.experience.total - data.details.experience.spent,
+        total: data.details.experience.total
+      },
       skills: this.getSkills(actor),
       talents: this.getTalents(actor),
+      weapons: this.getWeapons(actor),
       currency: this.getCurrency(actor)
     };
   }
