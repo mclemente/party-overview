@@ -1311,32 +1311,6 @@ export class tormenta20Provider extends SystemProvider {
 	}
 }
 
-export class wfrp4eProvider extends SystemProvider {
-	get customCSS() {
-		return "wfrp4e";
-	}
-
-	get template() {
-		return "/modules/party-overview/templates/wfrp4e.hbs";
-	}
-
-	getActorDetails(actor) {
-		const data = actor.system;
-		return {
-			id: actor.id,
-			name: actor.name,
-			wounds: {
-				value: data.status.wounds.value,
-				max: data.status.wounds.max,
-			},
-			advantage: data.status.advantage.value,
-			movement: data.details.move.value,
-			walk: data.details.move.walk,
-			run: data.details.move.run,
-		};
-	}
-}
-
 export class cyphersystemProvider extends SystemProvider {
 	get customCSS() {
 		return "cyphersystem";

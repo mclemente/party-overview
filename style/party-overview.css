@@ -29,6 +29,7 @@ div.party-overview-window nav .item.active {
 }
 
 div.party-overview-window .table-row {
+	color: black;
 	display: flex;
 	display: -webkit-flex;
 	flex-direction: row;
@@ -124,6 +125,10 @@ div.party-overview-window .table-row.header {
 	font-weight: bold;
 }
 
+div.party-overview-window.wfrp4e .table-row .text.small {
+	font-size: 10px;
+}
+
 div.party-overview-window.wfrp4e .table-row .button {
 	margin-right: 6px;
 }
@@ -132,11 +137,11 @@ div.party-overview-window.wfrp4e .table-row .button button {
 	padding: 2px 0px 0px 0px;
 	height: 34px;
 	border: 1px solid black;
-	border-image: url(/systems/wfrp4e/ui/footer-button.png) 10 repeat;
+	border-image: url(/systems/wfrp4e/ui/footer-button.webp) 10 repeat;
 	border-image-width: 4px;
 	border-image-outset: 0px;
 	box-shadow: 2px 2px 1px #00000085;
-	background: url(/systems/wfrp4e/ui/sidebar_button-background_red.png) repeat;
+	background: url(/systems/wfrp4e/ui/sidebar_button-background_red.webp) repeat;
 	background-origin: padding-box;
 	color: #dadada;
 	font-family: CaslonAntique;

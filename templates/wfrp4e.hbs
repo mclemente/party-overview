@@ -1,4 +1,4 @@
-<div style="background: url(systems/wfrp4e/ui/frames/parchment-texture.png);">
+<div style="background: url(/systems/wfrp4e/ui/frames/parchment-texture.webp);">
     {{> "modules/party-overview/templates/parts/Tabs.html"}}
     <section class="content">
         <div class="tab" data-tab="general" data-group="party">
@@ -8,20 +8,186 @@
                 <div class="num" title="{{localize "Wounds"}}"><i class="fas fa-heart"></i></div>
                 <div class="num" title="{{localize "Advantage"}}"><i class="fas fa-plus-circle"></i></div>
                 <div class="num" title="{{localize "Movement"}}"><i class="fas fa-shoe-prints"></i></div>
-                <div class="num" title="{{localize "Walk"}}"><i class="fas fa-walking"></i></div>
-                <div class="num" title="{{localize "Run"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "Encumbrance"}}"><i class="fas fa-weight-hanging"></i></div>
+                <div class="num" title="{{localize "Corruption"}}"><i class="fas fa-gear"></i></div>
+                <div class="num" title="{{localize "Fortune"}}/{{localize "Fate"}}"><i class="fas fa-dice"></i></div>
+                <div class="num" title="{{localize "Resolve"}}/{{localize "Resilience"}}"><i class="fas fa-hand-fist"></i></div>
+                <div class="num" title="{{localize "Experience"}}"><i class="fas fa-star"></i></div>
             </div>
 
             {{#each actors as | actor | }}
-            <div class="table-row">
-                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
-                <div class="text">{{ actor.shortestName }}</div>
-                <div class="num">{{ actor.wounds.value }}/{{ actor.wounds.max }}</div>
-                <div class="num">{{ actor.advantage }}</div>
-                <div class="num">{{ actor.movement }}</div>
-                <div class="num">{{ actor.walk }} {{localize "yds"}}</div>
-                <div class="num">{{ actor.run }} {{localize "yds"}}</div>
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{ actor.shortestName }}</div>
+                    <div class="num">{{ actor.wounds.value }}/{{ actor.wounds.max }}</div>
+                    <div class="num">{{ actor.advantage }}</div>
+                    <div class="num">{{ actor.movement }}</div>
+                    <div class="num">{{ actor.encumbrance.value }}/{{ actor.corruption.max }}</div>
+                    <div class="num">{{ actor.corruption.value }}/{{ actor.corruption.max }}</div>
+                    <div class="num">{{ actor.fortune }}/{{ actor.fate }}</div>
+                    <div class="num">{{ actor.resolve }}/{{ actor.resilience }}</div>
+                    <div class="num">{{ actor.exp.value }}/{{ actor.exp.total }}</div>
+                </div>
+            {{/each}}
+        </div>
+
+        <!-- Currency -->
+        <div class="tab" data-tab="currencies" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text">{{localize "Status"}}</div>
+                <div class="num icon">BP</div>
+                <div class="num icon">SS</div>
+                <div class="num icon">GC</div>
+                <div class="num icon">GC ({{localize "party-overview.TOTAL"}})</div>
             </div>
+
+            {{#each actors as | actor | }}
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{ actor.shortestName }}</div>
+                    <div class="text">{{actor.status}}</div>
+                    <div class="num">{{actor.currency.bp}}</div>
+                    <div class="num">{{actor.currency.ss}}</div>
+                    <div class="num">{{actor.currency.gc}}</div>
+                    <div class="num"><b>{{actor.currency.total}}</b></div>
+                </div>
+            {{/each}}
+            <div class="table-row">
+                <div class="button"></div>
+                <div class="text"><b>Total</b></div>
+                <div class="num">{{totalCurrency.bp}}</div>
+                <div class="num">{{totalCurrency.ss}}</div>
+                <div class="num">{{totalCurrency.gc}}</div>
+                <div class="num"><b>{{totalCurrency.total}}</b></div>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="tab" data-tab="skills" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                {{#each actors as | actor | }}
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{actor.shortestName}}</div>
+                {{/each}}
+            </div>
+
+            <div class="table-row">
+                <div class="text"><b>Melee & Ranged</b></div>
+                {{#each actors as | actor | }}
+                <div class="text small">
+                    {{#each actor.skills.meleeRanged as | skill | }}
+                        {{skill.nameSpec}} {{skill.total}}<br>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </div>
+            <div class="table-row">
+                <div class="text"><b>Languages</b></div>
+                {{#each actors as | actor | }}
+                <div class="text small">
+                    {{#each actor.skills.languages as | skill | }}
+                        {{skill.nameSpec}} {{skill.total}}<br>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </div>
+            <div class="table-row">
+                <div class="text"><b>Lore</b></div>
+                {{#each actors as | actor | }}
+                <div class="text small">
+                    {{#each actor.skills.lore as | skill | }}
+                        {{skill.nameSpec}} {{skill.total}}<br>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </div>
+            <div class="table-row">
+                <div class="text"><b>Trade</b></div>
+                {{#each actors as | actor | }}
+                <div class="text small">
+                    {{#each actor.skills.trade as | skill | }}
+                        {{skill.nameSpec}} {{skill.total}}<br>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </div>
+            <div class="table-row">
+                <div class="text"><b>Other Basic</b></div>
+                {{#each actors as | actor | }}
+                <div class="text small">
+                    {{#each actor.skills.otherBasic as | skill | }}
+                        {{skill.name}} {{skill.total}}<br>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </div>
+            <div class="table-row">
+                <div class="text"><b>Other Advanced</b></div>
+                {{#each actors as | actor | }}
+                <div class="text small">
+                    {{#each actor.skills.otherAdvanced as | skill | }}
+                        {{skill.name}} {{skill.total}}<br>
+                    {{/each}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <!-- Talents -->
+        <div class="tab" data-tab="talents" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text" style="flex: 1">{{localize "party-overview.NAME"}}</div>
+                <div class="text" style="flex: 2">Talent</div>
+                <div class="text" style="flex: 3">Test</div>
+            </div>
+
+            {{#each actors as | actor | }}
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text" style="flex: 1">{{ actor.shortestName }}</div>
+                    <div class="text small" style="flex: 2">
+                        {{#each actor.talents as | talent | }}
+                            {{talent.name}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text small" style="flex: 3">
+                        {{#each actor.talents as | talent | }}
+                            {{talent.test}}<br>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+
+        <!-- Equipment -->
+        <div class="tab" data-tab="equipment" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text">Broń</div>
+                <div class="text">Kategoria</div>
+            </div>
+
+            {{#each actors as | actor | }}
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{ actor.shortestName }}</div>
+                    <div class="text">
+                        {{#each actor.weapons as | weapon | }}
+                            {{weapon.name}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text">
+                        {{#each actor.weapons as | weapon | }}
+                            {{weapon.category}}<br>
+                        {{/each}}
+                    </div>
+                </div>
             {{/each}}
         </div>
     </section>
