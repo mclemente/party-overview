@@ -8,7 +8,8 @@ export class wfrp4eProvider extends SystemProvider {
   get tabs() {
     return {
       currencies: { id: "currencies", visible: true, localization: "Money" },
-      lore: { id: "skills", visible: true, localization: "Skills" },
+      skills: { id: "skills", visible: true, localization: "Skills" },
+      talents: { id: "talents", visible: true, localization: "Talents" },
     };
   }
 
@@ -27,16 +28,40 @@ export class wfrp4eProvider extends SystemProvider {
     currency.total = (currency.bp / 240 + currency.ss / 20 + currency.gc).toFixed(2)
     return currency
   }
+  getTalents(actor) {
+    let talents = []
+    actor.getItemTypes("talent")
+      .map(talent => ({
+        name: talent.name,
+        test: talent.system.tests.value}))
+      .forEach(talent => {
+        let old_talent = talents.find(t => t.name === talent.name && t.test === t.test)
+        if (old_talent !== undefined) {
+          talents = talents.filter(t => t !== old_talent);
+          old_talent.advances += 1;
+          talents.push(old_talent);
+        } else {
+          talent.advances = 1;
+          talents.push(talent);
+        }
+      })
+    talents = talents.map(talent => ({
+      name: talent.advances > 1 ? `${talent.name} (${talent.advances})` : talent.name,
+      test: talent.test
+    }))
+    talents.sort((a,b) => a.name.localeCompare(b.name))
+    return talents
+  }
   getSkills(actor) {
     let skills = actor.getItemTypes("skill")
       .filter(skill => skill.system.advances.value > 0)
-      .sort(skill => skill.name)
       .map(skill => ({
         name: skill.name,
         nameSpec: skill.name.substring(skill.name.indexOf("(")+1, skill.name.length-1),
         total: skill.system.total.value,
         advanced: skill.system.advanced.value
-      }))
+      }));
+    skills.sort((a,b) => a.name.localeCompare(b.name))
 
     let meleeRanged = skills.filter(skill => skill.name.includes(game.i18n.localize("NAME.Melee")) || skill.name.includes(game.i18n.localize("NAME.Ranged")))
     let languages = skills.filter(skill => skill.name.includes(game.i18n.localize("NAME.Language")))
@@ -82,6 +107,7 @@ export class wfrp4eProvider extends SystemProvider {
       },
       status: data.details.status.value,
       skills: this.getSkills(actor),
+      talents: this.getTalents(actor),
       currency: this.getCurrency(actor)
     };
   }

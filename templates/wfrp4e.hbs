@@ -110,5 +110,32 @@
                 </div>
             {{/each}}
         </div>
+
+        <!-- Talents -->
+        <div class="tab" data-tab="talents" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text">Name</div>
+                <div class="text">Test</div>
+            </div>
+
+            {{#each actors as | actor | }}
+                <div class="table-row">
+                    {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                    <div class="text">{{ actor.shortestName }}</div>
+                    <div class="text small">
+                        {{#each actor.talents as | talents | }}
+                            {{talents.name}}<br>
+                        {{/each}}
+                    </div>
+                    <div class="text small">
+                        {{#each actor.talents as | talents | }}
+                            {{talents.test}}<br>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
     </section>
 </div>
