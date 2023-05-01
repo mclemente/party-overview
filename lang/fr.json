@@ -5,10 +5,10 @@
 			"Hint": "Permet de donner accès à la fenêtre Party aux joueurs."
 		},
 		"SystemProvider": {
-			"Name": "System Provider",
+			"Name": "Fournisseur de Système",
 			"choices": {
 				"module": "Module {name}",
-				"native": "Generic",
+				"native": "Générique",
 				"system": "System {name}"
 			}
 		},
@@ -36,17 +36,14 @@
 		"GENERAL": "Général",
 		"LIMIT": "Limite",
 		"NAME": "Nom",
-		"SKILLS": "Talents",
 		"PROFICIENCIES": "Compétences",
 		"TOTAL": "Total",
 		"WEALTH": "Richesse",
-		"EXPERIENCE": "Experience",
-		"XP": "XP",
-
+		"EXPERIENCE": "Expérience",
+		"XP": "EXP",
 		"DND5E": {
-			"Traits": "Traitx"
+			"Traits": "Caractéristiques"
 		},
-
 		"cof": {
 			"attributes": {
 				"melee": {

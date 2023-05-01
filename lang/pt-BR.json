@@ -30,11 +30,40 @@
 		"LIMIT": "Limite",
 		"NAME": "Nome",
 		"PROFICIENCIES": "Proficiências",
-		"SKILLS": "Perícias",
 		"TOTAL": "Total",
 		"WEALTH": "Riqueza",
 		"DND5E": {
 			"Traits": "Traços"
+		},
+		"filter": {
+			"2": "Oculto (Cena)",
+			"0": "Todos (Cena, Sem filtro)",
+			"1": "Todos (Cena)",
+			"3": "Todos Próprios",
+			"4": "Todos Selecionados"
+		},
+		"EXPERIENCE": "Experiência",
+		"XP": "EXP",
+		"cof": {
+			"attributes": {
+				"melee": {
+					"abbrev": "Cont"
+				},
+				"ranged": {
+					"abbrev": "Rang"
+				},
+				"magic": {
+					"abbrev": "Mag"
+				},
+				"size": {
+					"label": "Tamanho",
+					"abbrev": "Tamanho"
+				},
+				"level": {
+					"label": "Nível",
+					"abbrev": "Niv"
+				}
+			}
 		}
 	}
 }

@@ -17,6 +17,53 @@
 				"name": "Alternar el Party Overview",
 				"hint": "Abre o cierra la ventana de el Party Overview."
 			}
+		},
+		"SystemProvider": {
+			"Name": "Proveedor de Sistemas",
+			"choices": {
+				"module": "Módulo {name}",
+				"native": "Genérico",
+				"system": "Sistema {name}"
+			}
+		},
+		"filter": {
+			"0": "Todos (Escena, Sin filtro)",
+			"1": "Todos (Escena)",
+			"2": "Oculto (Escena)",
+			"4": "Todos los seleccionados",
+			"3": "Todos en propiedad"
+		},
+		"GENERAL": "General",
+		"LIMIT": "Límite",
+		"NAME": "Nombre",
+		"cof": {
+			"attributes": {
+				"level": {
+					"abbrev": "Niv",
+					"label": "Nivel"
+				},
+				"melee": {
+					"abbrev": "Cont"
+				},
+				"ranged": {
+					"abbrev": "Alc"
+				},
+				"magic": {
+					"abbrev": "Mag"
+				},
+				"size": {
+					"label": "Tamaño",
+					"abbrev": "Tam"
+				}
+			}
+		},
+		"PROFICIENCIES": "Competencias",
+		"TOTAL": "Total",
+		"WEALTH": "Riqueza",
+		"EXPERIENCE": "Experiencia",
+		"XP": "EXP",
+		"DND5E": {
+			"Traits": "Características"
 		}
 	}
 }
