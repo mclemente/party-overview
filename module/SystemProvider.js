@@ -785,36 +785,6 @@ export class pf2eProvider extends SystemProvider {
 		return 600;
 	}
 
-	getCurrency(data) {
-		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
-		const wealth = {
-			"Platinum Pieces": "pp",
-			"Gold Pieces": "gp",
-			"Silver Pieces": "sp",
-			"Copper Pieces": "cp",
-		};
-		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
-		data.items
-			.filter((a) => coins.includes(a.flags?.babele?.originalName) || coins.includes(a.name))
-			.map((a) => (currency[wealth[a.flags?.babele?.originalName || a.name]] += a.quantity));
-		return currency;
-	}
-
-	getItemsValue(data) {
-		const coins = ["Platinum Pieces", "Gold Pieces", "Silver Pieces", "Copper Pieces"];
-		const currency = { pp: 0, gp: 0, sp: 0, cp: 0 };
-		const items = data.items.filter(
-			(a) => a.system.price && a.system.identification.status == "identified" && !(coins.includes(a.flags?.babele?.originalName) || coins.includes(a.name))
-		);
-		for (const item of items) {
-			let value = item.system.price.value;
-			for (let coin in value) {
-				currency[coin] += Number(value[coin]) * (item.system.quantity?.value ?? item.system.quantity);
-			}
-		}
-		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10;
-	}
-
 	getLanguages(data) {
 		let langs = data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code]));
 		if (data.traits.languages.custom) {
@@ -863,10 +833,11 @@ export class pf2eProvider extends SystemProvider {
 
 	getActorDetails(actor) {
 		const data = actor.system;
-		const currency = this.getCurrency(actor);
-		const itemsValue = this.getItemsValue(actor).toFixed(2);
-		const totalGP = this.getTotalGP(currency).toFixed(2);
-		const sumItemsGP = (Number(itemsValue) + Number(totalGP)).toFixed(2);
+		const currency = actor.inventory?.coins;
+		const coinsInGold = this.getTotalGP(currency).toFixed(2);
+		const totalWealth = actor.inventory?.totalWealth;
+		const totalWealthInGold = this.getTotalGP(totalWealth).toFixed(2);
+		const itemsValue = Math.abs(Number(totalWealthInGold) - Number(coinsInGold)).toFixed(2);
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -896,10 +867,10 @@ export class pf2eProvider extends SystemProvider {
 			languages: data.traits?.languages ? this.getLanguages(data) : [],
 			currency: currency,
 			itemsValue: itemsValue,
-			sumItemsGP: sumItemsGP,
+			sumItemsGP: totalWealthInGold,
 
 			lore: this.getLore(actor),
-			totalGP: totalGP,
+			totalGP: coinsInGold,
 		};
 	}
 
