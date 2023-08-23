@@ -33,10 +33,19 @@
 			"lang": "fr",
 			"name": "Français",
 			"path": "lang/fr.json"
+		},
+		{
+			"lang": "fi",
+			"name": "Suomi",
+			"path": "lang/fi.json"
 		}
 	],
-	"esmodules": ["party-overview.js"],
-	"styles": ["style/party-overview.css"],
+	"esmodules": [
+		"party-overview.js"
+	],
+	"styles": [
+		"style/party-overview.css"
+	],
 	"url": "http://github.com/mclemente/party-overview",
 	"bugs": "http://github.com/mclemente/party-overview/issues",
 	"manifest": "https://github.com/mclemente/party-overview/releases/latest/download/module.json",
