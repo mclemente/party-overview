@@ -71,6 +71,10 @@ export class SystemProvider {
 	getUpdate(actors) {
 		return [actors, {}];
 	}
+
+	actorFilter(actor) {
+		return actor.hasPlayerOwner;
+	}
 }
 
 export class archmageProvider extends SystemProvider {
@@ -451,6 +455,10 @@ export class dnd5eProvider extends SystemProvider {
 		return 600;
 	}
 
+	actorFilter(actor) {
+		return super.actorFilter(actor) && actor.type !== "group";
+	}
+
 	getHitPoints(data) {
 		const hp = data.attributes.hp;
 		const value = parseInt(hp.value);
@@ -623,8 +631,8 @@ export class dnd5eProvider extends SystemProvider {
 		let saves = {};
 		for (let ability in CONFIG.DND5E.abilities) {
 			saves[ability] = {
-				short: CONFIG.DND5E.abilityAbbreviations[ability],
-				long: CONFIG.DND5E.abilities[ability],
+				short: CONFIG.DND5E.abilities[ability].abbreviation,
+				long: CONFIG.DND5E.abilities[ability].label,
 			};
 		}
 		return [
