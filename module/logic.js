@@ -14,7 +14,7 @@ class PartyOverviewApp extends Application {
 
 		this.hiddenActors = game.settings.get("party-overview", "hiddenActors");
 		this.state = {};
-		this.displayMode = game.settings.get("party-overview", "displayMode");
+		this.displayMode = game.user.getFlag("party-overview", "displayMode") ?? 4;
 		this.activeTab = "general";
 		this.rendering = false;
 	}
@@ -134,13 +134,13 @@ class PartyOverviewApp extends Application {
 		$(".btn-filter").on("click", (event) => {
 			this.displayMode += 1;
 			if (this.displayMode > Object.keys(DISPLAY_MODE).length - 1) this.displayMode = 0;
-			game.settings.set("party-overview", "displayMode", this.displayMode);
+			game.user.setFlag("party-overview", "displayMode", this.displayMode);
 			this.render(false);
 		});
 		$(".btn-filter").on("contextmenu", (event) => {
 			this.displayMode -= 1;
 			if (this.displayMode < 0) this.displayMode = Object.keys(DISPLAY_MODE).length - 1;
-			game.settings.set("party-overview", "displayMode", this.displayMode);
+			game.user.setFlag("party-overview", "displayMode", this.displayMode);
 			this.render(false);
 		});
 

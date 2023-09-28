@@ -23,12 +23,6 @@ export function registerSettings() {
 		default: getDefaultSystemProvider(),
 		onChange: updateSystemProvider,
 	});
-	game.settings.register("party-overview", "displayMode", {
-		scope: "world",
-		config: false,
-		type: Number,
-		default: 4,
-	});
 	game.settings.register("party-overview", "hiddenActors", {
 		scope: "world",
 		config: false,

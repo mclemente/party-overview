@@ -6,7 +6,6 @@ Hooks.once("init", () => {
 	registerSettings();
 	initApi();
 	registerApiSettings();
-	game.partyOverview = new PartyOverviewApp();
 
 	if (game.keybindings) {
 		game.keybindings.register("party-overview", "openPartyOverview", {
@@ -48,7 +47,7 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("ready", () => {
-	if (!game.partyOverview) game.partyOverview = new PartyOverviewApp();
+	game.partyOverview = new PartyOverviewApp();
 	if (game.modules.get("stream-view")?.active && game?.user?.id === game.settings.get("stream-view", "user-id")) game.partyOverview.render(true);
 });
 
@@ -94,7 +93,7 @@ Hooks.on("deleteToken", (token, options, userId) => {
 });
 
 Hooks.on("canvasInit", (canvas) => {
-	if (game.partyOverview.rendering) {
+	if (game.partyOverview?.rendering) {
 		// what a hack! the hook is fired when the scene switch is not yet activated, so we need
 		// to wait a tiny bit. The combat tracker is rendered last, so the scene should be available
 		Hooks.once("renderCombatTracker", (app, html, data) => {
