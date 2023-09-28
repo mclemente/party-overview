@@ -49,16 +49,13 @@ Hooks.once("init", () => {
 
 Hooks.on("ready", () => {
 	if (!game.partyOverview) game.partyOverview = new PartyOverviewApp();
-	if (game.modules.get("stream-view")?.active && game?.user?.id === game.settings.get("stream-view", "user-id"))
-		game.partyOverview.render(true);
+	if (game.modules.get("stream-view")?.active && game?.user?.id === game.settings.get("stream-view", "user-id")) game.partyOverview.render(true);
 });
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
 	if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccess")) return;
 
-	let button = $(
-		`<button class="party-overview-button ${currentSystemProvider.customCSS}"><i class="fas fa-users"></i> Party Overview</button>`
-	);
+	let button = $(`<button class="party-overview-button ${currentSystemProvider.customCSS}"><i class="fas fa-users"></i> Party Overview</button>`);
 	button.on("click", (e) => {
 		game.partyOverview.render(true);
 	});
@@ -79,10 +76,7 @@ Hooks.on("updateToken", (token, data, options, userId) => {
 });
 
 Hooks.on("createToken", (token, options, userId) => {
-	if (
-		game.partyOverview.rendering &&
-		game.actors.contents.find((actor) => actor.id === token.actor.id).hasPlayerOwner
-	) {
+	if (game.partyOverview.rendering && game.actors.contents.find((actor) => actor.id === token.actor.id).hasPlayerOwner) {
 		game.partyOverview.render(false);
 	}
 });
