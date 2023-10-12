@@ -1,8 +1,4 @@
-![GitHub release](https://img.shields.io/github/release-date/mclemente/party-overview)
-![all versions](https://img.shields.io/github/downloads/mclemente/party-overview/total) 
 ![the latest version](https://img.shields.io/github/downloads/mclemente/party-overview/latest/total) 
-![Forge installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fparty-overview)
-
 [![ko-fi](https://img.shields.io/badge/ko--fi-Support%20Me-red?style=flat-square&logo=ko-fi)](https://ko-fi.com/mclemente)
 
 # Party Overview
