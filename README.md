@@ -1,4 +1,4 @@
-![the latest version](https://img.shields.io/github/downloads/mclemente/party-overview/latest/total) 
+![the latest version](https://img.shields.io/github/downloads/mclemente/party-overview/latest/module.zip) 
 [![ko-fi](https://img.shields.io/badge/ko--fi-Support%20Me-red?style=flat-square&logo=ko-fi)](https://ko-fi.com/mclemente)
 
 # Party Overview
