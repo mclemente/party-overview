@@ -1303,6 +1303,10 @@ export class cyphersystemProvider extends SystemProvider {
 		return 700;
 	}
 
+	actorFilter(actor) {
+		return super.actorFilter(actor) && actor.type === "pc";
+	}
+
 	getActorDetails(actor) {
 		const data = actor.system;
 		if (actor.type!=='pc') return;
