@@ -518,28 +518,27 @@ export class dnd5eProvider extends SystemProvider {
 			return packObject?.index.get(id);
 		}
 		const profs = CONFIG.DND5E.toolProficiencies;
-		const type = "tool";
-		const itemTypes = CONFIG.DND5E[`${type}Ids`];
+		const itemTypes = CONFIG.DND5E.toolIds;
 
-		let values = Array.from(data.value);
-
-		data.selected = {};
-		for (const key of values) {
+		const tools = {};
+		for (const key of Object.keys(data)) {
 			if (profs[key]) {
-				data.selected[key] = profs[key];
-			} else if (itemTypes && itemTypes[key]) {
+				tools[key] = profs[key];
+			} else if (itemTypes[key]) {
 				const item = getBaseItem(itemTypes[key]);
-				if (item) data.selected[key] = item.name;
-			} else if (type === "tool" && CONFIG.DND5E.vehicleTypes[key]) {
-				data.selected[key] = CONFIG.DND5E.vehicleTypes[key];
+				if (item) {
+					tools[key] = item.name;
+				}
+			} else if (CONFIG.DND5E.vehicleTypes[key]) {
+				tools[key] = CONFIG.DND5E.vehicleTypes[key];
 			}
 		}
 
 		// Add custom entries
 		if (data.custom) {
-			data.custom.split(";").forEach((c, i) => (data.selected[`custom${i + 1}`] = c.trim()));
+			data.custom.split(";").forEach((c, i) => (tools[`custom${i + 1}`] = c.trim()));
 		}
-		return data.selected;
+		return tools;
 	}
 
 	getTotalGP(data) {
@@ -593,7 +592,7 @@ export class dnd5eProvider extends SystemProvider {
 			skills: this.getSkills(data),
 			inspiration: data.attributes.inspiration,
 			languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
-			tools: data.traits.toolProf ? this.getTools(data.traits?.toolProf) : {},
+			tools: data.tools ? this.getTools(data.tools) : {},
 			alignment: data.details.alignment,
 
 			currency: data.currency,
