@@ -1309,7 +1309,7 @@ export class cyphersystemProvider extends SystemProvider {
 
 	getActorDetails(actor) {
 		const data = actor.system;
-		if (actor.type!=='pc') return;
+		if (actor.type !== "pc") return;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1329,14 +1329,14 @@ export class cyphersystemProvider extends SystemProvider {
 			armorValueTotal: data.combat.armor.ratingTotal,
 			speedCostTotal: data.combat.armor.costTotal,
 			damageTrack: data.combat.damageTrack.state,
-		}
+		};
 	}
 
 	getUpdate(actors) {
 		return [
 			actors,
 			{
-				showAdditional: actors.some((actor) => actor.type === 'pc' && actor.additionalPool.active),
+				showAdditional: actors.some((actor) => actor.type === "pc" && actor.additionalPool.active),
 			},
 		];
 	}
