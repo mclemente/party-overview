@@ -459,6 +459,26 @@ export class dnd5eProvider extends SystemProvider {
 		return super.actorFilter(actor) && actor.type !== "group";
 	}
 
+	getLanguages(data) {
+		const langs = [];
+		if (data.traits.languages) {
+			const searchCategory = (data, key) => {
+				for (const [k, v] of Object.entries(data)) {
+					if (k === key) return v;
+					if (v.children) {
+						const result = searchCategory(v.children, key);
+						if (result) return result;
+					}
+				}
+			};
+			data.traits.languages.value.forEach((key) => {
+				let k = searchCategory(CONFIG.DND5E.languages, key);
+				if (k?.label) k = k.label;
+				langs.push(k);
+			});
+		}
+		return langs;
+	}
 	getHitPoints(data) {
 		const hp = data.attributes.hp;
 		const value = parseInt(hp.value);
@@ -591,7 +611,7 @@ export class dnd5eProvider extends SystemProvider {
 			// Proficiencies
 			skills: this.getSkills(data),
 			inspiration: data.attributes.inspiration,
-			languages: data.traits.languages ? data.traits.languages.value.map((code) => CONFIG.DND5E.languages[code]) : [],
+			languages: this.getLanguages(data),
 			tools: data.tools ? this.getTools(data.tools) : {},
 			alignment: data.details.alignment,
 
@@ -608,7 +628,7 @@ export class dnd5eProvider extends SystemProvider {
 		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map((language) => actor.languages && actor.languages.has(language)),
+				languages: languages.map((language) => actor.languages?.includes(language)),
 			};
 		});
 		let totalCurrency = actors.reduce(
