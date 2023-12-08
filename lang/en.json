@@ -44,6 +44,10 @@
 		"DND5E": {
 			"Traits": "Traits"
 		},
+		"DemonLord": {
+			"LanguagesSpoken" : "Languages Spoken",
+			"LanguagesScript" : "Languages Script"
+		},		
 		"cof": {
 			"attributes": {
 				"melee": {

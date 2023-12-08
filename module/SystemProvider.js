@@ -250,6 +250,117 @@ export class dccProvider extends SystemProvider {
 	}
 }
 
+export class demonlordProvider extends SystemProvider {
+	get template() {
+		return "/modules/party-overview/templates/demonlord.hbs";
+	}
+
+	get width() {
+		return 700;
+	}
+
+	get tabs() {
+		return {
+			paths: { id: "paths", visible: true, localization: "Paths" },			
+			currencies: { id: "currencies", visible: true, localization: "DL.CharWealth" },
+			languagessp: { id: "languagessp", visible: true, localization: "party-overview.DemonLord.LanguagesSpoken" },
+			languagessc: { id: "languagessc", visible: true, localization: "party-overview.DemonLord.LanguagesScript" }
+		};
+	}
+
+	getTotalGC(wealth) {
+		return (wealth.bits / 1000 + wealth.cp / 100 + wealth.ss / 10 + wealth.gc * 1).toFixed(2);
+	}
+
+	getLanguages(actor, skill) {
+		const langs = [];
+		let languages = actor.items.filter((item) => item.type === 'language')
+		for (const language of languages) {
+			let shortLang = language.name.split(' ');
+			let languageName = shortLang[0];
+			switch (skill) {
+				case 'spoken':
+					if (language.system.speak) langs.push(languageName);
+					break;
+				case 'script':
+					if ((language.system.read) || (language.system.write)) langs.push(languageName);
+					break;
+			}
+		}
+		return langs;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.system;
+		let paths = [];
+		paths = actor.items.filter((item) => item.type === 'path');
+		return {
+			id: actor.id,
+			name: actor.name,
+			health: data.characteristics.health,
+			corruption: data.characteristics.corruption,
+			insanity: data.characteristics.insanity,
+			defense: data.characteristics.defense,
+			speed: data.characteristics.speed,
+			perception: data.attributes.perception,
+			fortune: data.characteristics.fortune,
+			power: data.characteristics.power,
+			size: data.characteristics.size,
+			currency: data.wealth,
+			spoken: this.getLanguages(actor,'spoken'),
+			script: this.getLanguages(actor,'script'),
+			totalGC: this.getTotalGC(data.wealth),
+			ancestry: actor.items.find((item) => item.type === 'ancestry') ? actor.items.find((item) => item.type === 'ancestry').name :'—',
+			novicePath: paths.find((path) => path.system.type === 'novice') ? paths.find((path) => path.system.type === 'novice').name : '—',
+			masterPath: paths.find((path) => path.system.type === 'master') ? paths.find((path) => path.system.type === 'master').name : '—',
+			expertPath: paths.find((path) => path.system.type === 'expert') ? paths.find((path) => path.system.type === 'expert').name : '—',
+			legendaryPath: paths.find((path) => path.system.type === 'legendary') ? paths.find((path) => path.system.type === 'legendary').name : '—'
+		};
+	}
+
+	getUpdate(actors) {
+		let script = actors
+			.reduce((script, actor) => [...new Set(script.concat(actor.script))], [])
+			.filter((language) => language !== undefined)
+			.sort();
+		let spoken = actors
+			.reduce((spoken, actor) => [...new Set(spoken.concat(actor.spoken))], [])
+			.filter((language) => language !== undefined)
+			.sort();
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.currency) {
+					currency[prop] += parseInt(actor.currency[prop]);
+				}
+				return currency;
+			},
+			{
+				bits: 0,
+				cp: 0,
+				ss: 0,
+				gc: 0,
+			}
+		);
+		let totalPartyGC = actors.reduce((totalGC, actor) => totalGC + parseFloat(actor.totalGC), 0).toFixed(2);
+		actors = actors.map((actor) => {
+			return {
+				...actor,
+				script: script.map((script) => actor.script && actor.script.includes(script)),
+				spoken: spoken.map((spoken) => actor.spoken && actor.spoken.includes(spoken)),
+			};
+		});
+		return [
+			actors,
+			{
+				totalCurrency: totalCurrency,
+				totalPartyGC: totalPartyGC,
+				script: script,
+				spoken: spoken,	
+			},
+		];
+	}
+}
+
 export class dnd35eProvider extends SystemProvider {
 	get tabs() {
 		return {

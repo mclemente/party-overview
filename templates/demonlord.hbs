@@ -1,0 +1,150 @@
+<div>
+    {{> "modules/party-overview/templates/parts/Tabs.html"}}
+    <section class="content">
+        <div class="tab" data-tab="general" data-group="party">
+            <div class="table-row header">
+            {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+            <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="num" title="{{localize "DL.CharHealthDamage"}}"><i class="fa-solid fa-skull"></i></div>
+                <div class="num" title="{{localize "DL.CharHealthHealingRating"}}"><i class="fa-solid fa-heart-pulse"></i></div>
+                <div class="num" title="{{localize "DL.AttributeDefense"}}"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="num" title="{{localize "DL.AttributePerception"}}"><i class="fa-solid fa-eye"></i></div>
+                <div class="num" title="{{localize "DL.CharInsanity"}}"><i class="fas fa-brain"></i></div>
+                <div class="num" title="{{localize "DL.CharCorruption"}}"><i class="fa-solid fa-biohazard"></i></div>
+                <div class="num" title="{{localize "DL.CharSize"}}"><i class="fa-solid fa-arrows-left-right-to-line"></i></div>
+                <div class="num" title="{{localize "DL.CharSpeed"}}"><i class="fa-solid fa-person-running"></i></div>
+                <div class="num" title="{{localize "DL.CharFortune"}}"><i class="fa-solid fa-clover"></i></div>
+                <div class="num" title="{{localize "DL.CharPower"}}"><i class="fa-solid fa-bolt-lightning"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{actor.name }}</div>
+                <div class="num">{{actor.health.value}}/{{actor.health.max}}</div>
+                <div class="num">{{actor.health.healingrate}}</div>
+                <div class="num">{{actor.defense}}</div>
+                <div class="num">{{actor.perception.value}}</div>
+                <div class="num">{{actor.insanity.value}}</div>
+                <div class="num">{{actor.corruption.value}}</div>
+                <div class="num">{{actor.size}}</div>
+                <div class="num">{{actor.speed}}</div>
+                <div class="num">{{actor.fortune}}</div>
+                <div class="num">{{actor.power}}</div>
+            </div>
+            {{/each}}
+        </div>
+		<!-- Languages Spoken-->
+        <div class="tab" data-tab="languagessp" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                {{#each spoken as | language | }}
+                <div class="num" style="flex: 1" title="{{language}}">{{language}}</div>
+                {{/each}}
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.name }}</div>
+                {{#each actor.spoken as | language | }}
+                <div class="num" style="flex: 1">{{#if language}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}</div>
+                {{/each}}
+            </div>
+            {{/each}}
+        </div>
+
+		<!-- Languages Script-->
+        <div class="tab" data-tab="languagessc" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                {{#each script as | language | }}
+                <div class="num" style="flex: 1" title="{{language}}">{{language}}</div>
+                {{/each}}
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                <div class="button">
+                    <button class="btn-toggle-visibility" data-actor="{{actor.id }}">
+                        {{#if actor.isHidden }}<i class="value fas fa-eye-slash"></i>{{else}}<i class="value fas fa-eye"></i>{{/if}}
+                    </button>
+                </div>
+                <div class="text">{{ actor.name }}</div>
+                {{#each actor.script as | language | }}
+                <div class="num" style="flex: 1">{{#if language}}<i class="fas fa-check"></i>{{else}}<i class="value fas fa-times" style="color: gray"></i>{{/if}}</div>
+                {{/each}}
+            </div>
+            {{/each}}
+        </div>        
+
+
+        <div class="tab" data-tab="paths" data-group="party">
+            <div class="table-row header">
+            {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+            <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="text">{{localize "DL.CharAncestry"}}</div>
+                <div class="text">{{localize "DL.CharPathNovice"}}</div>
+				<div class="text">{{localize "DL.CharPathExpert"}}</div>
+				<div class="text">{{localize "DL.CharPathMaster"}}</div>
+				<div class="text">{{localize "DL.CharPathLegendary"}}</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+        {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.name }}</div>
+                <div class="text">{{ ancestry }}</div>
+                <div class="text">{{ novicePath }}</div>
+                <div class="text">{{ masterPath }}</div>
+                <div class="text">{{ expertPath }}</div>
+                <div class="text">{{ legendaryPath }}</div>
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Currency -->
+        <div class="tab" data-tab="currencies" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">Name</div>
+                <div class="text">{{localize "DL.CharWealthLifestyle"}}</div>
+                <div class="num icon">{{localize "DL.CharWealthGC"}}</div>
+                <div class="num icon">{{localize "DL.CharWealthSS"}}</div>
+                <div class="num icon">{{localize "DL.CharWealthSP"}}</div>
+                <div class="num icon">{{localize "DL.CharWealthBits"}}</div>
+                <div class="num icon">{{localize "DL.CharWealthGC"}} ({{localize "party-overview.TOTAL"}})</div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.name }}</div>
+                <div class="text">{{ actor.currency.lifestyle }}</div>
+                <div class="num">{{currency.gc}}</div>
+                <div class="num">{{currency.ss}}</div>
+                <div class="num">{{currency.cp}}</div>
+                <div class="num">{{currency.bits}}</div>
+                <div class="num"><b>{{actor.totalGC}}</b></div>
+            </div>
+            {{/each}}
+            <div class="table-row">
+                <div class="button">
+
+                </div>
+                <div class="text">{{localize "party-overview.TOTAL"}}</div>
+                <div class="num">{{totalCurrency.gc}}</div>
+                <div class="num">{{totalCurrency.ss}}</div>
+                <div class="num">{{totalCurrency.cp}}</div>
+                <div class="num">{{totalCurrency.bits}}</div>
+                <div class="num"><b>{{totalPartyGC}}</b></div>
+            </div>
+        </div>
+    </section>
+</div>
