@@ -251,26 +251,20 @@ export class dccProvider extends SystemProvider {
 }
 
 export class demonlordProvider extends SystemProvider {
-	constructor(id) {
-		super(id);
-		Handlebars.registerHelper("shortenLanguage", function (language) {
-		const shortLang = language.split(' ');
-        return (shortLang[0]);
-		});
-	}	
 	get template() {
 		return "/modules/party-overview/templates/demonlord.hbs";
 	}
 
 	get width() {
-		return 600;
+		return 700;
 	}
 
 	get tabs() {
 		return {
+			paths: { id: "paths", visible: true, localization: "Paths" },			
 			currencies: { id: "currencies", visible: true, localization: "DL.CharWealth" },
 			languagessp: { id: "languagessp", visible: true, localization: "party-overview.DemonLord.LanguagesSpoken" },
-			languagessc: { id: "languagessc", visible: true, localization: "party-overview.DemonLord.LanguagesScript" },			
+			languagessc: { id: "languagessc", visible: true, localization: "party-overview.DemonLord.LanguagesScript" }
 		};
 	}
 
@@ -283,13 +277,13 @@ export class demonlordProvider extends SystemProvider {
 		let languages = actor.items.filter((item) => item.type === 'language')
 		for (const language of languages) {
 			let shortLang = language.name.split(' ');
-            language.name = shortLang[0];
+			let languageName = shortLang[0];
 			switch (skill) {
 				case 'spoken':
-					if (language.system.speak) langs.push(language.name);
+					if (language.system.speak) langs.push(languageName);
 					break;
 				case 'script':
-					if ((language.system.read) || (language.system.write)) langs.push(language.name);
+					if ((language.system.read) || (language.system.write)) langs.push(languageName);
 					break;
 			}
 		}
@@ -298,6 +292,8 @@ export class demonlordProvider extends SystemProvider {
 
 	getActorDetails(actor) {
 		const data = actor.system;
+		let paths = [];
+		paths = actor.items.filter((item) => item.type === 'path');
 		let spoken= this.getLanguages(actor,'spoken');
 		let script= this.getLanguages(actor,'script');
 		return {
@@ -311,10 +307,16 @@ export class demonlordProvider extends SystemProvider {
 			perception: data.attributes.perception,
 			fortune: data.characteristics.fortune,
 			power: data.characteristics.power,
+			size: data.characteristics.size,
 			currency: data.wealth,
 			spoken: this.getLanguages(actor,'spoken'),
 			script: this.getLanguages(actor,'script'),
-			totalGC: this.getTotalGC(data.wealth)
+			totalGC: this.getTotalGC(data.wealth),
+			ancestry: actor.items.find((item) => item.type === 'ancestry') ? actor.items.find((item) => item.type === 'ancestry').name :'—',
+			novicePath: paths.find((path) => path.system.type === 'novice') ? paths.find((path) => path.system.type === 'novice').name : '—',
+			masterPath: paths.find((path) => path.system.type === 'master') ? paths.find((path) => path.system.type === 'master').name : '—',
+			expertPath: paths.find((path) => path.system.type === 'expert') ? paths.find((path) => path.system.type === 'expert').name : '—',
+			legendaryPath: paths.find((path) => path.system.type === 'legendary') ? paths.find((path) => path.system.type === 'legendary').name : '—'
 		};
 	}
 
