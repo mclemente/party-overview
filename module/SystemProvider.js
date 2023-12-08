@@ -294,8 +294,6 @@ export class demonlordProvider extends SystemProvider {
 		const data = actor.system;
 		let paths = [];
 		paths = actor.items.filter((item) => item.type === 'path');
-		let spoken= this.getLanguages(actor,'spoken');
-		let script= this.getLanguages(actor,'script');
 		return {
 			id: actor.id,
 			name: actor.name,
