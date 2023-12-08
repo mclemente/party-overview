@@ -250,6 +250,117 @@ export class dccProvider extends SystemProvider {
 	}
 }
 
+export class demonlordProvider extends SystemProvider {
+	constructor(id) {
+		super(id);
+		Handlebars.registerHelper("shortenLanguage", function (language) {
+		const shortLang = language.split(' ');
+        return (shortLang[0]);
+		});
+	}	
+	get template() {
+		return "/modules/party-overview/templates/demonlord.hbs";
+	}
+
+	get width() {
+		return 600;
+	}
+
+	get tabs() {
+		return {
+			currencies: { id: "currencies", visible: true, localization: "DL.CharWealth" },
+			languagessp: { id: "languagessp", visible: true, localization: "party-overview.DemonLord.LanguagesSpoken" },
+			languagessc: { id: "languagessc", visible: true, localization: "party-overview.DemonLord.LanguagesScript" },			
+		};
+	}
+
+	getTotalGC(wealth) {
+		return (wealth.bits / 1000 + wealth.cp / 100 + wealth.ss / 10 + wealth.gc * 1).toFixed(2);
+	}
+
+	getLanguages(actor, skill) {
+		const langs = [];
+		let languages = actor.items.filter((item) => item.type === 'language')
+		for (const language of languages) {
+			let shortLang = language.name.split(' ');
+            language.name = shortLang[0];
+			switch (skill) {
+				case 'spoken':
+					if (language.system.speak) langs.push(language.name);
+					break;
+				case 'script':
+					if ((language.system.read) || (language.system.write)) langs.push(language.name);
+					break;
+			}
+		}
+		return langs;
+	}
+
+	getActorDetails(actor) {
+		const data = actor.system;
+		let spoken= this.getLanguages(actor,'spoken');
+		let script= this.getLanguages(actor,'script');
+		return {
+			id: actor.id,
+			name: actor.name,
+			health: data.characteristics.health,
+			corruption: data.characteristics.corruption,
+			insanity: data.characteristics.insanity,
+			defense: data.characteristics.defense,
+			speed: data.characteristics.speed,
+			perception: data.attributes.perception,
+			fortune: data.characteristics.fortune,
+			power: data.characteristics.power,
+			currency: data.wealth,
+			spoken: this.getLanguages(actor,'spoken'),
+			script: this.getLanguages(actor,'script'),
+			totalGC: this.getTotalGC(data.wealth)
+		};
+	}
+
+	getUpdate(actors) {
+		let script = actors
+			.reduce((script, actor) => [...new Set(script.concat(actor.script))], [])
+			.filter((language) => language !== undefined)
+			.sort();
+		let spoken = actors
+			.reduce((spoken, actor) => [...new Set(spoken.concat(actor.spoken))], [])
+			.filter((language) => language !== undefined)
+			.sort();
+		let totalCurrency = actors.reduce(
+			(currency, actor) => {
+				for (let prop in actor.currency) {
+					currency[prop] += parseInt(actor.currency[prop]);
+				}
+				return currency;
+			},
+			{
+				bits: 0,
+				cp: 0,
+				ss: 0,
+				gc: 0,
+			}
+		);
+		let totalPartyGC = actors.reduce((totalGC, actor) => totalGC + parseFloat(actor.totalGC), 0).toFixed(2);
+		actors = actors.map((actor) => {
+			return {
+				...actor,
+				script: script.map((script) => actor.script && actor.script.includes(script)),
+				spoken: spoken.map((spoken) => actor.spoken && actor.spoken.includes(spoken)),
+			};
+		});
+		return [
+			actors,
+			{
+				totalCurrency: totalCurrency,
+				totalPartyGC: totalPartyGC,
+				script: script,
+				spoken: spoken,	
+			},
+		];
+	}
+}
+
 export class dnd35eProvider extends SystemProvider {
 	get tabs() {
 		return {
