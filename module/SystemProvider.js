@@ -1177,8 +1177,8 @@ export class sfrpgProvider extends SystemProvider {
 				max: data.attributes.sp.max,
 			},
 			rp: {
-				value: data.attributes.sp.value,
-				max: data.attributes.sp.max,
+				value: data.attributes.rp.value,
+				max: data.attributes.rp.max,
 			},
 			armor: data.attributes.eac.value ? data.attributes.eac.value : 10,
 			kac: data.attributes.kac.value ? data.attributes.kac.value : 10,
