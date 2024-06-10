@@ -4,7 +4,7 @@
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">Name</div>
-                
+
                 <div class="num" title="{{localize "CHARAC.Strength"}}">{{localize "CHARAC.STR"}}</div>
                 <div class="num" title="{{localize "CHARAC.Constitution"}}">{{localize "CHARAC.CON"}}</div>
                 <div class="num" title="{{localize "CHARAC.Size"}}">{{localize "CHARAC.SIZ"}}</div>
@@ -38,7 +38,7 @@
 
                 <div class="num">{{ actor.luck.value }}</div>
                 <div class="num">{{ actor.san.value }}</div>
-                
+
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
             </div>
             {{/each}}

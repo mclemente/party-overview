@@ -160,13 +160,13 @@ div.party-overview-window.demonlord .item.active {
 }
 
 div.party-overview-window.demonlord .table-row .text {
-    margin: auto;
-    flex-grow: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-left: 5px;
-    flex-basis: 50px;
+	margin: auto;
+	flex-grow: 1;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding-left: 5px;
+	flex-basis: 50px;
 }
 
 div.party-overview-window .table-row {

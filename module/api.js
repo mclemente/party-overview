@@ -98,7 +98,7 @@ export function initApi() {
 			break;
 		case "demonlord":
 			systemProviders.push(new demonlordProvider("native.demonlord"));
-			break;			
+			break;
 		default:
 			systemProviders.push(new SystemProvider("native"));
 			break;
