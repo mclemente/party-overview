@@ -40,12 +40,8 @@
 			"path": "lang/fi.json"
 		}
 	],
-	"esmodules": [
-		"party-overview.js"
-	],
-	"styles": [
-		"style/party-overview.css"
-	],
+	"esmodules": ["party-overview.js"],
+	"styles": ["style/party-overview.css"],
 	"url": "http://github.com/mclemente/party-overview",
 	"bugs": "http://github.com/mclemente/party-overview/issues",
 	"manifest": "https://github.com/mclemente/party-overview/releases/latest/download/module.json",
@@ -53,19 +49,11 @@
 	"authors": [
 		{
 			"name": "Matheus Clemente",
-			"discord": "mclemente#5524"
-		},
-		{
-			"name": "Sebastian Will",
-			"email": "vttassets@gmail.com"
-		},
-		{
-			"name": "Chris Wachal",
-			"discord": "Zamrod#9326"
+			"discord": "mclemente"
 		}
 	],
 	"compatibility": {
 		"minimum": "10",
-		"verified": "11"
+		"verified": "12"
 	}
 }

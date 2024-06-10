@@ -50,7 +50,7 @@ export class SystemProviderSettings extends FormApplication {
 	 * Default Options for this FormApplication
 	 */
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			id: "party-overview-form",
 			title: "Party Overview System Settings",
 			template: "./modules/party-overview/templates/SystemProviderSettings.hbs",

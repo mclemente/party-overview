@@ -95,7 +95,7 @@ class PartyOverviewApp extends Application {
 	}
 
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			width: currentSystemProvider.width,
 			height: "fit-content",
 			resizable: true,
