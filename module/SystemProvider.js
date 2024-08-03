@@ -908,8 +908,8 @@ export class pf2eProvider extends SystemProvider {
 	get tabs() {
 		return {
 			currencies: { id: "currencies", visible: true, localization: "party-overview.WEALTH" },
-			bulk: { id: "bulk", visible: true, localization: "PF2E.BulkShortLabel" },
-			languages: { id: "languages", visible: true, localization: "PF2E.Languages" },
+			bulk: { id: "bulk", visible: true, localization: "PF2E.Item.Physical.Bulk.Label" },
+			languages: { id: "languages", visible: true, localization: "PF2E.Actor.Creature.Language.Plural" },
 			lore: { id: "lore", visible: true, localization: "PF2E.Lore" },
 			proficiencies: { id: "skills", visible: true, localization: "PF2E.SkillsLabel" },
 		};

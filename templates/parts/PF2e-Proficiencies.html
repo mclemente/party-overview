@@ -13,10 +13,10 @@
 		{{/each}}
 	</div>
 
-	{{#each skills as | value key | }}
+	{{#each skills as | data key | }}
 		<div class="table-row">
 			<div></div>
-			<div class="text">{{localize value}}</div>
+			<div class="text">{{localize data.label}}</div>
 			{{#each (partyOverviewGetSkillList key ../actors)}}
 				<div class="num" style="flex: 1; {{#if this.rank}}color: white; background-color: {{this.color}}"title="{{this.rankName}}{{/if}}">
 					{{numberFormat this.value decimals=0 sign=true}}
