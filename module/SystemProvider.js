@@ -553,7 +553,7 @@ export class dnd5eProvider extends SystemProvider {
 			background: { id: "background", visible: true, localization: "DND5E.Background" },
 			saves: { id: "saves", visible: true, localization: "DND5E.ClassSaves" },
 			proficiencies: { id: "proficiencies", visible: true, localization: "party-overview.PROFICIENCIES" },
-			tools: { id: "tools", visible: true, localization: "ITEM.TypeToolPl" },
+			tools: { id: "tools", visible: true, localization: "TYPES.Item.toolPl" },
 		};
 	}
 
@@ -562,7 +562,7 @@ export class dnd5eProvider extends SystemProvider {
 	}
 
 	get width() {
-		if (game.settings.get("dnd5e", "disableExperienceTracking")) return 500;
+		if (game.settings.get("dnd5e", "levelingMode") == "noxp") return 500;
 		return 600;
 	}
 
@@ -773,7 +773,7 @@ export class dnd5eProvider extends SystemProvider {
 				languages: languages,
 				totalCurrency: totalCurrency,
 				totalPartyGP: totalPartyGP,
-				disableExperienceTracking: game.settings.get("dnd5e", "disableExperienceTracking"),
+				disableExperienceTracking: game.settings.get("dnd5e", "levelingMode") == "noxp",
 			},
 		];
 	}
