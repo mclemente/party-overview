@@ -924,9 +924,11 @@ export class pf2eProvider extends SystemProvider {
 	}
 
 	getLanguages(data) {
-		let langs = data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code]));
-		if (data.traits.languages.custom) {
-			for (let lang of data.traits.languages.custom.split(/[,;]/g)) {
+    const languages = data.details?.languages;
+    if (!languages) return [];
+		let langs = languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code]));
+		if (languages.details) {
+			for (let lang of languages.details.split(/[,;]/g)) {
 				langs.push(lang.trim());
 			}
 		}
@@ -948,10 +950,10 @@ export class pf2eProvider extends SystemProvider {
 		};
 		const proficiencyColors = {
 			0: "initial",
-			1: "#171f69",
-			2: "#3c005e",
-			3: "#640",
-			4: "#5e0000",
+			1: "#171f69", // --color-proficiency-trained
+			2: "#3c005e", // --color-proficiency-expert
+			3: "#664400", // --color-proficiency-master
+			4: "#5e0000", // --color-proficiency-legendary
 		};
 		const skills = {};
 		for (let skill in data.skills) {
@@ -986,7 +988,7 @@ export class pf2eProvider extends SystemProvider {
 			focus: data.resources?.focus || { value: 0, max: 0 },
 			armor: data.attributes.ac?.value || 0,
 			shieldAC: data.attributes.shield?.ac || 0,
-			perception: data.attributes.perception?.value || 0,
+			perception: data.perception?.value || 0,
 			// speed: actor.type === "vehicle" ? data.details.speed : data.attributes.speed?.value || 0,
 			skills: this.getSkills(data),
 			show: {
@@ -1002,7 +1004,7 @@ export class pf2eProvider extends SystemProvider {
 				reflex: data.saves?.reflex?.value || 0,
 				will: data.saves?.will?.value || 0,
 			},
-			languages: data.traits?.languages ? this.getLanguages(data) : [],
+			languages: this.getLanguages(data),
 			currency: currency,
 			itemsValue: itemsValue,
 			sumItemsGP: totalWealthInGold,
