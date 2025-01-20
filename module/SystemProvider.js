@@ -950,10 +950,10 @@ export class pf2eProvider extends SystemProvider {
 		};
 		const proficiencyColors = {
 			0: "initial",
-			1: "#171f69", // --color-proficiency-trained
-			2: "#3c005e", // --color-proficiency-expert
-			3: "#664400", // --color-proficiency-master
-			4: "#5e0000", // --color-proficiency-legendary
+			1: "var(--color-proficiency-trained)",
+			2: "var(--color-proficiency-expert)",
+			3: "var(--color-proficiency-master)",
+			4: "var(--color-proficiency-legendary)",
 		};
 		const skills = {};
 		for (let skill in data.skills) {
