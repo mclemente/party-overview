@@ -701,7 +701,7 @@ export class dnd5eProvider extends SystemProvider {
 			abilities: data.abilities,
 			armor: data.attributes.ac.value ? data.attributes.ac.value : 10, // TODO: replace "ac" for "armor" on .hbs
 			speed: this.getSpeed(data),
-			spellDC: data.attributes.spelldc,
+			spellDC: data.attributes.spell.dc,
 			// passive stuff
 			passives: {
 				perception: data.skills.prc.passive,

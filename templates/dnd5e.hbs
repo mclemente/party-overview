@@ -134,13 +134,13 @@
             {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
             <div class="text">{{ actor.shortestName }}</div>
             {{#each actor.abilities as | ability | }}
-            <div class="text" style="flex: 1">{{numberFormat ability.save decimals=0 sign=true}}</div>
+            <div class="num" style="flex: 1">{{ability.save.value}}</div>
             {{/each}}
         </div>
         {{/each}}
         </div>
 
-        <!-- Saving Throws -->
+        <!-- Tool Proficencies-- -->
         <div class="tab" data-tab="tools" data-group="party">
             <div class="table-row header">
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
