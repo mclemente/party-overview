@@ -924,8 +924,8 @@ export class pf2eProvider extends SystemProvider {
 	}
 
 	getLanguages(data) {
-    const languages = data.details?.languages;
-    if (!languages) return [];
+		const languages = data.details?.languages;
+		if (!languages) return [];
 		let langs = languages.value.map((code) => game.i18n.localize(CONFIG.PF2E.languages[code]));
 		if (languages.details) {
 			for (let lang of languages.details.split(/[,;]/g)) {
@@ -1663,7 +1663,7 @@ export class wfrp4eProvider extends SystemProvider {
 	}
 
 	getCurrency(actor) {
-		const money = actor.getItemTypes("money").map((m) => m.toObject());
+		const money = actor.itemTypes["money"].map((m) => m.toObject());
 		const currency = {
 			bp: money.find((i) => i.name === game.i18n.localize("NAME.BP")).system.quantity.value,
 			ss: money.find((i) => i.name === game.i18n.localize("NAME.SS")).system.quantity.value,
@@ -1675,8 +1675,7 @@ export class wfrp4eProvider extends SystemProvider {
 	}
 	getTalents(actor) {
 		let talents = [];
-		actor
-			.getItemTypes("talent")
+		actor.itemTypes["talent"]
 			.map((talent) => ({
 				name: talent.name,
 				test: talent.system.tests.value,
@@ -1700,8 +1699,7 @@ export class wfrp4eProvider extends SystemProvider {
 		return talents;
 	}
 	getSkills(actor) {
-		let skills = actor
-			.getItemTypes("skill")
+		let skills = actor.itemTypes["skill"]
 			.filter((skill) => skill.system.advances.value > 0)
 			.map((skill) => ({
 				name: skill.name,
@@ -1731,7 +1729,7 @@ export class wfrp4eProvider extends SystemProvider {
 		};
 	}
 	getWeapons(actor) {
-		let weapons = actor.getItemTypes("weapon").map((weapon) => ({
+		let weapons = actor.itemTypes["weapon"].map((weapon) => ({
 			name: weapon.name,
 			category: WFRP4E.weaponGroups[weapon.system.weaponGroup.value],
 		}));
