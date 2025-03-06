@@ -449,8 +449,8 @@ export class dnd35eProvider extends SystemProvider {
 export class dnd4eProvider extends SystemProvider {
 	get tabs() {
 		return {
-			currencies: { id: "currencies", visible: true, localization: "DND4EBETA.Currency" },
-			languages: { id: "languages", visible: true, localization: "DND4EBETA.Languages" },
+			currencies: { id: "currencies", visible: true, localization: "DND4E.Currency" },
+			languages: { id: "languages", visible: true, localization: "DND4E.Languages" },
 		};
 	}
 
