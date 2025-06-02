@@ -110,6 +110,20 @@ export class archmageProvider extends SystemProvider {
 	}
 
 	getIcons(icons) {
+		const is2e = game.settings.get("archmage", "secondEdition");
+		const is2eAlt = game.settings.get("archmage", "alternateIconRollingMethod");
+		const resultCharacters = {
+			5: "5",
+			6: "6",
+		};
+		if (is2eAlt) {
+			delete resultCharacters[5];
+			resultCharacters[6] = "⨉";
+		} else if (is2e) {
+			resultCharacters[5] = "~";
+			resultCharacters[6] = "+";
+		}
+
 		const relationships = {
 			Positive: "+",
 			Negative: "-",
@@ -122,7 +136,7 @@ export class archmageProvider extends SystemProvider {
 				iconFilter[icons[icon].name.value] = {
 					bonus: icons[icon].bonus.value,
 					relationship: relationships[icons[icon].relationship.value],
-					results: icons[icon].results,
+					results: icons[icon].results.map(x => resultCharacters[x] || ''),
 				};
 			});
 		return iconFilter;
