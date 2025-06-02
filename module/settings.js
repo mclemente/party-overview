@@ -158,8 +158,8 @@ export class SystemProviderSettings extends FormApplication {
 				const name = element.replace("tabs.", "");
 				if (!tabs[name]) {
 					tabs[name] = {
-						id: currentSystemProvider.tabs[tab].id,
-						localization: currentSystemProvider.tabs[tab].localization,
+						id: currentSystemProvider.tabs[name].id,
+						localization: currentSystemProvider.tabs[name].localization,
 						visible: formData[element],
 					};
 				} else tabs[name].visible = formData[element];

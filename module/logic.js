@@ -60,7 +60,7 @@ class PartyOverviewApp extends Application {
 		let updates;
 		[actors, updates] = currentSystemProvider.getUpdate(actors);
 
-		let tabs = game.settings.get("party-overview", "tabVisibility");
+		const tabs = foundry.utils.deepClone(game.settings.get("party-overview", "tabVisibility"));
 		if (Object.keys(tabs).length != Object.keys(currentSystemProvider.tabs).length) {
 			for (let tab in currentSystemProvider.tabs) {
 				if (!tabs[tab]) {
