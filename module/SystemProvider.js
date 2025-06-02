@@ -477,7 +477,7 @@ export class dnd4eProvider extends SystemProvider {
 	}
 
 	getTotalGP(currency) {
-		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 10 + currency.ad * 1000;
+		return currency.cp / 100 + currency.sp / 10 + currency.gp + currency.pp * 100 + currency.ad * 10000;
 	}
 
 	getActorDetails(actor) {
