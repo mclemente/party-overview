@@ -857,7 +857,7 @@ export class pf1Provider extends SystemProvider {
 
 	getUpdate(actors) {
 		let languages = actors
-			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+			.reduce((languages, actor) => [...new Set(languages.concat(Array.from(actor.languages)))], [])
 			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
@@ -878,7 +878,7 @@ export class pf1Provider extends SystemProvider {
 		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+				languages: languages.map((language) => actor.languages?.includes(language)),
 			};
 		});
 
