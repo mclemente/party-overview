@@ -6,13 +6,13 @@
                 {{> "modules/party-overview/templates/parts/FilterButton.html"}}
                 <div class="text">{{localize "party-overview.NAME"}}</div>
                 <div class="num" title="{{localize "DND4E.Health"}}"><i class="fas fa-heart"></i></div>
+		<div class="num" title="{{localize "DND4E.HealingSurges"}}"><i class="fas fa-medkit"></i></div>
                 <div class="num" title="{{localize "DND4E.armourClass"}}"><i class="fas fa-shield-alt"></i></div>
-                <div class="num" title="{{localize "DND4E.HealingSurges"}}"><i class="fas fa-medkit"></i></div>
-                <div class="num" title="{{localize "DND4E.PasPer"}}"><i class="far fa-eye"></i></div>
-                <div class="num" title="{{localize "DND4E.PasIns"}}"><i class="far fa-lightbulb"></i></div>
-                <div class="num" title="{{localize "DND4E.DefenceFort"}}"><i class="fas fa-hard-hat"></i></div>
+		<div class="num" title="{{localize "DND4E.DefenceFort"}}"><i class="fas fa-hard-hat"></i></div>
                 <div class="num" title="{{localize "DND4E.DefenceRef"}}"><i class="fas fa-running"></i></div>
                 <div class="num" title="{{localize "DND4E.DefenceWil"}}"><i class="fas fa-brain"></i></div>
+                <div class="num" title="{{localize "DND4E.PasPer"}}"><i class="far fa-eye"></i></div>
+                <div class="num" title="{{localize "DND4E.PasIns"}}"><i class="far fa-lightbulb"></i></div>
             </div>
 
             {{#each actors as | actor | }}
@@ -20,13 +20,13 @@
                 {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
                 <div class="text">{{ actor.shortestName }}</div>
                 <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+		<div class="num">{{ actor.surges.value }}/{{ actor.surges.max }} </div>
                 <div class="num">{{ actor.defenses.ac.value }} </div>
-                <div class="num">{{ actor.surges.value }}/{{ actor.surges.max }} </div>
-                <div class="num">{{numberFormat actor.passive.pasprc.value decimals=0 sign=true}}</div>
-                <div class="num">{{numberFormat actor.passive.pasins.value decimals=0 sign=true}}</div>
-                <div class="num">{{numberFormat actor.defenses.fort.value decimals=0 sign=true}}</div>
-                <div class="num">{{numberFormat actor.defenses.ref.value decimals=0 sign=true}}</div>
-                <div class="num">{{numberFormat actor.defenses.wil.value decimals=0 sign=true}}</div>
+	        <div class="num">{{ actor.defenses.fort.value }}</div>
+                <div class="num">{{ actor.defenses.ref.value }}</div>
+                <div class="num">{{ actor.defenses.wil.value }}</div>
+                <div class="num">{{ actor.passive.pasprc.value }}</div>
+                <div class="num">{{ actor.passive.pasins.value }}</div>
             </div>
             {{/each}}
         </div>
