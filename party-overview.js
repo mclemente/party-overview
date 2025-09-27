@@ -53,13 +53,17 @@ Hooks.on("ready", () => {
 
 Hooks.on("renderActorDirectory", (app, html, data) => {
 	if (!game.user.isGM && !game.settings.get("party-overview", "EnablePlayerAccess")) return;
+	if (html.querySelector(".party-overview-button")) return;
 
-	let button = $(`<button class="party-overview-button ${currentSystemProvider.customCSS}"><i class="fas fa-users"></i> Party Overview</button>`);
-	button.on("click", (e) => {
-		game.partyOverview.render(true);
-	});
+	const button = document.createElement("button");
+	button.className = `party-overview-button ${currentSystemProvider.customCSS}`;
+	button.innerHTML = `<i class="fas fa-users"></i> Party Overview`;
 
-	$(html).find(".header-actions").prepend(button);
+	button.addEventListener("click", (e) => game.partyOverview.render(true));
+
+	// assuming `html` is a jQuery object, you’ll want its raw element:
+	const container = html.querySelector(".header-actions");
+	if (container) container.prepend(button);
 });
 
 Hooks.on("updateActor", (actor, data, options, userId) => {
