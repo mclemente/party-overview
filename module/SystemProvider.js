@@ -804,7 +804,7 @@ export class pf1Provider extends SystemProvider {
 		return {
 			currencies: { id: "currencies", visible: true, localization: "party-overview.WEALTH" },
 			languages: { id: "languages", visible: true, localization: "PF1.Languages" },
-			lore: { id: "lore", visible: true, localization: "PF1.KnowledgeSkills" },
+			lore: { id: "lore", visible: true, localization: "party-overview.PF1.Knowledge" },
 		};
 	}
 
@@ -847,7 +847,7 @@ export class pf1Provider extends SystemProvider {
 				reflex: data.attributes.savingThrows.ref.total,
 				will: data.attributes.savingThrows.will.total,
 			},
-			languages: data.traits.languages ? data.traits.languages.value.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : [],
+			languages: data.traits.languages ? data.traits.languages.standard.map((code) => game.i18n.localize(CONFIG.PF1.languages[code])) : new Set(),
 			currency: currency,
 
 			knowledge: this.getKnowledge(actor.system.skills),
@@ -857,7 +857,7 @@ export class pf1Provider extends SystemProvider {
 
 	getUpdate(actors) {
 		let languages = actors
-			.reduce((languages, actor) => [...new Set(languages.concat(actor.languages))], [])
+			.reduce((languages, actor) => [...languages, ...actor.languages], [])
 			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
@@ -878,7 +878,7 @@ export class pf1Provider extends SystemProvider {
 		actors = actors.map((actor) => {
 			return {
 				...actor,
-				languages: languages.map((language) => actor.languages && actor.languages.includes(language)),
+				languages: languages.map((language) => actor.languages && actor.languages.has(language)),
 			};
 		});
 

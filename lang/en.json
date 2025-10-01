@@ -47,7 +47,7 @@
 		"DemonLord": {
 			"LanguagesSpoken" : "Languages Spoken",
 			"LanguagesScript" : "Languages Script"
-		},		
+		},
 		"cof": {
 			"attributes": {
 				"melee": {
@@ -68,6 +68,9 @@
 					"abbrev": "Lvl"
 				}
 			}
+		},
+		"PF1": {
+			"Knowledge": "Knowledge"
 		}
 	}
 }
