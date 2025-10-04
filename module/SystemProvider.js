@@ -856,8 +856,7 @@ export class pf1Provider extends SystemProvider {
 	}
 
 	getUpdate(actors) {
-		let languages = actors
-			.reduce((languages, actor) => [...languages, ...actor.languages], [])
+		let languages = [...new Set(actors.flatMap(actor => [...actor.languages]))]
 			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
