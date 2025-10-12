@@ -264,6 +264,68 @@ export class dccProvider extends SystemProvider {
 	}
 }
 
+export class dragonbaneProvider extends SystemProvider {
+  get customCSS() {
+    return "dragonbane";
+  }
+
+  get template() {
+    return "/modules/party-overview/templates/dragonbane.hbs";
+  }
+
+  get width() {
+    return 700;
+  }
+
+  getActorDetails(actor) {
+    const data = actor.system;
+
+    return {
+      id: actor.id,
+      name: actor.name,
+      hp: {
+        value: data.hitPoints.value,
+        max: data.hitPoints.max,
+      },
+      wp: {
+        value: data.willPoints.value,
+        max: data.willPoints.max,
+      },
+      attributes: {
+        str: {
+          value: data.attributes.str.value,
+          exhausted: data.conditions?.str?.value || false,
+        },
+        con: {
+          value: data.attributes.con.value,
+          sickly: data.conditions?.con?.value || false,
+        },
+        agl: {
+          value: data.attributes.agl.value,
+          dazed: data.conditions?.agl?.value || false,
+        },
+        int: {
+          value: data.attributes.int.value,
+          angry: data.conditions?.int?.value || false,
+        },
+        wil: {
+          value: data.attributes.wil.value,
+          scared: data.conditions?.wil?.value || false,
+        },
+        cha: {
+          value: data.attributes.cha.value,
+          disheartened: data.conditions?.cha?.value || false,
+        },
+      },
+      movement: data.movement.value,
+      encumbrance: {
+        value: data.encumbrance?.value ?? 0,
+        max: data.maxEncumbrance?.value ?? 0,
+      },
+    };
+  }
+}
+
 export class demonlordProvider extends SystemProvider {
 	get template() {
 		return "/modules/party-overview/templates/demonlord.hbs";
