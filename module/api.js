@@ -1,5 +1,5 @@
 // prettier-ignore
-import { CoC7Provider, demonlordProvider, GURPSProvider, SystemProvider, archmageProvider, bitdProvider, cofSystemProvider, cyphersystemProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider, scumAndVillainyProvider, sfrpgProvider, shinobigamiProvider, swadeProvider, tormenta20Provider, wfrp4eProvider } from "./SystemProvider.js";
+import { CoC7Provider, demonlordProvider, dragonbaneProvider, GURPSProvider, SystemProvider, archmageProvider, bitdProvider, cofSystemProvider, cyphersystemProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider, scumAndVillainyProvider, sfrpgProvider, shinobigamiProvider, swadeProvider, tormenta20Provider, wfrp4eProvider } from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -51,6 +51,9 @@ export function initApi() {
 		case "dcc":
 			systemProviders.push(new dccProvider("native.dcc"));
 			break;
+		case "dragonbane":
+      		systemProviders.push(new dragonbaneProvider("native.dragonbane"));
+      		break;
 		case "D35E":
 			systemProviders.push(new dnd35eProvider("native.D35E"));
 			break;

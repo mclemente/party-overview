@@ -1,0 +1,37 @@
+<div>
+    <section class="content">
+        <div class="tab" data-group="party">
+            <div class="table-row header">
+                {{> "modules/party-overview/templates/parts/FilterButton.html"}}
+                <div class="text">{{localize "party-overview.NAME"}}</div>
+                <div class="num" title="{{localize "DoD.ui.character-sheet.hp"}}"><i class="fas fa-heart"></i></div>
+                <div class="num" title="{{localize "DoD.ui.character-sheet.wp"}}"><i class="fas fa-brain"></i></div>
+                <div class="num">{{localize "DoD.attributes.str"}}</div>
+                <div class="num">{{localize "DoD.attributes.con"}}</div>
+                <div class="num">{{localize "DoD.attributes.agl"}}</div>
+                <div class="num">{{localize "DoD.attributes.int"}}</div>
+                <div class="num">{{localize "DoD.attributes.wil"}}</div>
+                <div class="num">{{localize "DoD.attributes.cha"}}</div>
+                <div class="num" title="{{localize "DoD.ui.character-sheet.movement"}}"><i class="fas fa-running"></i></div>
+                <div class="num" title="{{localize "DoD.ui.character-sheet.encumbrance"}}"><i class="fas fa-anchor"></i></div>
+            </div>
+
+            {{#each actors as | actor | }}
+            <div class="table-row">
+                {{> "modules/party-overview/templates/parts/ToggleVisibilityButton.html" actor=actor}}
+                <div class="text">{{ actor.shortestName }}</div>
+                <div class="num">{{ actor.hp.value }}/{{ actor.hp.max }}</div>
+                <div class="num">{{ actor.wp.value }}/{{ actor.wp.max }}</div>
+                <div class="num {{#if actor.attributes.str.exhausted}}condition-active{{/if}}">{{ actor.attributes.str.value }}</div>
+                <div class="num {{#if actor.attributes.con.sickly}}condition-active{{/if}}">{{ actor.attributes.con.value }}</div>
+                <div class="num {{#if actor.attributes.agl.dazed}}condition-active{{/if}}">{{ actor.attributes.agl.value }}</div>
+                <div class="num {{#if actor.attributes.int.angry}}condition-active{{/if}}">{{ actor.attributes.int.value }}</div>
+                <div class="num {{#if actor.attributes.wil.scared}}condition-active{{/if}}">{{ actor.attributes.wil.value }}</div>
+                <div class="num {{#if actor.attributes.cha.disheartened}}condition-active{{/if}}">{{ actor.attributes.cha.value }}</div>
+                <div class="num">{{ actor.movement }}</div>
+                <div class="num">{{ actor.encumbrance.value }}/{{ actor.encumbrance.max }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+</div>
