@@ -169,6 +169,10 @@ div.party-overview-window.demonlord .table-row .text {
 	flex-basis: 50px;
 }
 
+.dragonbane .condition-active {
+	color: #cc0000 !important;
+}
+
 div.party-overview-window .table-row {
 	border-bottom: 1px solid rgb(190, 190, 190);
 	border-collapse: collapse;
