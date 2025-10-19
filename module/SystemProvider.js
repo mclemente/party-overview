@@ -563,11 +563,11 @@ export class dnd4eProvider extends SystemProvider {
 
 	getUpdate(actors) {
 		let script = actors
-			.reduce((script, actor) => [...new Set(script.concat(actor.script))], [])
+			.reduce((script, actor) => [...new Set(script).union(actor.script)], [])
 			.filter((language) => language !== undefined)
 			.sort();
 		let spoken = actors
-			.reduce((spoken, actor) => [...new Set(spoken.concat(actor.spoken))], [])
+			.reduce((spoken, actor) => [...new Set(spoken).union(actor.spoken)], [])
 			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
@@ -589,8 +589,8 @@ export class dnd4eProvider extends SystemProvider {
 		actors = actors.map((actor) => {
 			return {
 				...actor,
-				script: script.map((script) => actor.script && actor.script.includes(script)),
-				spoken: spoken.map((spoken) => actor.spoken && actor.spoken.includes(spoken)),
+				script: script.map((script) => actor.script && actor.script.has(script)),
+				spoken: spoken.map((spoken) => actor.spoken && actor.spoken.has(spoken)),
 			};
 		});
 
