@@ -37,7 +37,7 @@ Hooks.once("init", () => {
 			precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 		});
 	}
-	return loadTemplates([
+	return foundry.appplications.handlebars.loadTemplates([
 		"modules/party-overview/templates/parts/Tabs.html",
 		"modules/party-overview/templates/parts/FilterButton.html",
 		"modules/party-overview/templates/parts/ToggleVisibilityButton.html",
