@@ -2,7 +2,7 @@ name: Release Creation
 
 env:
   package_type: module
-  node_version: 22
+  node_version: 24
 
 on:
   release:
@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     # Substitute the Manifest and Download URLs in the module.json
     - name: Substitute Manifest and Download Links For Versioned Ones
