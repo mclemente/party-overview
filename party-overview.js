@@ -37,7 +37,7 @@ Hooks.once("init", () => {
 			precedence: CONST.KEYBINDING_PRECEDENCE.NORMAL,
 		});
 	}
-	return foundry.appplications.handlebars.loadTemplates([
+	return foundry.applications.handlebars.loadTemplates([
 		"modules/party-overview/templates/parts/Tabs.html",
 		"modules/party-overview/templates/parts/FilterButton.html",
 		"modules/party-overview/templates/parts/ToggleVisibilityButton.html",
@@ -57,7 +57,7 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 
 	const button = document.createElement("button");
 	button.className = `party-overview-button ${currentSystemProvider.customCSS}`;
-	button.innerHTML = `<i class="fas fa-users"></i> Party Overview`;
+	button.innerHTML = `<i class="fas fa-users"></i> ${game.i18n.localize("party-overview.Party")}`;
 
 	button.addEventListener("click", (e) => game.partyOverview.render(true));
 

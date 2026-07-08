@@ -216,9 +216,6 @@ div.party-overview-window.wfrp4e .table-row:nth-child(2n) {
 button.party-overview-button.wfrp4e {
 	min-width: max-content;
 }
-button.party-overview-button:not(.wfrp4e) {
-	flex-basis: 100%;
-}
 
 .party-overview-window.archmage .proficiencies.tab .header .num,
 .party-overview-window.dnd5e .proficiencies.tab .header .num,
