@@ -16,7 +16,6 @@ class PartyOverviewApp extends Application {
 		this.state = {};
 		this.displayMode = game.user.getFlag("party-overview", "displayMode") ?? 4;
 		this.activeTab = "general";
-		this.rendering = false;
 	}
 
 	update() {
@@ -156,16 +155,6 @@ class PartyOverviewApp extends Application {
 		);
 
 		super.activateListeners(html);
-	}
-
-	render(force, options) {
-		this.rendering = true;
-		super.render(force, options);
-	}
-
-	close() {
-		this.rendering = false;
-		super.close();
 	}
 }
 

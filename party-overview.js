@@ -30,7 +30,7 @@ Hooks.once("init", () => {
 			name: game.i18n.localize("party-overview.keybinds.toggle.name"),
 			hint: game.i18n.localize("party-overview.keybinds.toggle.hint"),
 			onDown: () => {
-				if (!game.partyOverview.rendering) game.partyOverview.render(true);
+				if (!game.partyOverview.rendered) game.partyOverview.render(true);
 				else game.partyOverview.close();
 			},
 			onUp: () => {},
@@ -67,37 +67,37 @@ Hooks.on("renderActorDirectory", (app, html, data) => {
 });
 
 Hooks.on("updateActor", (actor, data, options, userId) => {
-	if (game.partyOverview.rendering && actor.hasPlayerOwner) {
+	if (game.partyOverview.rendered && actor.hasPlayerOwner) {
 		game.partyOverview.render(false);
 	}
 });
 
 Hooks.on("updateToken", (token, data, options, userId) => {
-	if (game.partyOverview.rendering && token.actor?.hasPlayerOwner) {
+	if (game.partyOverview.rendered && token.actor?.hasPlayerOwner) {
 		game.partyOverview.render(false);
 	}
 });
 
 Hooks.on("createToken", (token, options, userId) => {
-	if (game.partyOverview.rendering && game.actors.contents.find((actor) => actor.id === token.actor.id).hasPlayerOwner) {
+	if (game.partyOverview.rendered && game.actors.contents.find((actor) => actor.id === token.actor.id).hasPlayerOwner) {
 		game.partyOverview.render(false);
 	}
 });
 
 Hooks.on("deleteActor", (actor, options, userId) => {
-	if (game.partyOverview.rendering && actor.hasPlayerOwner) {
+	if (game.partyOverview.rendered && actor.hasPlayerOwner) {
 		game.partyOverview.render(false);
 	}
 });
 
 Hooks.on("deleteToken", (token, options, userId) => {
-	if (game.partyOverview.rendering && token.actor?.hasPlayerOwner) {
+	if (game.partyOverview.rendered && token.actor?.hasPlayerOwner) {
 		game.partyOverview.render(false);
 	}
 });
 
 Hooks.on("canvasInit", (canvas) => {
-	if (game.partyOverview?.rendering) {
+	if (game.partyOverview?.rendered) {
 		// what a hack! the hook is fired when the scene switch is not yet activated, so we need
 		// to wait a tiny bit. The combat tracker is rendered last, so the scene should be available
 		Hooks.once("renderCombatTracker", (app, html, data) => {
