@@ -41,26 +41,44 @@ export function registerApiSettings() {
 	});
 }
 
-export class SystemProviderSettings extends FormApplication {
-	constructor(object, options = {}) {
-		super(object, options);
-	}
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-	/**
-	 * Default Options for this FormApplication
-	 */
-	static get defaultOptions() {
-		return foundry.utils.mergeObject(super.defaultOptions, {
-			id: "party-overview-form",
-			title: "Party Overview System Settings",
-			template: "./modules/party-overview/templates/SystemProviderSettings.hbs",
-			classes: ["sheet"],
-			width: 600,
+export class SystemProviderSettings extends HandlebarsApplicationMixin(ApplicationV2) {
+	static DEFAULT_OPTIONS = {
+		classes: ["form"],
+		position: {
+			width: 600
+		},
+		form: {
+			handler: SystemProviderSettings.#onSubmit,
+			reset: SystemProviderSettings.reset,
 			closeOnSubmit: true,
-		});
+		},
+		tag: "form",
+		window: {
+			contentClasses: ["standard-form"],
+		},
+	};
+
+	static PARTS = {
+		form: { template: "modules/party-overview/templates/SystemProviderSettings.hbs" },
+		footer: {
+			template: "templates/generic/form-footer.hbs",
+		},
+	};
+
+	_getButtons() {
+		return [
+			{ type: "submit", icon: "fa-solid fa-save", label: "SETTINGS.Save" },
+			{ type: "reset", action: "reset", icon: "fa-solid fa-undo", label: "SETTINGS.Reset" },
+		];
 	}
 
-	getData(options) {
+	get title() {
+		return "Party Overview System Settings";
+	}
+
+	_prepareContext(options) {
 		const data = {};
 		const selectedProvider = currentSystemProvider.id;
 		// Insert all speed providers into the template data
@@ -133,16 +151,11 @@ export class SystemProviderSettings extends FormApplication {
 		return { data };
 	}
 
-	async activateListeners(html) {
-		super.activateListeners(html);
-		html.find("button").on("click", async (event) => {
-			if (event.currentTarget?.dataset?.action === "reset") {
-				game.settings.settings.get("party-overview.systemProvider").default = getDefaultSystemProvider();
-				await game.settings.set("party-overview", "tabVisibility", currentSystemProvider.tabs);
-				this.close();
-				SettingsConfig.reloadConfirm({ world: true });
-			}
-		});
+	static async reset() {
+		game.settings.settings.get("party-overview.systemProvider").default = getDefaultSystemProvider();
+		await game.settings.set("party-overview", "tabVisibility", currentSystemProvider.tabs);
+		await this.close();
+		SettingsConfig.reloadConfirm({ world: true });
 	}
 
 	/**
@@ -150,7 +163,7 @@ export class SystemProviderSettings extends FormApplication {
 	 * @param {Event} ev - the form submission event
 	 * @param {Object} formData - the form data
 	 */
-	async _updateObject(ev, formData) {
+	static async #onSubmit(ev, formData) {
 		game.settings.set("party-overview", "systemProvider", formData.systemProvider);
 		const tabs = game.settings.get("party-overview", "tabVisibility");
 		for (let element of Object.keys(formData)) {

@@ -38,6 +38,7 @@ Hooks.once("init", () => {
 		});
 	}
 	return foundry.applications.handlebars.loadTemplates([
+		"modules/party-overview/templates/SystemProviderSettings.hbs",
 		"modules/party-overview/templates/parts/Tabs.html",
 		"modules/party-overview/templates/parts/FilterButton.html",
 		"modules/party-overview/templates/parts/ToggleVisibilityButton.html",
