@@ -45,7 +45,7 @@ class PartyOverviewApp extends Application {
 		actors = actors.map((actor) => {
 			try {
 				var actorDetails = currentSystemProvider.getActorDetails(actor);
-			} catch (error) {
+			} catch(error) {
 				console.error(`Error: Couldn't load actor ${actor.name} (ID: ${actor.id})`, error);
 			}
 			return {

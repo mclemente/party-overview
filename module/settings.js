@@ -9,8 +9,8 @@ export function registerSettings() {
 		restricted: true,
 	});
 	game.settings.register("party-overview", "EnablePlayerAccess", {
-		name: game.i18n.localize(`party-overview.EnablePlayerAccess.Name`),
-		hint: game.i18n.localize(`party-overview.EnablePlayerAccess.Hint`),
+		name: game.i18n.localize("party-overview.EnablePlayerAccess.Name"),
+		hint: game.i18n.localize("party-overview.EnablePlayerAccess.Hint"),
 		scope: "world",
 		default: true,
 		config: true,
@@ -91,7 +91,7 @@ export class SystemProviderSettings extends HandlebarsApplicationMixin(Applicati
 			const id = provider.id.substring(dotPosition + 1);
 			if (type === "native") {
 				let title = id == game.system.id ? game.system.title : id;
-				provider.selectTitle = (game.i18n.localize("party-overview.SystemProvider.choices.native") + " " + title).trim();
+				provider.selectTitle = (`${game.i18n.localize("party-overview.SystemProvider.choices.native")} ${title}`).trim();
 			} else {
 				if (type === "module") {
 					var name = game.modules.get(id).title;

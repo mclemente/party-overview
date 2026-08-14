@@ -1,10 +1,11 @@
 {
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"lint": "eslint ./ --ext .js && eslint ./module --ext .js"
+		"lint": "eslint --ext .js,.cjs,.mjs .",
+		"lint:fix": "eslint --ext .js,.cjs,.mjs --fix ."
 	},
 	"devDependencies": {
-		"eslint-config-prettier": "^8.5.0",
-		"eslint-plugin-prettier": "^4.2.1"
+		"@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
+		"eslint": "^8.57.1"
 	}
 }

@@ -1,5 +1,5 @@
 // prettier-ignore
-import { CoC7Provider, demonlordProvider, dragonbaneProvider, GURPSProvider, SystemProvider, archmageProvider, bitdProvider, cofSystemProvider, cyphersystemProvider, dccProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, pf1Provider, pf2eProvider, scumAndVillainyProvider, sfrpgProvider, shinobigamiProvider, swadeProvider, tormenta20Provider, wfrp4eProvider } from "./SystemProvider.js";
+import { archmageProvider, bitdProvider, CoC7Provider, cofSystemProvider, cyphersystemProvider, dccProvider, demonlordProvider, dnd35eProvider, dnd4eProvider, dnd5eProvider, dragonbaneProvider, GURPSProvider, pf1Provider, pf2eProvider, scumAndVillainyProvider, sfrpgProvider, shinobigamiProvider, swadeProvider, SystemProvider, tormenta20Provider, wfrp4eProvider } from "./SystemProvider.js";
 
 export const availableSystemProviders = {};
 export let currentSystemProvider = undefined;
@@ -52,8 +52,8 @@ export function initApi() {
 			systemProviders.push(new dccProvider("native.dcc"));
 			break;
 		case "dragonbane":
-      		systemProviders.push(new dragonbaneProvider("native.dragonbane"));
-      		break;
+			systemProviders.push(new dragonbaneProvider("native.dragonbane"));
+			break;
 		case "D35E":
 			systemProviders.push(new dnd35eProvider("native.D35E"));
 			break;
@@ -117,19 +117,19 @@ export function registerModule(moduleId, systemProvider) {
 	// If it doesn't the calling module did something wrong. Log a warning and ignore this module
 	if (!module) {
 		console.warn(
-			`Party Overview | A module tried to register with the id "${moduleId}". However no active module with this id was found.` +
-				"This api registration call was ignored. " +
-				"If you are the author of that module please check that the id passed to `registerModule` matches the id in your manifest exactly." +
-				"If this call was made form a game system instead of a module please use `registerSystem` instead."
+			`Party Overview | A module tried to register with the id "${moduleId}". However no active module with this id was found.`
+				+ "This api registration call was ignored. "
+				+ "If you are the author of that module please check that the id passed to `registerModule` matches the id in your manifest exactly."
+				+ "If this call was made form a game system instead of a module please use `registerSystem` instead."
 		);
 		return;
 	}
 	// Using party-overview's id is not allowed
 	if (moduleId === "party-overview") {
 		console.warn(
-			`Party Overview | A module tried to register with the id "${moduleId}", which is not allowed. This api registration call was ignored. ` +
-				"If you're the author of the module please use the id of your own module as it's specified in your manifest to register to this api. " +
-				"If this call was made form a game system instead of a module please use `registerSystem` instead."
+			`Party Overview | A module tried to register with the id "${moduleId}", which is not allowed. This api registration call was ignored. `
+				+ "If you're the author of the module please use the id of your own module as it's specified in your manifest to register to this api. "
+				+ "If this call was made form a game system instead of a module please use `registerSystem` instead."
 		);
 		return;
 	}
@@ -142,10 +142,10 @@ export function registerSystem(systemId, systemProvider) {
 	// If the current system id doesn't match the provided id something went wrong. Log a warning and ignore this module
 	if (system.id != systemId) {
 		console.warn(
-			`Party Overview | A system tried to register with the id "${systemId}". However the active system has a different id.` +
-				"This api registration call was ignored. " +
-				"If you are the author of that system please check that the id passed to `registerSystem` matches the id in your manifest exactly." +
-				"If this call was made form a module instead of a game system please use `registerModule` instead."
+			`Party Overview | A system tried to register with the id "${systemId}". However the active system has a different id.`
+				+ "This api registration call was ignored. "
+				+ "If you are the author of that system please check that the id passed to `registerSystem` matches the id in your manifest exactly."
+				+ "If this call was made form a module instead of a game system please use `registerModule` instead."
 		);
 		return;
 	}

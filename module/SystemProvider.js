@@ -136,7 +136,7 @@ export class archmageProvider extends SystemProvider {
 				iconFilter[icons[icon].name.value] = {
 					bonus: icons[icon].bonus.value,
 					relationship: relationships[icons[icon].relationship.value],
-					results: icons[icon].results.map(x => resultCharacters[x] || ''),
+					results: icons[icon].results.map((x) => resultCharacters[x] || ""),
 				};
 			});
 		return iconFilter;
@@ -265,65 +265,65 @@ export class dccProvider extends SystemProvider {
 }
 
 export class dragonbaneProvider extends SystemProvider {
-  get customCSS() {
-    return "dragonbane";
-  }
+	get customCSS() {
+		return "dragonbane";
+	}
 
-  get template() {
-    return "/modules/party-overview/templates/dragonbane.hbs";
-  }
+	get template() {
+		return "/modules/party-overview/templates/dragonbane.hbs";
+	}
 
-  get width() {
-    return 700;
-  }
+	get width() {
+		return 700;
+	}
 
-  getActorDetails(actor) {
-    const data = actor.system;
+	getActorDetails(actor) {
+		const data = actor.system;
 
-    return {
-      id: actor.id,
-      name: actor.name,
-      hp: {
-        value: data.hitPoints.value,
-        max: data.hitPoints.max,
-      },
-      wp: {
-        value: data.willPoints.value,
-        max: data.willPoints.max,
-      },
-      attributes: {
-        str: {
-          value: data.attributes.str.value,
-          exhausted: data.conditions?.str?.value || false,
-        },
-        con: {
-          value: data.attributes.con.value,
-          sickly: data.conditions?.con?.value || false,
-        },
-        agl: {
-          value: data.attributes.agl.value,
-          dazed: data.conditions?.agl?.value || false,
-        },
-        int: {
-          value: data.attributes.int.value,
-          angry: data.conditions?.int?.value || false,
-        },
-        wil: {
-          value: data.attributes.wil.value,
-          scared: data.conditions?.wil?.value || false,
-        },
-        cha: {
-          value: data.attributes.cha.value,
-          disheartened: data.conditions?.cha?.value || false,
-        },
-      },
-      movement: data.movement.value,
-      encumbrance: {
-        value: data.encumbrance?.value ?? 0,
-        max: data.maxEncumbrance?.value ?? 0,
-      },
-    };
-  }
+		return {
+			id: actor.id,
+			name: actor.name,
+			hp: {
+				value: data.hitPoints.value,
+				max: data.hitPoints.max,
+			},
+			wp: {
+				value: data.willPoints.value,
+				max: data.willPoints.max,
+			},
+			attributes: {
+				str: {
+					value: data.attributes.str.value,
+					exhausted: data.conditions?.str?.value || false,
+				},
+				con: {
+					value: data.attributes.con.value,
+					sickly: data.conditions?.con?.value || false,
+				},
+				agl: {
+					value: data.attributes.agl.value,
+					dazed: data.conditions?.agl?.value || false,
+				},
+				int: {
+					value: data.attributes.int.value,
+					angry: data.conditions?.int?.value || false,
+				},
+				wil: {
+					value: data.attributes.wil.value,
+					scared: data.conditions?.wil?.value || false,
+				},
+				cha: {
+					value: data.attributes.cha.value,
+					disheartened: data.conditions?.cha?.value || false,
+				},
+			},
+			movement: data.movement.value,
+			encumbrance: {
+				value: data.encumbrance?.value ?? 0,
+				max: data.maxEncumbrance?.value ?? 0,
+			},
+		};
+	}
 }
 
 export class demonlordProvider extends SystemProvider {
@@ -345,7 +345,7 @@ export class demonlordProvider extends SystemProvider {
 	}
 
 	getTotalGC(wealth) {
-		return (wealth.bits / 1000 + wealth.cp / 100 + wealth.ss / 10 + wealth.gc * 1).toFixed(2);
+		return (wealth.bits / 1000 + wealth.cp / 100 + wealth.ss / 10 + Number(wealth.gc)).toFixed(2);
 	}
 
 	getLanguages(actor, skill) {
@@ -666,6 +666,7 @@ export class dnd5eProvider extends SystemProvider {
 		}
 		return langs;
 	}
+
 	getHitPoints(data) {
 		const hp = data.attributes.hp;
 		const value = parseInt(hp.value);
@@ -682,6 +683,7 @@ export class dnd5eProvider extends SystemProvider {
 			totalMaxValue: max + tempMaxValue,
 		};
 	}
+
 	getSkills(data) {
 		const icons = {
 			0: "far fa-circle",
@@ -699,6 +701,7 @@ export class dnd5eProvider extends SystemProvider {
 		}
 		return skills;
 	}
+
 	getSpeed(data) {
 		const move = data.attributes.movement;
 		let extra = [];
@@ -713,6 +716,7 @@ export class dnd5eProvider extends SystemProvider {
 
 		return str;
 	}
+
 	getTools(data) {
 		function getBaseItem(identifier) {
 			let pack = CONFIG.DND5E.sourcePacks.ITEMS;
@@ -764,7 +768,7 @@ export class dnd5eProvider extends SystemProvider {
 	}
 
 	htmlDecode(input) {
-		var doc = new DOMParser().parseFromString(input, "text/html");
+		let doc = new DOMParser().parseFromString(input, "text/html");
 		return doc.documentElement.textContent;
 	}
 
@@ -789,11 +793,11 @@ export class dnd5eProvider extends SystemProvider {
 			// background
 			background: Object.prototype.hasOwnProperty.call(data.details, "trait")
 				? {
-						trait: this.htmlDecode(data.details.trait),
-						ideal: this.htmlDecode(data.details.ideal),
-						bond: this.htmlDecode(data.details.bond),
-						flaw: this.htmlDecode(data.details.flaw),
-				  }
+					trait: this.htmlDecode(data.details.trait),
+					ideal: this.htmlDecode(data.details.ideal),
+					bond: this.htmlDecode(data.details.bond),
+					flaw: this.htmlDecode(data.details.flaw),
+				}
 				: {},
 			// Proficiencies
 			skills: this.getSkills(data),
@@ -918,7 +922,7 @@ export class pf1Provider extends SystemProvider {
 	}
 
 	getUpdate(actors) {
-		let languages = [...new Set(actors.flatMap(actor => [...actor.languages]))]
+		let languages = [...new Set(actors.flatMap((actor) => [...actor.languages]))]
 			.filter((language) => language !== undefined)
 			.sort();
 		let totalCurrency = actors.reduce(
@@ -1346,10 +1350,9 @@ export class tormenta20Provider extends SystemProvider {
 		super(id);
 		Handlebars.registerHelper("partyOverviewGetSkillList", function (skill, actors, opt) {
 			return actors.map((actor) => {
-				if (!isNaN(actor.pericias[skill]?.value))
-					return {
-						...actor.pericias[skill],
-					};
+				if (!isNaN(actor.pericias[skill]?.value)) return {
+					...actor.pericias[skill],
+				};
 				return {};
 			});
 		});
@@ -1387,6 +1390,7 @@ export class tormenta20Provider extends SystemProvider {
 			totalMaxValue: max + tempMaxValue,
 		};
 	}
+
 	getManaPoints(data) {
 		const hp = data.attributes.pm;
 		const value = parseInt(hp.value);
@@ -1403,6 +1407,7 @@ export class tormenta20Provider extends SystemProvider {
 			totalMaxValue: max + tempMaxValue,
 		};
 	}
+
 	getPericias(data) {
 		let pericias = foundry.utils.deepClone(data.pericias);
 		for (let pericia in pericias) {
@@ -1412,6 +1417,7 @@ export class tormenta20Provider extends SystemProvider {
 		}
 		return pericias;
 	}
+
 	getSpeed(data) {
 		const move = data.attributes.movement;
 		let extra = [];
@@ -1433,7 +1439,7 @@ export class tormenta20Provider extends SystemProvider {
 	}
 
 	htmlDecode(input) {
-		var doc = new DOMParser().parseFromString(input, "text/html");
+		let doc = new DOMParser().parseFromString(input, "text/html");
 		return doc.documentElement.textContent;
 	}
 
@@ -1619,6 +1625,7 @@ export class cofSystemProvider extends SystemProvider {
 	get width() {
 		return 600;
 	}
+
 	getActorDetails(actor) {
 		const data = actor.system;
 		return {
@@ -1632,9 +1639,9 @@ export class cofSystemProvider extends SystemProvider {
 			size: data.details.size,
 			level: data.level?.value ?? "not found",
 
-			// xp           : data.xp.value??"not found",
-			// xp_label     : game.i18n.localize("COF.attributes.xp.label"),
-			// xp_abbrev    : game.i18n.localize("COF.attributes.xp.abbrev"),
+			// xp					 : data.xp.value??"not found",
+			// xp_label		 : game.i18n.localize("COF.attributes.xp.label"),
+			// xp_abbrev		: game.i18n.localize("COF.attributes.xp.abbrev"),
 
 			// tab "stats
 			hp: data.attributes?.hp ?? "not found",
@@ -1684,6 +1691,7 @@ export class shinobigamiProvider extends SystemProvider {
 	get width() {
 		return 700;
 	}
+
 	getActorDetails(actor) {
 		const data = actor.system;
 		let health = JSON.parse(JSON.stringify(data.health.state));
@@ -1738,7 +1746,7 @@ export class wfrp4eProvider extends SystemProvider {
 	}
 
 	getCurrency(actor) {
-		const money = actor.itemTypes["money"].map((m) => m.toObject());
+		const money = actor.itemTypes.money.map((m) => m.toObject());
 		const currency = {
 			bp: money.find((i) => i.name === game.i18n.localize("NAME.BP")).system.quantity.value,
 			ss: money.find((i) => i.name === game.i18n.localize("NAME.SS")).system.quantity.value,
@@ -1748,9 +1756,10 @@ export class wfrp4eProvider extends SystemProvider {
 		currency.total = (currency.bp / 240 + currency.ss / 20 + currency.gc).toFixed(2);
 		return currency;
 	}
+
 	getTalents(actor) {
 		let talents = [];
-		actor.itemTypes["talent"]
+		actor.itemTypes.talent
 			.map((talent) => ({
 				name: talent.name,
 				test: talent.system.tests.value,
@@ -1773,8 +1782,9 @@ export class wfrp4eProvider extends SystemProvider {
 		talents.sort((a, b) => a.name.localeCompare(b.name));
 		return talents;
 	}
+
 	getSkills(actor) {
-		let skills = actor.itemTypes["skill"]
+		let skills = actor.itemTypes.skill
 			.filter((skill) => skill.system.advances.value > 0)
 			.map((skill) => ({
 				name: skill.name,
@@ -1803,8 +1813,9 @@ export class wfrp4eProvider extends SystemProvider {
 			otherAdvanced: otherAdvanced,
 		};
 	}
+
 	getWeapons(actor) {
-		let weapons = actor.itemTypes["weapon"].map((weapon) => ({
+		let weapons = actor.itemTypes.weapon.map((weapon) => ({
 			name: weapon.name,
 			category: WFRP4E.weaponGroups[weapon.system.weaponGroup.value],
 		}));
