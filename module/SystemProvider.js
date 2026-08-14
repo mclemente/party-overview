@@ -1585,7 +1585,7 @@ export class GURPSProvider extends SystemProvider {
 	}
 
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id,
 			name: actor.name,
@@ -1620,7 +1620,7 @@ export class cofSystemProvider extends SystemProvider {
 		return 600;
 	}
 	getActorDetails(actor) {
-		const data = actor.data.data;
+		const data = actor.system;
 		return {
 			id: actor.id ?? "not found",
 
