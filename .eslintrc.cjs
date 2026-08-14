@@ -174,6 +174,7 @@ module.exports = {
 	},
 
 	globals: {
+		WFRP4E: false
 	},
 
 	overrides: [
