@@ -9,7 +9,7 @@
                 <div class="text icon" title="Pontos de Mana"><i class="fas fa-magic"></i></div>
                 <div class="text icon" title="Defesa"><i class="fas fa-shield-alt"></i></div>
                 <div class="text icon" title="Luta"><i class="fas fa-fist-raised"></i></div>
-                <div class="text icon" title="Pontaria">🏹</i></div>
+                <div class="text icon" title="Pontaria">🏹</div>
                 <div class="text icon" title="Fortitude"><i class="fas fa-hard-hat"></i></div>
                 <div class="text icon" title="Reflexo"><i class="fas fa-running"></i></div>
                 <div class="text icon" title="Vontade"><i class="fas fa-brain"></i></div>
@@ -85,7 +85,7 @@
         {{#each pericias as | value key | }}
         <div class="table-row">
 			<div></div>
-			<div class="text">{{localize value}}</div>
+			<div class="text">{{value.label}}</div>
 			{{#each (partyOverviewGetSkillList key ../actors)}}
 				<div class="num" style="flex: 1;">
 					{{numberFormat this.value decimals=0 sign=true}}
